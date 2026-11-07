@@ -62,8 +62,7 @@ public class SourceScriptsDialog extends Dialog {
                 com.fongmi.android.tv.ui.dialog.DialogThemeHelper.applyStandardWindow(getWindow());
                 getWindow().setGravity(android.view.Gravity.CENTER);
                 android.view.WindowManager.LayoutParams lp = getWindow().getAttributes();
-                lp.width = Math.min(getContext().getResources().getDisplayMetrics().widthPixels,
-                        (int) (560 * getContext().getResources().getDisplayMetrics().density));
+                lp.width = (int) (getContext().getResources().getDisplayMetrics().widthPixels * 0.78f);
                 lp.height = android.view.WindowManager.LayoutParams.WRAP_CONTENT;
                 lp.softInputMode = android.view.WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN;
                 getWindow().setAttributes(lp);

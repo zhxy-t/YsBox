@@ -24,7 +24,7 @@ android {
         applicationId "com.ysbox.app"
         minSdk libs.versions.minSdk.get().toInteger()
         targetSdk libs.versions.targetSdk.get().toInteger()
-        versionCode 100
+        versionCode 101
         versionName "1.0.0"
         buildConfigField "String", "MPV_NATIVE_SOURCES", "\"mpv-jni-ffmpeg-shared-v1\""
         // 取消 mode flavor 后 BuildConfig.FLAVOR 只剩 abi，更新通道固定沿用 mobile
