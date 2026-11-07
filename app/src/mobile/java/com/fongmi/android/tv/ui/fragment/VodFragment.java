@@ -1,5 +1,7 @@
 package com.fongmi.android.tv.ui.fragment;
 
+
+import com.fongmi.android.tv.ui.dialog.DialogThemeHelper;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
@@ -191,7 +193,7 @@ public class VodFragment extends BaseFragment implements ConfigListener, SiteLis
             Config config = configs.get(i);
             names[i] = TextUtils.isEmpty(config.getName()) ? config.getUrl() : config.getName();
         }
-        new MaterialAlertDialogBuilder(requireActivity()).setTitle(R.string.switch_line).setNegativeButton(R.string.dialog_negative, null).setSingleChoiceItems(names, current, (dialog, which) -> {
+        DialogThemeHelper.builder(requireActivity()).setTitle(R.string.switch_line).setNegativeButton(R.string.dialog_negative, null).setSingleChoiceItems(names, current, (dialog, which) -> {
             dialog.dismiss();
             if (which == current) return;
             setConfig(configs.get(which));
@@ -220,7 +222,7 @@ public class VodFragment extends BaseFragment implements ConfigListener, SiteLis
         if (count == 0) return;
         String[] names = new String[count];
         for (int i = 0; i < count; i++) names[i] = mAdapter.get(i).getTypeName();
-        new MaterialAlertDialogBuilder(requireActivity()).setTitle(R.string.type_all).setNegativeButton(R.string.dialog_negative, null).setSingleChoiceItems(names, mBinding.pager.getCurrentItem(), (dialog, which) -> {
+        DialogThemeHelper.builder(requireActivity()).setTitle(R.string.type_all).setNegativeButton(R.string.dialog_negative, null).setSingleChoiceItems(names, mBinding.pager.getCurrentItem(), (dialog, which) -> {
             dialog.dismiss();
             onItemClick(which, mAdapter.get(which));
         }).show();

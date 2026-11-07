@@ -87,7 +87,7 @@ public final class WallPickerDialog {
             }
             root.addView(line);
         }
-        ref[0] = new MaterialAlertDialogBuilder(activity)
+        ref[0] = DialogThemeHelper.builder(activity)
                 .setTitle(R.string.wall_default)
                 .setView(root)
                 .setNegativeButton(R.string.dialog_negative, null)

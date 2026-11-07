@@ -1,5 +1,7 @@
 package com.fongmi.android.tv.ui.activity;
 
+
+import com.fongmi.android.tv.ui.dialog.DialogThemeHelper;
 import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -1499,7 +1501,7 @@ public class VideoActivity extends PlaybackActivity implements Clock.Callback, C
         final String link = url;
         final String fileName = name;
         final Map<String, String> requestHeaders = headers;
-        new MaterialAlertDialogBuilder(this).setTitle(R.string.detail_download).setMessage(getString(R.string.detail_download_confirm, fileName)).setNegativeButton(R.string.dialog_negative, null).setPositiveButton(R.string.dialog_positive, (dialog, which) -> {
+        DialogThemeHelper.builder(this).setTitle(R.string.detail_download).setMessage(getString(R.string.detail_download_confirm, fileName)).setNegativeButton(R.string.dialog_negative, null).setPositiveButton(R.string.dialog_positive, (dialog, which) -> {
             DownloadManager.get().add(link, fileName, requestHeaders);
             Notify.show(R.string.detail_download_added);
         }).show();
@@ -1636,7 +1638,7 @@ public class VideoActivity extends PlaybackActivity implements Clock.Callback, C
     private void onScale() {
         String[] array = ResUtil.getStringArray(R.array.select_scale);
         if (mKeyDown.getScale() != 1.0f) mKeyDown.resetScale();
-        new MaterialAlertDialogBuilder(this).setTitle(R.string.player_scale).setNegativeButton(R.string.dialog_negative, null).setSingleChoiceItems(array, getScale(), (dialog, which) -> {
+        DialogThemeHelper.builder(this).setTitle(R.string.player_scale).setNegativeButton(R.string.dialog_negative, null).setSingleChoiceItems(array, getScale(), (dialog, which) -> {
             setScale(which);
             setR1Callback();
             dialog.dismiss();

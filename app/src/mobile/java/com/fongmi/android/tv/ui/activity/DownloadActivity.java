@@ -1,5 +1,7 @@
 package com.fongmi.android.tv.ui.activity;
 
+
+import com.fongmi.android.tv.ui.dialog.DialogThemeHelper;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -61,7 +63,7 @@ public class DownloadActivity extends BaseActivity implements DownloadTaskAdapte
     private void setThreads(View view) {
         String[] values = new String[DownloadSetting.MAX_THREADS];
         for (int i = 0; i < values.length; i++) values[i] = String.valueOf(i + 1);
-        new MaterialAlertDialogBuilder(this).setTitle(R.string.download_threads).setNegativeButton(R.string.dialog_negative, null).setSingleChoiceItems(values, DownloadSetting.getThreads() - 1, (dialog, which) -> {
+        DialogThemeHelper.builder(this).setTitle(R.string.download_threads).setNegativeButton(R.string.dialog_negative, null).setSingleChoiceItems(values, DownloadSetting.getThreads() - 1, (dialog, which) -> {
             DownloadSetting.putThreads(which + 1);
             mBinding.threadsText.setText(String.valueOf(DownloadSetting.getThreads()));
             dialog.dismiss();
@@ -78,7 +80,7 @@ public class DownloadActivity extends BaseActivity implements DownloadTaskAdapte
         FrameLayout container = new FrameLayout(this);
         container.setPadding(padding, padding / 2, padding, 0);
         container.addView(edit, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-        new MaterialAlertDialogBuilder(this)
+        DialogThemeHelper.builder(this)
                 .setTitle(R.string.download_dir_edit)
                 .setView(container)
                 .setNegativeButton(R.string.dialog_negative, null)
@@ -93,7 +95,7 @@ public class DownloadActivity extends BaseActivity implements DownloadTaskAdapte
     }
 
     private void onClear() {
-        new MaterialAlertDialogBuilder(this).setTitle(R.string.download_clear).setMessage(R.string.download_clear_confirm).setNegativeButton(R.string.dialog_negative, null).setPositiveButton(R.string.dialog_positive, (dialog, which) -> DownloadManager.get().clearFinished()).show();
+        DialogThemeHelper.builder(this).setTitle(R.string.download_clear).setMessage(R.string.download_clear_confirm).setNegativeButton(R.string.dialog_negative, null).setPositiveButton(R.string.dialog_positive, (dialog, which) -> DownloadManager.get().clearFinished()).show();
     }
 
     private void refresh() {

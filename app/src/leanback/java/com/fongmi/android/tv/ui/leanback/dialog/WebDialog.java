@@ -1,5 +1,7 @@
 package com.fongmi.android.tv.ui.leanback.dialog;
 
+
+import com.fongmi.android.tv.ui.dialog.DialogThemeHelper;
 import android.content.DialogInterface;
 import android.view.View;
 import android.view.WindowManager;
@@ -15,7 +17,7 @@ public class WebDialog {
     private final AlertDialog dialog;
 
     private WebDialog(View view) {
-        this.dialog = new MaterialAlertDialogBuilder(App.activity()).setView(view).create();
+        this.dialog = DialogThemeHelper.builder(App.activity()).setView(view).create();
         this.dialog.setOnDismissListener((DialogInterface.OnDismissListener) view);
     }
 

@@ -1,5 +1,7 @@
 package com.fongmi.android.tv.ui.activity;
 
+
+import com.fongmi.android.tv.ui.dialog.DialogThemeHelper;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -58,6 +60,6 @@ public class TmdbActivity extends BaseActivity {
     private void onSave() {
         Prefers.put("tmdb_api_key", mBinding.apiKey.getText().toString().trim());
         Prefers.put("tmdb_language", mBinding.language.getText().toString().trim());
-        new MaterialAlertDialogBuilder(this).setMessage(R.string.tmdb_saved).setPositiveButton(R.string.dialog_positive, null).show();
+        DialogThemeHelper.builder(this).setMessage(R.string.tmdb_saved).setPositiveButton(R.string.dialog_positive, null).show();
     }
 }

@@ -18,7 +18,7 @@ public final class PlayerOsdDialog {
     public static void show(Activity activity, Runnable onChanged) {
         String[] items = ResUtil.getStringArray(R.array.select_player_osd);
         boolean[] checked = getChecked();
-        new MaterialAlertDialogBuilder(activity)
+        DialogThemeHelper.builder(activity)
                 .setTitle(R.string.player_osd)
                 .setMultiChoiceItems(items, checked, (dialog, which, isChecked) -> {
                     checked[which] = isChecked;

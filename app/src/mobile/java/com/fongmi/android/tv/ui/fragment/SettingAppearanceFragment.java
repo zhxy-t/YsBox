@@ -1,5 +1,7 @@
 package com.fongmi.android.tv.ui.fragment;
 
+
+import com.fongmi.android.tv.ui.dialog.DialogThemeHelper;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
@@ -104,7 +106,7 @@ public class SettingAppearanceFragment extends BaseFragment implements ThemeDial
         edit.setPadding(padding, padding, padding, padding);
         edit.setSingleLine(true);
         edit.setHint(R.string.wall_url_hint);
-        AlertDialog dialog = new MaterialAlertDialogBuilder(requireActivity()).setTitle(R.string.wall_url).setView(edit).setNegativeButton(R.string.dialog_negative, null).setPositiveButton(R.string.dialog_positive, null).create();
+        AlertDialog dialog = DialogThemeHelper.builder(requireActivity()).setTitle(R.string.wall_url).setView(edit).setNegativeButton(R.string.dialog_negative, null).setPositiveButton(R.string.dialog_positive, null).create();
         dialog.setOnShowListener(d -> dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(v -> {
             String url = edit.getText().toString().trim();
             if (TextUtils.isEmpty(url)) {
@@ -156,7 +158,7 @@ public class SettingAppearanceFragment extends BaseFragment implements ThemeDial
     }
 
     private void setCover(View view) {
-        new MaterialAlertDialogBuilder(requireActivity()).setTitle(R.string.setting_cover).setNegativeButton(R.string.dialog_negative, null).setSingleChoiceItems(sizes, PlayerSetting.getSize(), (dialog, which) -> {
+        DialogThemeHelper.builder(requireActivity()).setTitle(R.string.setting_cover).setNegativeButton(R.string.dialog_negative, null).setSingleChoiceItems(sizes, PlayerSetting.getSize(), (dialog, which) -> {
             mBinding.coverText.setText(sizes[which]);
             PlayerSetting.putSize(which);
             RefreshEvent.size();
@@ -165,7 +167,7 @@ public class SettingAppearanceFragment extends BaseFragment implements ThemeDial
     }
 
     private void setCoverRatio(View view) {
-        new MaterialAlertDialogBuilder(requireActivity()).setTitle(R.string.setting_cover_ratio).setNegativeButton(R.string.dialog_negative, null).setSingleChoiceItems(RATIO_NAMES, PlayerSetting.getCoverRatio(), (dialog, which) -> {
+        DialogThemeHelper.builder(requireActivity()).setTitle(R.string.setting_cover_ratio).setNegativeButton(R.string.dialog_negative, null).setSingleChoiceItems(RATIO_NAMES, PlayerSetting.getCoverRatio(), (dialog, which) -> {
             PlayerSetting.putCoverRatio(which);
             mBinding.coverRatioText.setText(RATIO_NAMES[which]);
             RefreshEvent.size();
@@ -174,7 +176,7 @@ public class SettingAppearanceFragment extends BaseFragment implements ThemeDial
     }
 
     private void setCoverRadius(View view) {
-        new MaterialAlertDialogBuilder(requireActivity()).setTitle(R.string.setting_cover_radius).setNegativeButton(R.string.dialog_negative, null).setSingleChoiceItems(RADIUS_NAMES, PlayerSetting.getCoverRadius(), (dialog, which) -> {
+        DialogThemeHelper.builder(requireActivity()).setTitle(R.string.setting_cover_radius).setNegativeButton(R.string.dialog_negative, null).setSingleChoiceItems(RADIUS_NAMES, PlayerSetting.getCoverRadius(), (dialog, which) -> {
             PlayerSetting.putCoverRadius(which);
             mBinding.coverRadiusText.setText(RADIUS_NAMES[which]);
             RefreshEvent.size();
@@ -184,7 +186,7 @@ public class SettingAppearanceFragment extends BaseFragment implements ThemeDial
 
     private void setLanguage(View view) {
         int checked = indexOf(LANGUAGES, Setting.getLanguage());
-        new MaterialAlertDialogBuilder(requireActivity()).setTitle(R.string.setting_language).setNegativeButton(R.string.dialog_negative, null).setSingleChoiceItems(LANGUAGE_NAMES, checked, (dialog, which) -> {
+        DialogThemeHelper.builder(requireActivity()).setTitle(R.string.setting_language).setNegativeButton(R.string.dialog_negative, null).setSingleChoiceItems(LANGUAGE_NAMES, checked, (dialog, which) -> {
             Setting.putLanguage(LANGUAGES[which]);
             dialog.dismiss();
             requireActivity().recreate();
@@ -203,7 +205,7 @@ public class SettingAppearanceFragment extends BaseFragment implements ThemeDial
     private void showFontSizeDialog(View view) {
         CharSequence[] items = {getString(R.string.setting_font_size_0), getString(R.string.setting_font_size_1), getString(R.string.setting_font_size_2), getString(R.string.setting_font_size_3)};
         int checked = Setting.getFontScaleIndex();
-        new MaterialAlertDialogBuilder(requireActivity())
+        DialogThemeHelper.builder(requireActivity())
                 .setTitle(R.string.setting_font_size)
                 .setSingleChoiceItems(items, checked, (d, which) -> {
                     Setting.putFontScaleIndex(which);

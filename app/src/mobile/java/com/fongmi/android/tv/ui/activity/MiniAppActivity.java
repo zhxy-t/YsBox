@@ -1,5 +1,7 @@
 package com.fongmi.android.tv.ui.activity;
 
+
+import com.fongmi.android.tv.ui.dialog.DialogThemeHelper;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
@@ -89,7 +91,7 @@ public class MiniAppActivity extends BaseActivity {
         edit.setHint(R.string.mini_app_url_hint);
         edit.setText(getUrl());
         edit.setSelection(edit.getText().length());
-        new MaterialAlertDialogBuilder(this).setTitle(R.string.setting_mini_app).setView(edit).setNegativeButton(R.string.dialog_negative, (dialog, which) -> finish()).setPositiveButton(R.string.dialog_positive, (dialog, which) -> {
+        DialogThemeHelper.builder(this).setTitle(R.string.setting_mini_app).setView(edit).setNegativeButton(R.string.dialog_negative, (dialog, which) -> finish()).setPositiveButton(R.string.dialog_positive, (dialog, which) -> {
             String url = edit.getText().toString().trim();
             if (TextUtils.isEmpty(url)) {
                 finish();

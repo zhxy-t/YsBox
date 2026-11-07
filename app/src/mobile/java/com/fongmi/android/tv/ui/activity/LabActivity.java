@@ -1,5 +1,7 @@
 package com.fongmi.android.tv.ui.activity;
 
+
+import com.fongmi.android.tv.ui.dialog.DialogThemeHelper;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
@@ -74,7 +76,7 @@ public class LabActivity extends BaseActivity {
         String js = getString(R.string.setting_on);
         String local = getString(R.string.setting_on);
         String message = getString(R.string.lab_service_detail, python, js, DownloadSetting.getThreads(), local);
-        new MaterialAlertDialogBuilder(this).setTitle(R.string.lab_service).setMessage(message).setPositiveButton(R.string.dialog_positive, null).show();
+        DialogThemeHelper.builder(this).setTitle(R.string.lab_service).setMessage(message).setPositiveButton(R.string.dialog_positive, null).show();
     }
 
     private String getInfo() {

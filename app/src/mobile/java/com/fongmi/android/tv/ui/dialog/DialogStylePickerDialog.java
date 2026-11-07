@@ -149,7 +149,7 @@ public final class DialogStylePickerDialog {
         android.widget.ScrollView scroll = new android.widget.ScrollView(activity);
         scroll.setFillViewport(true);
         scroll.addView(root);
-        ref[0] = new MaterialAlertDialogBuilder(activity)
+        ref[0] = DialogThemeHelper.builder(activity)
                 .setTitle("弹窗风格")
                 .setView(scroll)
                 .setNegativeButton(R.string.dialog_negative, null)

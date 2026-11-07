@@ -99,7 +99,7 @@ public final class ColorPickerDialog {
         }
         final View target = selectedView;
         final int index = selectedIndex;
-        ref[0] = new MaterialAlertDialogBuilder(activity)
+        ref[0] = DialogThemeHelper.builder(activity)
                 .setTitle(titleRes)
                 .setView(scroll)
                 .setNegativeButton(R.string.dialog_negative, null)

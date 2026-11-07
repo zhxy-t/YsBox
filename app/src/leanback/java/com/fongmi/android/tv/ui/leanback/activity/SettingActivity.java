@@ -1,5 +1,7 @@
 package com.fongmi.android.tv.ui.leanback.activity;
 
+
+import com.fongmi.android.tv.ui.dialog.DialogThemeHelper;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -280,7 +282,7 @@ public class SettingActivity extends BaseActivity implements ConfigListener, Sit
         edit.setHint("socks5://127.0.0.1:1080");
         edit.setText(Setting.getProxy());
         edit.setSelection(edit.getText().length());
-        new MaterialAlertDialogBuilder(this).setTitle(R.string.setting_proxy).setView(edit).setNegativeButton(R.string.dialog_negative, null).setPositiveButton(R.string.dialog_positive, (dialog, which) -> {
+        DialogThemeHelper.builder(this).setTitle(R.string.setting_proxy).setView(edit).setNegativeButton(R.string.dialog_negative, null).setPositiveButton(R.string.dialog_positive, (dialog, which) -> {
             String proxy = edit.getText().toString().trim();
             Setting.putProxy(proxy);
             OkHttp.setProxy(proxy);
@@ -346,7 +348,7 @@ public class SettingActivity extends BaseActivity implements ConfigListener, Sit
     }
 
     private void onUiMode(View view) {
-        new MaterialAlertDialogBuilder(this)
+        DialogThemeHelper.builder(this)
                 .setTitle(R.string.setting_ui_mode_confirm)
                 .setMessage(R.string.setting_ui_mode_confirm_msg)
                 .setNegativeButton(R.string.dialog_negative, null)

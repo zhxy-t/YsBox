@@ -71,6 +71,62 @@ public final class DialogThemeHelper {
         window.setDimAmount(0.32f);
     }
 
+    /**
+     * 统一弹窗工厂：App 内所有 MaterialAlertDialog 都应通过它创建，而不是各自
+     * DialogThemeHelper.builder(activity)。原因：Activity 主主题里没有定义
+     * materialAlertDialogTheme，直接 new 会回退到 Material 默认白底 + 默认宽度，
+     * 导致切换弹窗风格时这些弹窗毫无反应（这就是"弹窗不统一"的根因）。
+     *
+     * 用法：把 new MaterialAlertDialogBuilder(x) 换成 DialogThemeHelper.builder(x)，
+     * 其余链式调用 .setTitle(...).setMessage(...).show() 全部保持不变。
+     *
+     * 注意：只服务于 App 内弹窗。HK 小程序的弹窗需要真正的全局窗口，走各自的
+     * 裸 new Dialog，不经过这里，不要改成调用本方法。
+     */
+    public static com.google.android.material.dialog.MaterialAlertDialogBuilder builder(Context ctx) {
+        return new Builder(ctx);
+    }
+
+    /**
+     * 带统一尺寸的 Material 弹窗 Builder。
+     *
+     * 只在 create() 里套用 applyDialogSize —— create() 是虚方法，即使调用方写成
+     * builder(ctx).setTitle(..).show()（静态类型退回基类），基类 show() 内部仍会
+     * 回调到这里的 create()，所以尺寸一定生效。
+     *
+     * 注意不要改回 java 侧「不拦截」的写法，否则 59 处链式调用会全部丢失尺寸统一。
+     */
+    public static final class Builder extends com.google.android.material.dialog.MaterialAlertDialogBuilder {
+
+        public Builder(Context ctx) {
+            super(wrap(ctx));
+        }
+
+        @Override
+        public androidx.appcompat.app.AlertDialog create() {
+            androidx.appcompat.app.AlertDialog dialog = super.create();
+            applyDialogSize(dialog.getWindow());
+            return dialog;
+        }
+    }
+
+    /** 统一 App 内弹窗尺寸：居中窄卡片，不铺满全屏（给自绘 Dialog 手工调用） */
+    public static void applyDialogSize(@Nullable Window window) {
+        if (window == null) return;
+        android.util.DisplayMetrics dm = window.getContext().getResources().getDisplayMetrics();
+        int maxW = com.fongmi.android.tv.utils.ResUtil.dp2px(480);
+        int w = Math.min(Math.round(dm.widthPixels * 0.88f), maxW);
+        int maxH = Math.round(dm.heightPixels * 0.8f);
+        android.view.View decor = window.getDecorView();
+        window.setLayout(w, WindowManager.LayoutParams.WRAP_CONTENT);
+        if (decor != null) {
+            decor.post(() -> {
+                int h = decor.getHeight();
+                if (h > maxH) window.setLayout(w, maxH);
+            });
+        }
+    }
+
     /** 取当前弹窗主题下的语义色（Java 代码里替代 Color.parseColor） */
     /** 强制用当前弹窗风格主题解析，避免 Activity 主题（Theme.Splash 等）里没有语义色 */
     private static Context themed(Context ctx) {

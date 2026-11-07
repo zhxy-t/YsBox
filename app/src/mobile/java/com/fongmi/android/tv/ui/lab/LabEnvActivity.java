@@ -1,5 +1,7 @@
 package com.fongmi.android.tv.ui.lab;
 
+
+import com.fongmi.android.tv.ui.dialog.DialogThemeHelper;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
@@ -247,7 +249,7 @@ public class LabEnvActivity extends AppCompatActivity {
         edit.setHint("https://…/env-xxx.zip");
         int p = dp(20);
         edit.setPadding(p, p, p, p);
-        new MaterialAlertDialogBuilder(this)
+        DialogThemeHelper.builder(this)
                 .setTitle("下载地址（留空用内置）")
                 .setView(edit)
                 .setNegativeButton("取消", null)

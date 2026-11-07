@@ -1,5 +1,7 @@
 package com.fongmi.android.tv.ui.activity;
 
+
+import com.fongmi.android.tv.ui.dialog.DialogThemeHelper;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -92,7 +94,7 @@ public class PanLoginActivity extends BaseActivity {
             String text = result;
             runOnUiThread(() -> {
                 mBinding.status.setText(text);
-                new MaterialAlertDialogBuilder(this).setMessage(text).setPositiveButton(R.string.dialog_positive, null).show();
+                DialogThemeHelper.builder(this).setMessage(text).setPositiveButton(R.string.dialog_positive, null).show();
             });
         }).start();
     }
@@ -109,6 +111,6 @@ public class PanLoginActivity extends BaseActivity {
     }
 
     private void toast(int res) {
-        new MaterialAlertDialogBuilder(this).setMessage(res).setPositiveButton(R.string.dialog_positive, null).show();
+        DialogThemeHelper.builder(this).setMessage(res).setPositiveButton(R.string.dialog_positive, null).show();
     }
 }

@@ -19,6 +19,7 @@ import androidx.viewbinding.ViewBinding;
 import com.fongmi.android.tv.R;
 import com.fongmi.android.tv.databinding.ActivityAdblockBinding;
 import com.fongmi.android.tv.ui.base.BaseActivity;
+import com.fongmi.android.tv.ui.dialog.DialogThemeHelper;
 import com.fongmi.android.tv.utils.AdBlock;
 import com.fongmi.android.tv.utils.Notify;
 
@@ -81,7 +82,7 @@ public class AdBlockActivity extends BaseActivity {
         input.setHint("输入广告关键词");
         int pad = (int) (16 * getResources().getDisplayMetrics().density);
         input.setPadding(pad, pad, pad, pad);
-        new MaterialAlertDialogBuilder(com.fongmi.android.tv.ui.dialog.DialogThemeHelper.wrap(this))
+        DialogThemeHelper.builder(this)
                 .setTitle("添加关键词")
                 .setView(input)
                 .setPositiveButton("添加", (d, w) -> {

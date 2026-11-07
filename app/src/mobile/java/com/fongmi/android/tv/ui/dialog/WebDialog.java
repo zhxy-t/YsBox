@@ -17,7 +17,7 @@ public class WebDialog {
     }
 
     private WebDialog(View view) {
-        this.dialog = new MaterialAlertDialogBuilder(App.activity()).setView(view).create();
+        this.dialog = DialogThemeHelper.builder(App.activity()).setView(view).create();
         this.dialog.setOnDismissListener((DialogInterface.OnDismissListener) view);
     }
 

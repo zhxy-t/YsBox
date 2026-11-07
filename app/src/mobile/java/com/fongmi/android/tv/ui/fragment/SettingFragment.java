@@ -1,5 +1,7 @@
 package com.fongmi.android.tv.ui.fragment;
 
+
+import com.fongmi.android.tv.ui.dialog.DialogThemeHelper;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -69,7 +71,7 @@ public class SettingFragment extends BaseFragment implements ConfigListener, Sit
     /** 初始化「界面」设置项：只有两个选项，点击直接在手机 / 电视之间切换。 */
     private void initUiModeItem() {
         updateUiModeText();
-        mBinding.uiMode.setOnClickListener(v -> new MaterialAlertDialogBuilder(requireActivity())
+        mBinding.uiMode.setOnClickListener(v -> DialogThemeHelper.builder(requireActivity())
                 .setTitle(R.string.setting_ui_mode_confirm)
                 .setMessage(R.string.setting_ui_mode_confirm_msg)
                 .setNegativeButton(R.string.dialog_negative, null)
@@ -136,7 +138,7 @@ public class SettingFragment extends BaseFragment implements ConfigListener, Sit
 
     @Override
     protected void initEvent() {
-        mBinding.reset.setOnClickListener(v -> new MaterialAlertDialogBuilder(requireActivity())
+        mBinding.reset.setOnClickListener(v -> DialogThemeHelper.builder(requireActivity())
                 .setTitle(R.string.dialog_reset_app)
                 .setMessage(R.string.dialog_reset_app_data)
                 .setNegativeButton(R.string.dialog_negative, null)
@@ -314,7 +316,7 @@ public class SettingFragment extends BaseFragment implements ConfigListener, Sit
         edit.setHint("socks5://127.0.0.1:1080");
         edit.setText(Setting.getProxy());
         edit.setSelection(edit.getText().length());
-        new MaterialAlertDialogBuilder(requireActivity()).setTitle(R.string.setting_proxy).setView(edit).setNegativeButton(R.string.dialog_negative, null).setPositiveButton(R.string.dialog_positive, (dialog, which) -> {
+        DialogThemeHelper.builder(requireActivity()).setTitle(R.string.setting_proxy).setView(edit).setNegativeButton(R.string.dialog_negative, null).setPositiveButton(R.string.dialog_positive, (dialog, which) -> {
             String proxy = edit.getText().toString().trim();
             Setting.putProxy(proxy);
             OkHttp.setProxy(proxy);
@@ -323,7 +325,7 @@ public class SettingFragment extends BaseFragment implements ConfigListener, Sit
     }
 
     private void setDoh(View view) {
-        new MaterialAlertDialogBuilder(requireActivity()).setTitle(R.string.setting_doh).setNegativeButton(R.string.dialog_negative, null).setSingleChoiceItems(getDohList(), getDohIndex(), (dialog, which) -> {
+        DialogThemeHelper.builder(requireActivity()).setTitle(R.string.setting_doh).setNegativeButton(R.string.dialog_negative, null).setSingleChoiceItems(getDohList(), getDohIndex(), (dialog, which) -> {
             setDoh(VodConfig.get().getDoh().get(which));
             dialog.dismiss();
         }).show();

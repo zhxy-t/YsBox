@@ -1,5 +1,7 @@
 package com.fongmi.android.tv.ui.leanback.activity;
 
+
+import com.fongmi.android.tv.ui.dialog.DialogThemeHelper;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -72,7 +74,7 @@ public class SettingPlayerActivity extends BaseActivity implements UaListener, B
     }
 
     private void setEngine(View view) {
-        new MaterialAlertDialogBuilder(this).setTitle(R.string.player_engine).setNegativeButton(R.string.dialog_negative, null).setSingleChoiceItems(engine, PlayerSetting.getEngine(), (dialog, which) -> {
+        DialogThemeHelper.builder(this).setTitle(R.string.player_engine).setNegativeButton(R.string.dialog_negative, null).setSingleChoiceItems(engine, PlayerSetting.getEngine(), (dialog, which) -> {
             if (which == PlayerSetting.ENGINE_MPV && !com.fongmi.android.tv.player.engine.MpvPlayerEngine.isAvailable()) {
                 com.fongmi.android.tv.utils.Notify.show(R.string.error_play_mpv_load_failed);
                 return;
@@ -98,7 +100,7 @@ public class SettingPlayerActivity extends BaseActivity implements UaListener, B
     }
 
     private void setScale(View view) {
-        new MaterialAlertDialogBuilder(this).setTitle(R.string.player_scale).setNegativeButton(R.string.dialog_negative, null).setSingleChoiceItems(scale, PlayerSetting.getScale(), (dialog, which) -> {
+        DialogThemeHelper.builder(this).setTitle(R.string.player_scale).setNegativeButton(R.string.dialog_negative, null).setSingleChoiceItems(scale, PlayerSetting.getScale(), (dialog, which) -> {
             mBinding.scaleText.setText(scale[which]);
             PlayerSetting.putScale(which);
             dialog.dismiss();
@@ -133,7 +135,7 @@ public class SettingPlayerActivity extends BaseActivity implements UaListener, B
         String[] labels = new String[values.length];
         for (int i = 0; i < values.length; i++) labels[i] = SpeedSetting.format(values[i]);
         float current = longPress ? SpeedSetting.getLongPress() : SpeedSetting.getPlayback();
-        new MaterialAlertDialogBuilder(this).setTitle(longPress ? R.string.speed_setting_long_press : R.string.speed_setting_current).setNegativeButton(R.string.dialog_negative, null).setSingleChoiceItems(labels, SpeedSetting.indexOf(values, current), (dialog, which) -> {
+        DialogThemeHelper.builder(this).setTitle(longPress ? R.string.speed_setting_long_press : R.string.speed_setting_current).setNegativeButton(R.string.dialog_negative, null).setSingleChoiceItems(labels, SpeedSetting.indexOf(values, current), (dialog, which) -> {
             if (longPress) {
                 SpeedSetting.putLongPress(values[which]);
                 mBinding.longPressText.setText(labels[which]);
@@ -146,7 +148,7 @@ public class SettingPlayerActivity extends BaseActivity implements UaListener, B
     }
 
     private void setFlag(View view) {
-        new MaterialAlertDialogBuilder(this).setTitle(R.string.player_flag).setNegativeButton(R.string.dialog_negative, null).setSingleChoiceItems(flag, Setting.getFlag(), (dialog, which) -> {
+        DialogThemeHelper.builder(this).setTitle(R.string.player_flag).setNegativeButton(R.string.dialog_negative, null).setSingleChoiceItems(flag, Setting.getFlag(), (dialog, which) -> {
             mBinding.flagText.setText(flag[which]);
             Setting.putFlag(which);
             dialog.dismiss();
