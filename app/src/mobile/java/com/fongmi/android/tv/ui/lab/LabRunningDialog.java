@@ -34,7 +34,7 @@ public final class LabRunningDialog {
             TextView t = new TextView(activity);
             t.setText("现在没有在跑的东西");
             t.setTextSize(15);
-            t.setTextColor(LabSkin.DLG_TEXT_DIM);
+            t.setTextColor(LabSkin.dlgTextDim(activity));
             t.setGravity(Gravity.CENTER);
             t.setPadding(0, dp16, 0, dp16);
             box.addView(t);
@@ -49,14 +49,14 @@ public final class LabRunningDialog {
             TextView name = new TextView(activity);
             name.setText(e[1]);
             name.setTextSize(15);
-            name.setTextColor(LabSkin.DLG_TEXT);
+            name.setTextColor(LabSkin.dlgText(activity));
             name.setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1));
             row.addView(name);
             TextView stop = new TextView(activity);
             stop.setText("停止");
             stop.setTextSize(14);
-            stop.setTextColor(LabSkin.DLG_TEXT);
-            stop.setBackground(LabSkin.dialogNeutral(activity));
+            stop.setTextColor(LabSkin.dlgText(activity));
+            stop.setBackground(LabSkin.dlgBtnNeutral(activity));
             stop.setPadding(dp16, dp8, dp16, dp8);
             stop.setClickable(true);
             stop.setFocusable(true);

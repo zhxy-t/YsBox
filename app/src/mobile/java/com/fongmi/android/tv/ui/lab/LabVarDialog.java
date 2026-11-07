@@ -172,7 +172,7 @@ public final class LabVarDialog {
             TextView label = new TextView(activity);
             label.setText(v.name + (v.required ? " *" : ""));
             label.setTextSize(14);
-            label.setTextColor(LabSkin.DLG_TEXT);
+            label.setTextColor(LabSkin.dlgText(activity));
             label.getPaint().setFakeBoldText(true);
             box.addView(label);
 
@@ -199,8 +199,8 @@ public final class LabVarDialog {
             if ("select".equals(type) && v.options != null && !v.options.isEmpty()) {
                 TextView pick = new TextView(activity);
                 pick.setTextSize(15);
-                pick.setTextColor(LabSkin.DLG_TEXT);
-                pick.setBackground(LabSkin.dialogOption(activity));
+                pick.setTextColor(LabSkin.dlgText(activity));
+                pick.setBackground(LabSkin.dlgOptionCard(activity));
                 pick.setPadding(dp16, dp8, dp16, dp8);
                 String cur = cachedVal != null ? cachedVal : v.defaultValue;
                 pick.setText(labelOf(v, cur));
@@ -234,9 +234,9 @@ public final class LabVarDialog {
             row.setGravity(Gravity.CENTER_VERTICAL);
             EditText et = new EditText(activity);
             et.setTextSize(15);
-            et.setTextColor(LabSkin.DLG_TEXT);
-            et.setHintTextColor(LabSkin.DLG_HINT);
-            et.setBackground(LabSkin.darkInput(activity));
+            et.setTextColor(LabSkin.dlgText(activity));
+            et.setHintTextColor(LabSkin.dlgHint(activity));
+            et.setBackground(LabSkin.dlgInput(activity));
             et.setPadding(dp16, dp8, dp16, dp8);
             if (v.hint != null) et.setHint(v.hint);
             String init = cachedVal != null ? cachedVal : (v.defaultValue == null ? "" : v.defaultValue);
@@ -258,8 +258,8 @@ public final class LabVarDialog {
                 TextView sel = new TextView(activity);
                 sel.setText("选");
                 sel.setTextSize(14);
-                sel.setTextColor(LabSkin.ON_YELLOW);
-                sel.setBackground(LabSkin.buttonYellow(activity));
+                sel.setTextColor(LabSkin.dlgOnAccent(activity));
+                sel.setBackground(LabSkin.dlgBtnAccent(activity));
                 sel.setPadding(dp16, dp8, dp16, dp8);
                 boolean dir = "directory".equals(type);
                 sel.setOnClickListener(vv -> {

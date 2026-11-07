@@ -266,6 +266,121 @@ public final class LabSkin {
     private LabSkin() {
     }
 
+    // ==================== 跟随弹窗风格的弹窗配色 ====================
+    // 实验室弹窗原先写死白玻璃底 + 橙色按钮（0xF2FFFFFF / 0xFFF2B33D），
+    // 完全无视「弹窗风格」设置，所以切 Neon/Amoled 时图1、图4 依然是白底橙钮。
+    // 以下方法统一从当前弹窗风格的主题里取语义色，与主 App 其它弹窗同源。
+    // 注意：只改「弹窗」相关配色；实验室页面的卡片/文字仍用上面的常量，不动页面观感。
+
+    /** 弹窗面：取当前风格的 dialogSurface（自带圆角与描边） */
+    public static android.graphics.drawable.Drawable dlgPanel(Context c) {
+        int res = com.fongmi.android.tv.ui.dialog.DialogThemeHelper.surfaceRes(c);
+        if (res != 0) {
+            try {
+                android.graphics.drawable.Drawable d = androidx.core.content.ContextCompat.getDrawable(c, res);
+                if (d != null) return d;
+            } catch (Exception ignored) {
+            }
+        }
+        return dialogPanel(c);
+    }
+
+    /** 弹窗主字色：取当前风格的 dialogTextPrimary */
+    public static int dlgText(Context c) {
+        return com.fongmi.android.tv.ui.dialog.DialogThemeHelper.primaryText(c);
+    }
+
+    /** 弹窗次字色：取当前风格的 dialogTextSecondary */
+    public static int dlgTextDim(Context c) {
+        return com.fongmi.android.tv.ui.dialog.DialogThemeHelper.secondaryText(c);
+    }
+
+    /** 弹窗占位字色：取当前风格的 dialogTextHint */
+    public static int dlgHint(Context c) {
+        return com.fongmi.android.tv.ui.dialog.DialogThemeHelper.hintText(c);
+    }
+
+    /** 弹窗强调色（原橙色主钮）：取当前风格的 dialogAccent */
+    public static int dlgAccent(Context c) {
+        return com.fongmi.android.tv.ui.dialog.DialogThemeHelper.accent(c);
+    }
+
+    /** 主钮底色：跟随风格强调色（原写死橙色 YELLOW） */
+    public static GradientDrawable dlgBtnAccent(Context c) {
+        GradientDrawable d = new GradientDrawable();
+        d.setColor(dlgAccent(c));
+        d.setCornerRadius(dp(c, 999));
+        return d;
+    }
+
+    /** 主钮文字色：跟随风格强调色自动取对比色 */
+    public static int dlgOnAccent(Context c) {
+        return isLight(dlgAccent(c)) ? 0xFF171310 : 0xFFFFFFFF;
+    }
+
+    /** 中性钮底：跟随风格 surface 的浅淡层（原 dialogNeutral） */
+    public static GradientDrawable dlgBtnNeutral(Context c) {
+        GradientDrawable d = new GradientDrawable();
+        d.setColor(withAlpha(dlgText(c), 0x1F));
+        d.setCornerRadius(dp(c, 18));
+        return d;
+    }
+
+    /** 选项卡：跟随风格 dialogCardSurface（原 dialogOption 浅灰块） */
+    public static android.graphics.drawable.Drawable dlgOptionCard(Context c) {
+        int res = com.fongmi.android.tv.ui.dialog.DialogThemeHelper.cardSurfaceRes(c);
+        if (res != 0) {
+            try {
+                android.graphics.drawable.Drawable d = androidx.core.content.ContextCompat.getDrawable(c, res);
+                if (d != null) return d;
+            } catch (Exception ignored) {
+            }
+        }
+        return dialogOption(c);
+    }
+
+    /** 输入框：跟随风格 dialogInputSurface（原 darkInput） */
+    public static android.graphics.drawable.Drawable dlgInput(Context c) {
+        int res = com.fongmi.android.tv.ui.dialog.DialogThemeHelper.inputSurfaceRes(c);
+        if (res != 0) {
+            try {
+                android.graphics.drawable.Drawable d = androidx.core.content.ContextCompat.getDrawable(c, res);
+                if (d != null) return d;
+            } catch (Exception ignored) {
+            }
+        }
+        return darkInput(c);
+    }
+
+    /** 进度轨道 / 填充：跟随风格强调色 */
+    public static GradientDrawable dlgProgressTrack(Context c) {
+        GradientDrawable d = new GradientDrawable();
+        d.setColor(withAlpha(dlgText(c), 0x24));
+        d.setCornerRadius(dp(c, 999));
+        return d;
+    }
+
+    public static GradientDrawable dlgProgressFill(Context c) {
+        GradientDrawable d = new GradientDrawable();
+        d.setColor(dlgAccent(c));
+        d.setCornerRadius(dp(c, 999));
+        return d;
+    }
+
+    /** 弹窗报错色：深色风格用浅红，浅色风格用深红 */
+    public static int dlgError(Context c) {
+        return isLight(dlgText(c)) ? 0xFFD32F2F : 0xFFFFA49A;
+    }
+
+    private static boolean isLight(int color) {
+        double lum = (0.299 * Color.red(color) + 0.587 * Color.green(color) + 0.114 * Color.blue(color));
+        return lum > 160;
+    }
+
+    private static int withAlpha(int color, int alpha) {
+        return (color & 0x00FFFFFF) | (alpha << 24);
+    }
+
     public static int dp(Context c, int v) {
         return Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, v, c.getResources().getDisplayMetrics()));
     }

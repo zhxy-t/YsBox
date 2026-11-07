@@ -52,7 +52,7 @@ public final class LabInstallDialog {
     private static LinearLayout panel(Activity a) {
         LinearLayout p = new LinearLayout(a);
         p.setOrientation(LinearLayout.VERTICAL);
-        p.setBackground(LabSkin.dialogPanel(a));
+        p.setBackground(LabSkin.dlgPanel(a));
         p.setPadding(dp(a, 32), dp(a, 32), dp(a, 32), dp(a, 28));
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -67,7 +67,7 @@ public final class LabInstallDialog {
         t.setText(text);
         t.setTextSize(18);
         t.getPaint().setFakeBoldText(true);
-        t.setTextColor(LabSkin.DLG_TEXT);
+        t.setTextColor(LabSkin.dlgText(a));
         return t;
     }
 
@@ -77,8 +77,8 @@ public final class LabInstallDialog {
         o.setText(text);
         o.setTextSize(16);
         o.getPaint().setFakeBoldText(true);
-        o.setTextColor(LabSkin.DLG_TEXT);
-        o.setBackground(LabSkin.dialogOption(a));
+        o.setTextColor(LabSkin.dlgText(a));
+        o.setBackground(LabSkin.dlgOptionCard(a));
         o.setPadding(dp(a, 24), dp(a, 21), dp(a, 24), dp(a, 21));
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -95,8 +95,8 @@ public final class LabInstallDialog {
         b.setTextSize(19);
         b.getPaint().setFakeBoldText(true);
         b.setGravity(Gravity.CENTER);
-        b.setTextColor(LabSkin.ON_YELLOW);
-        b.setBackground(LabSkin.buttonYellow(a));
+        b.setTextColor(LabSkin.dlgOnAccent(a));
+        b.setBackground(LabSkin.dlgBtnAccent(a));
         b.setPadding(0, dp(a, 15), 0, dp(a, 15));
         b.setClickable(true);
         b.setFocusable(true);
@@ -109,8 +109,8 @@ public final class LabInstallDialog {
         b.setTextSize(19);
         b.getPaint().setFakeBoldText(true);
         b.setGravity(Gravity.CENTER);
-        b.setTextColor(LabSkin.DLG_TEXT);
-        b.setBackground(LabSkin.dialogNeutral(a));
+        b.setTextColor(LabSkin.dlgText(a));
+        b.setBackground(LabSkin.dlgBtnNeutral(a));
         b.setPadding(0, dp(a, 15), 0, dp(a, 15));
         b.setClickable(true);
         b.setFocusable(true);
@@ -187,7 +187,7 @@ public final class LabInstallDialog {
         TextView m = new TextView(a);
         m.setText(message);
         m.setTextSize(17);
-        m.setTextColor(LabSkin.DLG_TEXT_DIM);
+        m.setTextColor(LabSkin.dlgTextDim(a));
         m.setLineSpacing(0, 1.5f);
         LinearLayout.LayoutParams mlp = new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -345,7 +345,7 @@ public final class LabInstallDialog {
                 err.setText(reason == null || reason.isEmpty() ? "没装上" : reason);
                 err.setTextSize(20);
                 err.getPaint().setFakeBoldText(true);
-                err.setTextColor(LabSkin.DLG_ERR);
+                err.setTextColor(LabSkin.dlgError(a));
                 err.setLineSpacing(0, 1.6f);
                 p.addView(err);
 
@@ -387,13 +387,13 @@ public final class LabInstallDialog {
         // 进度条：外层轨道＋内层黄 fill（权重实现百分比宽度）
         LinearLayout bar = new LinearLayout(a);
         bar.setOrientation(LinearLayout.HORIZONTAL);
-        bar.setBackground(LabSkin.progressTrack(a));
+        bar.setBackground(LabSkin.dlgProgressTrack(a));
         LinearLayout.LayoutParams blp = new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, dp(a, 13));
         blp.topMargin = dp(a, 22);
         bar.setLayoutParams(blp);
         View fill = new View(a);
-        fill.setBackground(LabSkin.progressFill(a));
+        fill.setBackground(LabSkin.dlgProgressFill(a));
         fill.setLayoutParams(new LinearLayout.LayoutParams(0, dp(a, 13), 0.01f));
         bar.addView(fill);
         p.addView(bar);
@@ -402,7 +402,7 @@ public final class LabInstallDialog {
         TextView pct = new TextView(a);
         pct.setTextSize(19);
         pct.getPaint().setFakeBoldText(true);
-        pct.setTextColor(LabSkin.DLG_TEXT);
+        pct.setTextColor(LabSkin.dlgText(a));
         LinearLayout.LayoutParams plp = new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         plp.topMargin = dp(a, 14);
@@ -412,7 +412,7 @@ public final class LabInstallDialog {
 
         TextView status = new TextView(a);
         status.setTextSize(17);
-        status.setTextColor(LabSkin.DLG_TEXT_DIM);
+        status.setTextColor(LabSkin.dlgTextDim(a));
         LinearLayout.LayoutParams slp = new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         slp.topMargin = dp(a, 9);
@@ -483,7 +483,7 @@ public final class LabInstallDialog {
             danger.setTextSize(16);
             danger.getPaint().setFakeBoldText(true);
             danger.setGravity(Gravity.CENTER);
-            danger.setTextColor(LabSkin.DLG_ERR);
+            danger.setTextColor(LabSkin.dlgError(a));
             danger.setPadding(0, dp(a, 10), 0, dp(a, 10));
             danger.setClickable(true);
             danger.setFocusable(true);
@@ -531,9 +531,9 @@ public final class LabInstallDialog {
         et.setHint(hint);
         et.setText(value == null ? "" : value);
         et.setTextSize(16);
-        et.setTextColor(LabSkin.DLG_TEXT);
-        et.setHintTextColor(LabSkin.DLG_HINT);
-        et.setBackground(LabSkin.darkInput(a));
+        et.setTextColor(LabSkin.dlgText(a));
+        et.setHintTextColor(LabSkin.dlgHint(a));
+        et.setBackground(LabSkin.dlgInput(a));
         int h = dp(a, 12), w = dp(a, 16);
         et.setPadding(w, h, w, h);
         return et;
