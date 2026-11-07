@@ -1,11 +1,16 @@
 package com.fongmi.android.tv.ui.dialog;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.view.Window;
+import android.view.WindowManager;
 import android.content.res.TypedArray;
 import android.util.TypedValue;
 
 import androidx.annotation.AttrRes;
 import androidx.annotation.ColorInt;
+import androidx.annotation.Nullable;
 import androidx.annotation.StyleRes;
 
 import com.fongmi.android.tv.R;
@@ -50,6 +55,20 @@ public final class DialogThemeHelper {
             case 3:
             default: return R.style.Theme_App_DialogIOS_Translucent;
         }
+    }
+
+    /**
+     * 统一自绘裸 Dialog 的窗口外观：透明底 + 标准暗化遮罩。
+     * 只管外观，不改窗口尺寸与位置；调用方仍自行设置 width/height/gravity。
+     * 注意：不能把这些写进 getTheme() 的 5 个 style —— 它们同时被
+     * BaseActivity.applyDialogTheme() 用作整个 Activity 主题，加入 windowIsFloating
+     * 会让 App 主界面变成浮动窗口。故改为逐窗口显式调用。
+     */
+    public static void applyStandardWindow(@Nullable Window window) {
+        if (window == null) return;
+        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        window.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+        window.setDimAmount(0.32f);
     }
 
     /** 取当前弹窗主题下的语义色（Java 代码里替代 Color.parseColor） */

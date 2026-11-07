@@ -109,6 +109,7 @@ public class HkCenterListPopup {
         if (window != null) {
             // 渐入渐出试水批：弹窗淡入淡出（与 HkDialogs 同一套）
             window.setWindowAnimations(com.fongmi.android.tv.R.style.HkDialogFade);
+            com.fongmi.android.tv.ui.dialog.DialogThemeHelper.applyStandardWindow(window);
             window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
             int screenWidth = context.getResources().getDisplayMetrics().widthPixels;
             int screenHeight = context.getResources().getDisplayMetrics().heightPixels;

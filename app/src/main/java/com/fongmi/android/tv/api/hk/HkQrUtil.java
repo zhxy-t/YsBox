@@ -129,6 +129,7 @@ public class HkQrUtil {
         dialog.setContentView(root);
         Window window = dialog.getWindow();
         if (window != null) {
+            com.fongmi.android.tv.ui.dialog.DialogThemeHelper.applyStandardWindow(window);
             window.setBackgroundDrawableResource(android.R.color.transparent);
             WindowManager.LayoutParams params = window.getAttributes();
             params.width = (int) (activity.getResources().getDisplayMetrics().widthPixels * 0.86);

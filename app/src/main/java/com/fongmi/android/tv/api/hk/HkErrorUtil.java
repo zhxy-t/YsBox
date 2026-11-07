@@ -209,6 +209,7 @@ public class HkErrorUtil {
             dialog.setContentView(view);
             Window window = dialog.getWindow();
             if (window != null) {
+                com.fongmi.android.tv.ui.dialog.DialogThemeHelper.applyStandardWindow(window);
                 window.setBackgroundDrawableResource(android.R.color.transparent);
                 window.setGravity(Gravity.BOTTOM);
                 WindowManager.LayoutParams params = window.getAttributes();

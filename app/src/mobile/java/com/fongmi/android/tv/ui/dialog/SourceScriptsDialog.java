@@ -59,17 +59,14 @@ public class SourceScriptsDialog extends Dialog {
         if (getWindow() != null) getWindow().setStatusBarColor(android.graphics.Color.TRANSPARENT);
         try {
             if (getWindow() != null) {
-                getWindow().setGravity(android.view.Gravity.TOP | android.view.Gravity.CENTER_HORIZONTAL);
+                com.fongmi.android.tv.ui.dialog.DialogThemeHelper.applyStandardWindow(getWindow());
+                getWindow().setGravity(android.view.Gravity.CENTER);
                 android.view.WindowManager.LayoutParams lp = getWindow().getAttributes();
-                lp.width = android.view.WindowManager.LayoutParams.MATCH_PARENT;
-                lp.height = android.view.WindowManager.LayoutParams.MATCH_PARENT;
+                lp.width = Math.min(getContext().getResources().getDisplayMetrics().widthPixels,
+                        (int) (560 * getContext().getResources().getDisplayMetrics().density));
+                lp.height = android.view.WindowManager.LayoutParams.WRAP_CONTENT;
                 lp.softInputMode = android.view.WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN;
                 getWindow().setAttributes(lp);
-                View content = findViewById(android.R.id.content);
-                if (content != null) {
-                    float d = getContext().getResources().getDisplayMetrics().density;
-                    content.setPadding((int) (24 * d), (int) (60 * d), (int) (12 * d), 0);
-                }
             }
         } catch (Exception ignored) {
         }
@@ -146,7 +143,6 @@ public class SourceScriptsDialog extends Dialog {
             }
         });
 
-        findViewById(android.R.id.content).setOnClickListener(v -> dismiss());
     }
 
     private void applyFilter(String keyword) {

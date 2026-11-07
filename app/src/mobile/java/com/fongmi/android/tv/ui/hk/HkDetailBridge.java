@@ -1075,6 +1075,7 @@ public class HkDetailBridge implements HkArticleFragment.DetailBridge {
         dialog.setContentView(root);
         Window window = dialog.getWindow();
         if (window != null) {
+            com.fongmi.android.tv.ui.dialog.DialogThemeHelper.applyStandardWindow(window);
             window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
             window.setGravity(Gravity.BOTTOM);
             window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
@@ -1155,6 +1156,7 @@ public class HkDetailBridge implements HkArticleFragment.DetailBridge {
         dialog.setContentView(root);
         Window window = dialog.getWindow();
         if (window != null) {
+            com.fongmi.android.tv.ui.dialog.DialogThemeHelper.applyStandardWindow(window);
             window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
             int screenWidth = activity.getResources().getDisplayMetrics().widthPixels;
             window.setLayout((int) (screenWidth * 0.9f), WindowManager.LayoutParams.WRAP_CONTENT);

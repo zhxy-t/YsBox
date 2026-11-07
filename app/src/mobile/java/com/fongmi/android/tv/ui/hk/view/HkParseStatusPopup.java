@@ -95,6 +95,7 @@ public class HkParseStatusPopup {
         Window window = dialog.getWindow();
         if (window != null) {
             window.setWindowAnimations(R.style.HkDialogFade);
+            com.fongmi.android.tv.ui.dialog.DialogThemeHelper.applyStandardWindow(window);
             window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
             window.setGravity(Gravity.BOTTOM);
             window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
