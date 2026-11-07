@@ -28,7 +28,10 @@ public abstract class BaseAlertDialog extends DialogFragment {
     }
 
     protected MaterialAlertDialogBuilder builder() {
-        return new MaterialAlertDialogBuilder(requireActivity());
+        // 用带弹窗风格主题的 Context 建 builder：每个 Theme.App.Dialog* 已内联
+        // 正确的 materialAlertDialogTheme，指向当前风格的真实 overlay（背景/圆角/语义色/按钮样式），
+        // 这样所有 BaseAlertDialog 子类的 Material 弹窗都随弹窗风格统一变化。
+        return new MaterialAlertDialogBuilder(DialogThemeHelper.wrap(requireActivity()));
     }
 
     protected void initView() {
