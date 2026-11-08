@@ -123,10 +123,34 @@ public final class DialogThemeHelper {
         @Override
         public androidx.appcompat.app.AlertDialog create() {
             androidx.appcompat.app.AlertDialog dialog = super.create();
+            applyWindowBackground(dialog);
             applyDialogSize(dialog.getWindow());
             applyButtonStyle(dialog);
             applyListItemStyle(dialog);
             return dialog;
+        }
+    }
+
+    /**
+     * 强制把「当前风格的边框背景」设回窗口。
+     * MaterialAlertDialogBuilder 会用自建的 MaterialShapeDrawable（纯 surface 填充、无描边）
+     * 覆盖主题里的 android:windowBackground，导致 5 种风格的 stroke 边框全部丢失。
+     * 在 create() 后重新设置，边框才会真正绘制（与 HkDialogs 的做法一致）。
+     */
+    private static void applyWindowBackground(@Nullable androidx.appcompat.app.AlertDialog dialog) {
+        if (dialog == null || dialog.getWindow() == null) return;
+        dialog.getWindow().setBackgroundDrawableResource(dialogBackgroundRes());
+    }
+
+    /** 当前风格对应的弹窗边框背景（带 stroke） */
+    private static int dialogBackgroundRes() {
+        switch (Setting.getDialogStyle()) {
+            case 0: return R.drawable.dialog_glass_dark;
+            case 1: return R.drawable.bg_dialog_white;
+            case 2: return R.drawable.bg_dialog_dark_amoled;
+            case 4: return R.drawable.bg_dialog_neon;
+            case 3:
+            default: return R.drawable.bg_dialog_ios;
         }
     }
 

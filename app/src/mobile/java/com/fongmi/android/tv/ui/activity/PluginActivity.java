@@ -23,6 +23,7 @@ import com.fongmi.android.tv.databinding.ActivityPluginBinding;
 import com.fongmi.android.tv.event.RefreshEvent;
 import com.fongmi.android.tv.ui.adapter.PluginAdapter;
 import com.fongmi.android.tv.ui.base.BaseActivity;
+import com.fongmi.android.tv.ui.dialog.DialogThemeHelper;
 import com.fongmi.android.tv.utils.Notify;
 import com.fongmi.android.tv.utils.Task;
 import com.github.catvod.utils.Path;
@@ -147,7 +148,7 @@ public class PluginActivity extends BaseActivity implements PluginAdapter.Listen
     }
 
     private void importPlugins() {
-        new com.google.android.material.dialog.MaterialAlertDialogBuilder(this)
+        DialogThemeHelper.builder(this)
                 .setTitle(R.string.plugin_import)
                 .setItems(new CharSequence[]{getString(R.string.plugin_import_file), getString(R.string.plugin_import_dir)}, (dialog, which) -> {
                     if (which == 0) importFiles();
