@@ -50,10 +50,11 @@ public class HkParseStatusAdapter extends RecyclerView.Adapter<HkParseStatusAdap
         } catch (Exception ignored) {
         }
         holder.tvTitle.setText(title);
-        // 弹窗是固定浅灰/白卡片（hk_bg_round_gray / 白 CardView），文字必须固定深色：
-        // 深色弹窗风格下若继承主题浅色字，会变成浅底浅字看不见。
-        holder.tvTitle.setTextColor(0xFF333333);
-        holder.tvStatus.setTextColor(0xFF666666);
+        // 容器底色（hk_bg_round_gray）与条目卡片（dialogCardSurface）已改为跟随弹窗风格：
+        // 深色风格→深底、浅色风格→浅底。故文字必须同步跟主题，否则深底下深字看不清。
+        android.content.Context ctx = holder.itemView.getContext();
+        holder.tvTitle.setTextColor(com.fongmi.android.tv.ui.dialog.DialogThemeHelper.primaryText(ctx));
+        holder.tvStatus.setTextColor(com.fongmi.android.tv.ui.dialog.DialogThemeHelper.secondaryText(ctx));
         if (!source.isParseFinish()) {
             holder.tvStatus.setText("正在获取地址...");
             holder.spin.setVisibility(View.VISIBLE);

@@ -144,7 +144,8 @@ public class HkListActivity extends AppCompatActivity
                 box.setPadding(pad, pad, pad, pad);
                 GradientDrawable bg = new GradientDrawable();
                 bg.setShape(GradientDrawable.RECTANGLE);
-                bg.setColor(0xFF212121);
+                bg.setColor(com.fongmi.android.tv.ui.dialog.DialogThemeHelper
+                        .resolveColor(this, com.fongmi.android.tv.R.attr.dialogSurfaceColor));
                 bg.setCornerRadius(dp(16));
                 box.setBackground(bg);
 
@@ -154,7 +155,8 @@ public class HkListActivity extends AppCompatActivity
                 box.addView(bar, barLp);
 
                 hkLoadingText = new TextView(this);
-                hkLoadingText.setTextColor(0xFFEEEEEE);
+                hkLoadingText.setTextColor(com.fongmi.android.tv.ui.dialog.DialogThemeHelper
+                        .primaryText(this));
                 hkLoadingText.setTextSize(14);
                 hkLoadingText.setGravity(Gravity.CENTER);
                 hkLoadingText.setMaxLines(1);

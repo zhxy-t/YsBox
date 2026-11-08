@@ -259,11 +259,10 @@ public class HkErrorUtil {
             View view = LayoutInflater.from(context).inflate(R.layout.dialog_hk_error_detail, null);
             TextView tv = view.findViewById(R.id.get_html_txt);
             tv.setText(detailText);
-            // 1.3.47 只动颜色：自定义布局用 Activity 上下文 inflate，不继承弹窗深色主题字色，
-            // 深色毛玻璃底上字发暗。提亮到深色弹窗标准字色 #F2F4F8（对等
-            // ThemeOverlay.XingChen.GlassDialog.Dark 的 android:textColor）。
-            // 内容、堆栈文本、按钮、布局结构一字不动。
-            tv.setTextColor(0xFFF2F4F8);
+            // 自定义布局用 Activity 上下文 inflate，不继承弹窗主题字色，必须显式着色。
+            // 原来固定 #F2F4F8（只适配深色玻璃风格），在 White / IOS / Original 三种
+            // 浅色风格下变成浅底浅字，完全看不见。改为跟随当前弹窗风格的主题主字色。
+            tv.setTextColor(com.fongmi.android.tv.ui.dialog.DialogThemeHelper.primaryText(context));
             HkDialogs hkBuilder = new HkDialogs(context);
             hkBuilder.setTitle("错误详细信息")
                     .setView(view)

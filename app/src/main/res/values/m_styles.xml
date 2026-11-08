@@ -90,7 +90,7 @@
         <item name="dialogSurface">@drawable/bg_dialog_ios</item>
         <item name="dialogSurfaceColor">#F2F2F7</item>
         <item name="dialogTextPrimary">#1C1C1E</item>
-        <item name="dialogTextSecondary">#8E8E93</item>
+        <item name="dialogTextSecondary">#6C6C70</item>
         <item name="dialogTextHint">#B0B0B5</item>
         <item name="dialogAccent">#007AFF</item>
         <item name="colorControlActivated">#007AFF</item>
@@ -604,7 +604,7 @@
         <item name="dialogSurface">@drawable/bg_dialog_ios</item>
         <item name="dialogSurfaceColor">#F2F2F7</item>
         <item name="dialogTextPrimary">#1C1C1E</item>
-        <item name="dialogTextSecondary">#8E8E93</item>
+        <item name="dialogTextSecondary">#6C6C70</item>
         <item name="dialogTextHint">#B0B0B5</item>
         <item name="dialogAccent">#007AFF</item>
         <item name="colorControlActivated">#007AFF</item>

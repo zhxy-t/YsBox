@@ -2814,7 +2814,8 @@ public class HkPageActivity extends BaseActivity {
                 String g = effectiveGroup(rule);
                 if (TextUtils.isEmpty(g)) {
                     h.tag.setText("未分组");
-                    h.tag.setTextColor(0xFF8A8F98);
+                    h.tag.setTextColor(com.fongmi.android.tv.ui.dialog.DialogThemeHelper
+                            .secondaryText(h.tag.getContext()));
                     h.tag.setBackgroundResource(R.drawable.hk_group_tag_empty);
                 } else {
                     h.tag.setText(stripGroupPrefix(g));
@@ -3337,7 +3338,8 @@ public class HkPageActivity extends BaseActivity {
                 box.setPadding(pad, pad, pad, pad);
                 GradientDrawable bg = new GradientDrawable();
                 bg.setShape(GradientDrawable.RECTANGLE);
-                bg.setColor(0xFF212121);
+                bg.setColor(com.fongmi.android.tv.ui.dialog.DialogThemeHelper
+                        .resolveColor(this, com.fongmi.android.tv.R.attr.dialogSurfaceColor));
                 bg.setCornerRadius(dp(16));
                 box.setBackground(bg);
 
@@ -3347,7 +3349,8 @@ public class HkPageActivity extends BaseActivity {
                 box.addView(bar, barLp);
 
                 hkLoadingText = new TextView(this);
-                hkLoadingText.setTextColor(0xFFEEEEEE);
+                hkLoadingText.setTextColor(com.fongmi.android.tv.ui.dialog.DialogThemeHelper
+                        .primaryText(this));
                 hkLoadingText.setTextSize(14);
                 hkLoadingText.setGravity(Gravity.CENTER);
                 hkLoadingText.setMaxLines(1);

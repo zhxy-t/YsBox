@@ -673,7 +673,7 @@ public abstract class HkArticleAdapter extends RecyclerView.Adapter<RecyclerView
                 if (!colored) {
                     tv.setBackground(context.getResources().getDrawable(R.drawable.ripple_gray_corners));
                 }
-                tv.setTextColor(context.getResources().getColor(R.color.black_666));
+                tv.setTextColor(com.fongmi.android.tv.ui.dialog.DialogThemeHelper.secondaryText(context));
                 tv.setPadding(m10, m3, m10, m3);
                 h.linearLayout.addView(tv);
                 tv.setOnClickListener(v -> {
@@ -845,7 +845,7 @@ public abstract class HkArticleAdapter extends RecyclerView.Adapter<RecyclerView
             tv.setTextColor(0xFF8A6400);
         } else {
             tv.setBackground(context.getResources().getDrawable(R.drawable.tab_item_default));
-            tv.setTextColor(context.getResources().getColor(R.color.black_666));
+            tv.setTextColor(com.fongmi.android.tv.ui.dialog.DialogThemeHelper.secondaryText(context));
         }
     }
 
@@ -1174,7 +1174,7 @@ public abstract class HkArticleAdapter extends RecyclerView.Adapter<RecyclerView
             String suggestion = suggestions.get(i);
             tv.setText(suggestion);
             tv.setTag(suggestion);
-            tv.setTextColor(context.getResources().getColor(R.color.black_666));
+            tv.setTextColor(com.fongmi.android.tv.ui.dialog.DialogThemeHelper.secondaryText(context));
             tv.setPadding(m10, m3, m10, m3);
             holder.search_suggest.addView(chip);
             chip.setOnClickListener(v -> {
@@ -2084,7 +2084,8 @@ public abstract class HkArticleAdapter extends RecyclerView.Adapter<RecyclerView
     protected void bindForTextOneColHolder(RecyclerView.ViewHolder holder, int position) {
         TextOneColHolder h = (TextOneColHolder) holder;
         HkItem item = list.get(position);
-        h.title.setTextColor(context.getResources().getColor(item.isSel() ? R.color.yellowAction : R.color.blackText));
+        h.title.setTextColor(item.isSel() ? context.getResources().getColor(R.color.yellowAction)
+                : com.fongmi.android.tv.ui.dialog.DialogThemeHelper.primaryText(context));
         HkTextViewUtils.setSpanText(h.title, item.getTitle(), buildUrlListener(holder));
         String desc = item.getDesc();
         if (!android.text.TextUtils.isEmpty(desc) && !"*".equals(desc) && !"null".equals(desc)) {

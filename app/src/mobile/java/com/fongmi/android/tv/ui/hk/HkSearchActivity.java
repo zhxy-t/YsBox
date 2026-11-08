@@ -571,7 +571,9 @@ public class HkSearchActivity extends AppCompatActivity implements HkSearchFragm
             holder.tv.setText(engine.getDisplayTitle() + suffix);
             if (status == 3) holder.tv.setTextColor(0xFFED424B);
             else if (status == 2) holder.tv.setTextColor(0xFF8A6D00);
-            else holder.tv.setTextColor(0xFF666666);
+            else holder.tv.setTextColor(
+                    com.fongmi.android.tv.ui.dialog.DialogThemeHelper
+                            .secondaryText(holder.tv.getContext()));
             holder.tv.setTypeface(null, position == selected ? android.graphics.Typeface.BOLD : android.graphics.Typeface.NORMAL);
             holder.tv.setOnClickListener(v -> {
                 int pos = holder.getBindingAdapterPosition();

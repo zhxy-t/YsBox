@@ -116,7 +116,10 @@ public class HkFavoriteActivity extends BaseActivity {
             int dp8 = Math.round(8 * getResources().getDisplayMetrics().density);
             int dp14 = Math.round(14 * getResources().getDisplayMetrics().density);
             chip.setPadding(dp14, dp8, dp14, dp8);
-            chip.setTextColor(selected ? 0xFF7A5A00 : 0xFF1A1D24);
+            // 选中=奶油胶囊(固定浅底)保持深金字；未选中底走 dialog_option_card_light，
+            // 其底色是 ?attr/dialogSurfaceColor（深色风格下会变深），故字色必须跟主题。
+            chip.setTextColor(selected ? 0xFF7A5A00
+                    : com.fongmi.android.tv.ui.dialog.DialogThemeHelper.primaryText(this));
             chip.setBackgroundResource(selected ? R.drawable.hk_group_tag : R.drawable.dialog_option_card_light);
             LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
