@@ -3592,7 +3592,7 @@ public class HkPageActivity extends BaseActivity {
             HkRule r = rules.get(position);
             h.name.setText(r.getTitle());
             boolean sel = curTitle != null && curTitle.equals(r.getTitle());
-            h.name.setTextColor(sel ? DialogThemeHelper.accent(this) : DialogThemeHelper.primaryText(this));
+            h.name.setTextColor(sel ? DialogThemeHelper.accent(h.name.getContext()) : DialogThemeHelper.primaryText(h.name.getContext()));
             h.name.setTypeface(null, sel ? android.graphics.Typeface.BOLD : android.graphics.Typeface.NORMAL);
             h.name.setOnClickListener(v -> {
                 if (listener != null) listener.onPick(r);
@@ -6521,7 +6521,7 @@ public class HkPageActivity extends BaseActivity {
             } else {
                 boolean longText = "long_text".equals(ct);
                 h.title.setGravity(Gravity.START);
-                h.title.setTextColor(DialogThemeHelper.primaryText(this));
+                h.title.setTextColor(DialogThemeHelper.primaryText(h.title.getContext()));
                 h.title.setTextSize(14);
                 h.title.setMaxLines(longText ? 30 : 3);
                 h.title.setText(titleSpan(item.getTitle()));
@@ -6559,7 +6559,7 @@ public class HkPageActivity extends BaseActivity {
         /** 富文本行：Html.fromHtml 显示，失败回退去标签；标题颜色标记（弯引号 ""红/''橙）同样生效。 */
         private void bindRich(Holder h, HkItem item) {
             h.title.setGravity(Gravity.START);
-            h.title.setTextColor(DialogThemeHelper.primaryText(this));
+            h.title.setTextColor(DialogThemeHelper.primaryText(h.title.getContext()));
             h.title.setTextSize(14);
             h.title.setMaxLines(30);
             String rawTitle = item.getTitle() == null ? "" : item.getTitle();
@@ -6593,7 +6593,7 @@ public class HkPageActivity extends BaseActivity {
             Context ctx = h.itemView.getContext();
             TextView tv = new TextView(ctx);
             tv.setText(titleSpan(item.getTitle()));
-            tv.setTextColor(DialogThemeHelper.primaryText(this));
+            tv.setTextColor(DialogThemeHelper.primaryText(ctx));
             tv.setTextSize(15);
             tv.setGravity(Gravity.CENTER);
             tv.setMaxLines(1);
@@ -6633,7 +6633,7 @@ public class HkPageActivity extends BaseActivity {
             for (HkItem sub : subs) {
                 TextView tv = new TextView(ctx);
                 tv.setText(titleSpan(sub.getTitle()));
-                tv.setTextColor(DialogThemeHelper.primaryText(this));
+                tv.setTextColor(DialogThemeHelper.primaryText(ctx));
                 tv.setTextSize(13);
                 tv.setGravity(Gravity.CENTER);
                 tv.setMaxLines(1);
@@ -6650,7 +6650,7 @@ public class HkPageActivity extends BaseActivity {
                     bg.setColor(0xC2FFFFFF);
                     bg.setStroke(dp(1), 0xFFE2E5EA);
                     bg.setCornerRadius(dp(14));
-                    tv.setTextColor(DialogThemeHelper.primaryText(this));
+                    tv.setTextColor(DialogThemeHelper.primaryText(ctx));
                 }
                 tv.setBackground(bg);
                 LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
@@ -6702,7 +6702,7 @@ public class HkPageActivity extends BaseActivity {
             for (HkItem sub : subs) {
                 TextView tv = new TextView(ctx);
                 tv.setText(titleSpan(sub.getTitle()));
-                tv.setTextColor(DialogThemeHelper.primaryText(this));
+                tv.setTextColor(DialogThemeHelper.primaryText(ctx));
                 tv.setTextSize(13);
                 tv.setGravity(Gravity.CENTER);
                 tv.setMaxLines(1);
@@ -6719,7 +6719,7 @@ public class HkPageActivity extends BaseActivity {
                     bg.setColor(0xC2FFFFFF);
                     bg.setStroke(dp(1), 0xFFE2E5EA);
                     bg.setCornerRadius(dp(14));
-                    tv.setTextColor(DialogThemeHelper.primaryText(this));
+                    tv.setTextColor(DialogThemeHelper.primaryText(ctx));
                 }
                 tv.setBackground(bg);
                 LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
@@ -6748,7 +6748,7 @@ public class HkPageActivity extends BaseActivity {
             for (HkItem sub : subs) {
                 TextView tv = new TextView(ctx);
                 tv.setText(titleSpan(sub.getTitle()));
-                tv.setTextColor(DialogThemeHelper.primaryText(this));
+                tv.setTextColor(DialogThemeHelper.primaryText(ctx));
                 tv.setTextSize(13);
                 tv.setGravity(Gravity.CENTER);
                 tv.setMaxLines(1);
@@ -6765,7 +6765,7 @@ public class HkPageActivity extends BaseActivity {
                     bg.setColor(0xC2FFFFFF);
                     bg.setStroke(dp(1), 0xFFE2E5EA);
                     bg.setCornerRadius(dp(14));
-                    tv.setTextColor(DialogThemeHelper.primaryText(this));
+                    tv.setTextColor(DialogThemeHelper.primaryText(ctx));
                 }
                 tv.setBackground(bg);
                 com.google.android.flexbox.FlexboxLayout.LayoutParams lp =
@@ -6813,7 +6813,7 @@ public class HkPageActivity extends BaseActivity {
                 // 8.83 选中态：rule.url 含 tabUrl 且 firstHeader == desc → tab_item_selected
                 boolean selected = !tabUrl.isEmpty() && ruleUrl.contains(tabUrl) && firstHeader.equals(desc);
                 if (isTabSelected(names[i])) selected = true;
-                tv.setTextColor(selected ? 0xFFE8590C : DialogThemeHelper.primaryText(this));
+                tv.setTextColor(selected ? 0xFFE8590C : DialogThemeHelper.primaryText(tv.getContext()));
                 try {
                     tv.setBackgroundResource(selected ? R.drawable.tab_item_selected : R.drawable.tab_item_default);
                 } catch (Throwable ignored) {}
@@ -7192,7 +7192,7 @@ public class HkPageActivity extends BaseActivity {
                     h.card.setStrokeWidth((int) (1 * d2 + 0.5f));
                     h.card.setStrokeColor(android.content.res.ColorStateList.valueOf(0xFFE1E5EB));
                 }
-                h.chip.setTextColor(DialogThemeHelper.accent(this));
+                h.chip.setTextColor(DialogThemeHelper.accent(h.chip.getContext()));
                 h.chip.setTypeface(null, android.graphics.Typeface.BOLD);
                 h.chip.setBackgroundResource(R.drawable.hk_ripple_glass_selected);
             } else {
