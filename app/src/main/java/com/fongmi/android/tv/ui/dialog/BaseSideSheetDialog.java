@@ -35,6 +35,9 @@ public abstract class BaseSideSheetDialog extends AppCompatDialogFragment {
         dialog.getBehavior().setDraggable(false);
         Window window = dialog.getWindow();
         if (window == null) return dialog;
+        // 弹窗主题的 android:windowBackground 是「卡片」drawable，SideSheet 窗口是全屏的，
+        // 沿用会把卡片铺满整个屏幕。改为透明窗口，卡片背景在 onStart 里画到 sheet 自身上。
+        window.setBackgroundDrawableResource(android.R.color.transparent);
         if (Util.isFullscreen(getActivity())) window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
         return dialog;
     }
@@ -66,5 +69,7 @@ public abstract class BaseSideSheetDialog extends AppCompatDialogFragment {
         ViewGroup.LayoutParams params = sheet.getLayoutParams();
         params.width = getWidth();
         sheet.setLayoutParams(params);
+        // 卡片背景画在 sheet 上，避免铺满全屏窗口
+        sheet.setBackgroundResource(DialogThemeHelper.dialogBackgroundRes());
     }
 }
