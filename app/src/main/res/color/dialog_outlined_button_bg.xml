@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <!-- 按下 / 选中：用当前弹窗风格的分隔色作为浅填充，保证深色、浅色风格都能看见 -->
-    <item android:state_pressed="true" android:color="?attr/dialogDivider" />
-    <item android:state_selected="true" android:color="?attr/dialogDivider" />
-    <item android:color="@android:color/transparent" />
-</selector>
