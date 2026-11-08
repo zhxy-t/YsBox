@@ -51,7 +51,7 @@
                 android:textColor="?attr/dialogTextSecondary"
                 android:textSize="12sp" />
 
-            <androidx.recyclerview.widget.RecyclerView
+            <com.fongmi.android.tv.ui.custom.CustomRecyclerView
                 android:id="@+id/rv_py"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
@@ -73,7 +73,7 @@
                 android:textColor="?attr/dialogTextSecondary"
                 android:textSize="12sp" />
 
-            <androidx.recyclerview.widget.RecyclerView
+            <com.fongmi.android.tv.ui.custom.CustomRecyclerView
                 android:id="@+id/rv_js"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />

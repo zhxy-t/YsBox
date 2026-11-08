@@ -294,6 +294,10 @@ public class SiteDialog extends BaseAlertDialog implements SiteAdapter.OnClickLi
         params.width = Math.max(width, ResUtil.dp2px(320));
         params.height = WindowManager.LayoutParams.WRAP_CONTENT;
         params.gravity = Gravity.CENTER;
+        // 高度上限：站点/分组多时列表会一路把弹窗撑高，顶到状态栏（图2 那种高度异常）。
+        // 给列表一条上限让它内部滚动，窗口整体也跟着受控。
+        int listMaxH = Math.min(Math.round(ResUtil.getScreenHeight(requireContext()) * 0.46f), ResUtil.dp2px(400));
+        if (binding.recycler != null) binding.recycler.setMaxHeight(listMaxH);
         window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         window.clearFlags(WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
         window.getDecorView().setPadding(0, 0, 0, 0);

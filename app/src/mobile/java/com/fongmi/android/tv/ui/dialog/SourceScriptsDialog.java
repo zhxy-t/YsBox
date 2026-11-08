@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.fongmi.android.tv.R;
 import com.fongmi.android.tv.ui.adapter.ScriptAdapter;
+import com.fongmi.android.tv.ui.custom.CustomRecyclerView;
 import com.github.catvod.utils.Path;
 
 import java.io.File;
@@ -63,15 +64,24 @@ public class SourceScriptsDialog extends Dialog {
                 getWindow().setGravity(android.view.Gravity.CENTER);
                 android.view.WindowManager.LayoutParams lp = getWindow().getAttributes();
                 lp.width = (int) (getContext().getResources().getDisplayMetrics().widthPixels * 0.78f);
-                lp.height = android.view.WindowManager.LayoutParams.WRAP_CONTENT;
+                // 高度必须有硬上限：之前用 WRAP_CONTENT 且列表不限高，脚本一多就把弹窗
+                // 顶到状态栏、底部被裁掉（图2/图3 那种"高度不正常"）。
+                int screenH = getContext().getResources().getDisplayMetrics().heightPixels;
+                lp.height = Math.min((int) (screenH * 0.62f), com.fongmi.android.tv.utils.ResUtil.dp2px(560));
                 lp.softInputMode = android.view.WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN;
                 getWindow().setAttributes(lp);
             }
         } catch (Exception ignored) {
         }
 
-        RecyclerView rvPy = findViewById(R.id.rv_py);
-        RecyclerView rvJs = findViewById(R.id.rv_js);
+        CustomRecyclerView rvPy = findViewById(R.id.rv_py);
+        CustomRecyclerView rvJs = findViewById(R.id.rv_js);
+        // 列表高度上限：窗口已经限高，这里再给列表一条上限，脚本很多时列表内部滚动，
+        // 而不是把弹窗继续撑大（图2/图3 高度异常的直接原因）。
+        int listMaxH = Math.min((int) (getContext().getResources().getDisplayMetrics().heightPixels * 0.44f),
+                com.fongmi.android.tv.utils.ResUtil.dp2px(380));
+        rvPy.setMaxHeight(listMaxH);
+        rvJs.setMaxHeight(listMaxH);
         LinearLayout colPy = findViewById(R.id.column_py);
         LinearLayout colJs = findViewById(R.id.column_js);
         LinearLayout layoutColumns = findViewById(R.id.layout_columns);
