@@ -1,6 +1,9 @@
 name: trae_work 打包
 permissions:
   contents: read
+# 强制 JS action 走 Node 24，避免 Node 20 弃用警告
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 on:
   push:
     branches:
