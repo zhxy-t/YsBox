@@ -459,7 +459,9 @@
         <item name="android:padding">12dp</item>
     </style>
 
-    <!-- 统一弹窗按钮字体：iOS 蓝、中等字重、16sp，positive/negative/neutral 一致 -->
+    <!-- 统一弹窗按钮字体：iOS 蓝、中等字重、16sp，positive/negative/neutral 一致。
+         边框/点击态由 DialogThemeHelper 在运行时按当前风格套（MaterialButton 原生
+         strokeColor/strokeWidth），这样 HK 等复用本 style 的弹窗不会被误改。 -->
     <style name="XingChen.DialogButton.IOS" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
         <item name="android:textColor">#007AFF</item>
         <item name="android:textSize">16sp</item>

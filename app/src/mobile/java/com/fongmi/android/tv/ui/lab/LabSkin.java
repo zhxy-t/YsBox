@@ -310,7 +310,51 @@ public final class LabSkin {
         GradientDrawable d = new GradientDrawable();
         d.setColor(dlgAccent(c));
         d.setCornerRadius(dp(c, 999));
+        // 统一加边框：比填充色略深，保证浅色/深色都有清晰轮廓
+        d.setStroke(dp(c, 1) > 0 ? Math.max(1, dp(c, 1)) : 1, darken(dlgAccent(c), 0.22f));
         return d;
+    }
+    /** 常态主钮：透明底 + 强调色边框（与按下态形成对比） */
+    public static GradientDrawable dlgBtnAccentOutline(Context c) {
+        GradientDrawable d = new GradientDrawable();
+        d.setColor(0x00000000);
+        d.setCornerRadius(dp(c, 999));
+        d.setStroke(Math.max(1, dp(c, 1)), dlgAccent(c));
+        return d;
+    }
+    /** 主钮强调色边框色（给文字/边框共用） */
+    public static int dlgAccentStroke(Context c) {
+        return dlgAccent(c);
+    }
+
+    /**
+     * 弹窗按钮统一背景：取当前风格的按钮 drawable
+     * （常态=透明底+风格色边框；按下=风格色填充；霓虹=渐变边框/渐变填充）。
+     * 与 Material 弹窗按钮用的是同一份资源，保证两套弹窗观感一致。
+     */
+    public static android.graphics.drawable.Drawable dlgButton(Context c) {
+        int res = com.fongmi.android.tv.ui.dialog.DialogThemeHelper.btnStyleRes();
+        android.graphics.drawable.Drawable d = androidx.core.content.ContextCompat.getDrawable(c, res);
+        return d != null ? d.mutate() : dlgBtnAccent(c);
+    }
+
+    /** 主钮文字色：描边态直接用风格强调色，与边框同色 */
+    public static int dlgButtonText(Context c) {
+        return dlgAccent(c);
+    }
+
+    /**
+     * 给自绘按钮装上「按下时文字变渐变」的效果（仅霓虹风格生效，其它风格自动跳过）。
+     * 背景的渐变边框由 dlgButton() 提供，这里只负责文字。
+     */
+    public static void applyDlgPressEffect(android.widget.TextView tv) {
+        com.fongmi.android.tv.ui.dialog.NeonButtonStyler.apply(tv);
+    }
+    private static int darken(int color, float f) {
+        int r = (int) (Color.red(color) * (1 - f));
+        int g = (int) (Color.green(color) * (1 - f));
+        int b = (int) (Color.blue(color) * (1 - f));
+        return Color.argb(Color.alpha(color), r, g, b);
     }
 
     /** 主钮文字色：跟随风格强调色自动取对比色 */
@@ -323,6 +367,8 @@ public final class LabSkin {
         GradientDrawable d = new GradientDrawable();
         d.setColor(withAlpha(dlgText(c), 0x1F));
         d.setCornerRadius(dp(c, 18));
+        // 统一加边框
+        d.setStroke(Math.max(1, dp(c, 1)), withAlpha(dlgText(c), 0x33));
         return d;
     }
 

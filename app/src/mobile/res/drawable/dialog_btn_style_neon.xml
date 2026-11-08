@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 霓虹风格按钮：常态=淡边框；按下=渐变边框（配合 GradientText 把字也变渐变） -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_pressed="true">
+        <layer-list>
+            <item>
+                <shape android:shape="rectangle">
+                    <gradient
+                        android:angle="45"
+                        android:startColor="#FF00D4FF"
+                        android:centerColor="#FF7B61FF"
+                        android:endColor="#FFFF006E" />
+                    <corners android:radius="20dp" />
+                </shape>
+            </item>
+            <item android:left="2dp" android:top="2dp" android:right="2dp" android:bottom="2dp">
+                <shape android:shape="rectangle">
+                    <solid android:color="#FF12121A" />
+                    <corners android:radius="18dp" />
+                </shape>
+            </item>
+        </layer-list>
+    </item>
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="#00000000" />
+            <stroke android:width="1.5dp" android:color="#66FFFFFF" />
+            <corners android:radius="20dp" />
+        </shape>
+    </item>
+</selector>

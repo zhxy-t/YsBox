@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:background="?attr/dialogSurface"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="24dp">
 
     <TextView
         android:layout_width="wrap_content"
@@ -19,16 +19,20 @@
     <EditText
         android:id="@+id/et_search"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="58dp"
         android:layout_marginBottom="12dp"
         android:background="?attr/dialogInputSurface"
+        android:drawablePadding="10dp"
+        android:gravity="center_vertical"
         android:hint="@string/script_source_search"
         android:imeOptions="actionSearch"
         android:inputType="text"
+        android:paddingStart="18dp"
+        android:paddingEnd="18dp"
         android:singleLine="true"
         android:textColor="?attr/dialogTextPrimary"
         android:textColorHint="?attr/dialogTextHint"
-        android:textSize="14sp" />
+        android:textSize="17sp" />
 
     <LinearLayout
         android:id="@+id/layout_columns"
@@ -56,7 +60,7 @@
                 android:id="@+id/rv_py"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:maxHeight="300dp" />
+                app:maxHeight="376dp" />
         </LinearLayout>
 
         <LinearLayout
@@ -79,7 +83,7 @@
                 android:id="@+id/rv_js"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:maxHeight="300dp" />
+                app:maxHeight="376dp" />
         </LinearLayout>
     </LinearLayout>
 

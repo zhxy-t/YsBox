@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- AMOLED 弹窗按钮：常态=透明底+蓝边框；按下=蓝色填充 -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_pressed="true">
+        <shape android:shape="rectangle">
+            <solid android:color="#FF4A9EFF" />
+            <corners android:radius="20dp" />
+        </shape>
+    </item>
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="#00000000" />
+            <stroke android:width="1.5dp" android:color="#FF4A9EFF" />
+            <corners android:radius="20dp" />
+        </shape>
+    </item>
+</selector>

@@ -4,8 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="8dp"
-    android:background="@drawable/xc_capsule_btn"
+    android:background="?attr/dialogCardSurface"
+    android:ellipsize="middle"
     android:gravity="center"
     android:padding="12dp"
-    android:textColor="#0C0E12"
+    android:singleLine="true"
+    android:textColor="?attr/dialogTextPrimary"
     android:textSize="14sp" />

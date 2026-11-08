@@ -570,6 +570,7 @@
     <string name="script_source_search">搜索脚本</string>
     <string name="script_source_py">PY</string>
     <string name="script_source_js">JS</string>
+    <string name="script_preview_copy">复制</string>
     <string name="script_source_empty">暂无脚本，请先在插件管理导入</string>
     <string name="setting_group_tools">常用功能</string>
     <string name="lab_python_version">Python 3.10 · 已内置</string>

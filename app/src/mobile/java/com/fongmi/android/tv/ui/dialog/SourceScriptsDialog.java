@@ -1,4 +1,5 @@
 package com.fongmi.android.tv.ui.dialog;
+
 import com.fongmi.android.tv.ui.dialog.DialogThemeHelper;
 
 import android.app.Dialog;
@@ -27,6 +28,10 @@ import java.util.Map;
 
 /**
  * 源脚本选择器（移植自 xingchen 分支）：搜索框 + PY/JS 双列。
+ *
+ * 尺寸规则与「站点」弹窗（SiteDialog）完全一致：
+ * 宽 = min(屏宽 * 0.92, 620dp)，高 = wrap_content（列表在布局里用 app:maxHeight 限高）。
+ * 因此本弹窗与站点弹窗视觉上同宽同高，不再单独定一套尺寸。
  */
 public class SourceScriptsDialog extends Dialog {
 
@@ -37,6 +42,7 @@ public class SourceScriptsDialog extends Dialog {
     private ScriptAdapter pyAdapter;
     private ScriptAdapter jsAdapter;
 
+    /** 脚本被点击（用于填入路径） */
     public interface OnScriptSelectListener {
         void onScriptSelect(File file, boolean isPy);
     }
@@ -55,22 +61,14 @@ public class SourceScriptsDialog extends Dialog {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(android.view.LayoutInflater.from(com.fongmi.android.tv.ui.dialog.DialogThemeHelper.wrap(getContext())).inflate(R.layout.dialog_source_scripts, null));
-        if (getWindow() != null) getWindow().setStatusBarColor(android.graphics.Color.TRANSPARENT);
-        try {
-            if (getWindow() != null) {
-                com.fongmi.android.tv.ui.dialog.DialogThemeHelper.applyStandardWindow(getWindow());
-                getWindow().setGravity(android.view.Gravity.CENTER);
-                android.view.WindowManager.LayoutParams lp = getWindow().getAttributes();
-                lp.width = (int) (getContext().getResources().getDisplayMetrics().widthPixels * 0.78f);
-                // 高度交给 WRAP_CONTENT：列表已在布局里用 app:maxHeight 限高
-                // （与 main 分支 dialog_site.xml 的写法一致），脚本再多也只是列表内部滚动，
-                // 不会把弹窗顶到状态栏。这里不再硬编码高度。
-                lp.height = android.view.WindowManager.LayoutParams.WRAP_CONTENT;
-                lp.softInputMode = android.view.WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN;
-                getWindow().setAttributes(lp);
-            }
-        } catch (Exception ignored) {
+        setContentView(android.view.LayoutInflater
+                .from(com.fongmi.android.tv.ui.dialog.DialogThemeHelper.wrap(getContext()))
+                .inflate(R.layout.dialog_source_scripts, null));
+
+        if (getWindow() != null) {
+            com.fongmi.android.tv.ui.dialog.DialogThemeHelper.applyStandardWindow(getWindow());
+            getWindow().setGravity(android.view.Gravity.CENTER);
+            applySameSizeAsSiteDialog();
         }
 
         RecyclerView rvPy = findViewById(R.id.rv_py);
@@ -82,7 +80,6 @@ public class SourceScriptsDialog extends Dialog {
 
         allPyFiles.addAll(loadScripts(true));
         allJsFiles.addAll(loadScripts(false));
-
         boolean hasPy = !allPyFiles.isEmpty();
         boolean hasJs = !allJsFiles.isEmpty();
 
@@ -116,6 +113,8 @@ public class SourceScriptsDialog extends Dialog {
                 if (listener != null) listener.onScriptSelect(f, true);
                 dismiss();
             });
+            // 长按 → 预览弹窗（能看源码 + 复制）
+            pyAdapter.setOnItemLongClickListener(this::showPreview);
             rvPy.setAdapter(pyAdapter);
 
             rvJs.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -123,6 +122,7 @@ public class SourceScriptsDialog extends Dialog {
                 if (listener != null) listener.onScriptSelect(f, false);
                 dismiss();
             });
+            jsAdapter.setOnItemLongClickListener(this::showPreview);
             rvJs.setAdapter(jsAdapter);
 
             scrollToCurrent(rvPy, allPyFiles);
@@ -144,7 +144,23 @@ public class SourceScriptsDialog extends Dialog {
                 applyFilter(s.toString());
             }
         });
+    }
 
+    /** 长按条目：弹出源码预览 */
+    private void showPreview(File file) {
+        try {
+            new ScriptPreviewDialog(getContext(), file).show();
+        } catch (Exception ignored) {
+        }
+    }
+
+    /**
+     * 与 SiteDialog 共用同一套尺寸规则（用户要求：源脚本弹窗按站点弹窗来）。
+     * 规则集中在 DialogThemeHelper.applyListDialogSize()，此处只做委托，
+     * 以后改尺寸只改一个地方，两个弹窗不会跑偏。
+     */
+    private void applySameSizeAsSiteDialog() {
+        DialogThemeHelper.applyListDialogSize(getWindow());
     }
 
     private void applyFilter(String keyword) {

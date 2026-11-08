@@ -288,16 +288,11 @@ public class SiteDialog extends BaseAlertDialog implements SiteAdapter.OnClickLi
     private void configureWindow() {
         if (getDialog() == null || getDialog().getWindow() == null) return;
         Window window = getDialog().getWindow();
-        WindowManager.LayoutParams params = window.getAttributes();
-        boolean land = ResUtil.isLand(requireContext());
-        int width = Math.min(Math.round(ResUtil.getScreenWidth(requireContext()) * (land ? 0.5f : 0.92f)), ResUtil.dp2px(620));
-        params.width = Math.max(width, ResUtil.dp2px(320));
-        params.height = WindowManager.LayoutParams.WRAP_CONTENT;
-        params.gravity = Gravity.CENTER;
         window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         window.clearFlags(WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
         window.getDecorView().setPadding(0, 0, 0, 0);
-        window.setAttributes(params);
-        window.setLayout(params.width, WindowManager.LayoutParams.WRAP_CONTENT);
+        // 尺寸规则与源脚本弹窗、源码预览弹窗共用一处（DialogThemeHelper），
+        // 保证这三个列表类弹窗同宽同高；改尺寸只改 applyListDialogSize。
+        DialogThemeHelper.applyListDialogSize(window);
     }
 }

@@ -1,17 +1,22 @@
 package com.fongmi.android.tv.ui.dialog;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
+import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
+import android.util.TypedValue;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.content.res.TypedArray;
-import android.util.TypedValue;
+import android.widget.TextView;
 
 import androidx.annotation.AttrRes;
 import androidx.annotation.ColorInt;
 import androidx.annotation.Nullable;
 import androidx.annotation.StyleRes;
+import androidx.core.content.ContextCompat;
 
 import com.fongmi.android.tv.R;
 import com.fongmi.android.tv.setting.Setting;
@@ -57,6 +62,18 @@ public final class DialogThemeHelper {
         }
     }
 
+    /** 当前风格的按钮边框资源（常态=透明底+风格色边框；按下=风格色填充） */
+    public static int btnStyleRes() {
+        switch (Setting.getDialogStyle()) {
+            case 0: return R.drawable.dialog_btn_style_classic;
+            case 1: return R.drawable.dialog_btn_style_white;
+            case 2: return R.drawable.dialog_btn_style_amoled;
+            case 4: return R.drawable.dialog_btn_style_neon;
+            case 3:
+            default: return R.drawable.dialog_btn_style_ios;
+        }
+    }
+
     /**
      * 统一自绘裸 Dialog 的窗口外观：透明底 + 标准暗化遮罩。
      * 只管外观，不改窗口尺寸与位置；调用方仍自行设置 width/height/gravity。
@@ -73,7 +90,7 @@ public final class DialogThemeHelper {
 
     /**
      * 统一弹窗工厂：App 内所有 MaterialAlertDialog 都应通过它创建，而不是各自
-     * DialogThemeHelper.builder(activity)。原因：Activity 主主题里没有定义
+     * new MaterialAlertDialogBuilder(activity)。原因：Activity 主主题里没有定义
      * materialAlertDialogTheme，直接 new 会回退到 Material 默认白底 + 默认宽度，
      * 导致切换弹窗风格时这些弹窗毫无反应（这就是"弹窗不统一"的根因）。
      *
@@ -88,13 +105,14 @@ public final class DialogThemeHelper {
     }
 
     /**
-     * 带统一尺寸的 Material 弹窗 Builder。
+     * 带统一尺寸 + 统一按钮边框的 Material 弹窗 Builder。
      *
      * 只在 create() 里套用 applyDialogSize —— create() 是虚方法，即使调用方写成
      * builder(ctx).setTitle(..).show()（静态类型退回基类），基类 show() 内部仍会
      * 回调到这里的 create()，所以尺寸一定生效。
      *
-     * 注意不要改回 java 侧「不拦截」的写法，否则 59 处链式调用会全部丢失尺寸统一。
+     * 按钮样式用 decor.post 在窗口真正显示后再套，不覆盖 setOnShowListener，
+     * 因此调用方原有的按钮点击拦截逻辑不受影响。
      */
     public static final class Builder extends com.google.android.material.dialog.MaterialAlertDialogBuilder {
 
@@ -106,8 +124,65 @@ public final class DialogThemeHelper {
         public androidx.appcompat.app.AlertDialog create() {
             androidx.appcompat.app.AlertDialog dialog = super.create();
             applyDialogSize(dialog.getWindow());
+            applyButtonStyle(dialog);
             return dialog;
         }
+    }
+
+    /**
+     * 给 Material 弹窗的三个按钮（positive/negative/neutral）套统一边框与点击态。
+     *
+     * 只在 create() 之后、窗口显示前调用，并且只处理「本 App 弹窗」——
+     * HK 小程序的弹窗走自己的裸 Dialog，不经过 MaterialAlertDialogBuilder，
+     * 所以这里的改动不会碰到 HK。
+     *
+     * 用 MaterialButton 原生 strokeColor / strokeWidth 而不是换背景 drawable：
+     * 原生描边会保留 Material 自带的按下涟漪与文字变色，观感比自绘背景更自然。
+     */
+    private static void applyButtonStyle(androidx.appcompat.app.AlertDialog dialog) {
+        if (dialog == null || dialog.getWindow() == null) return;
+        Window window = dialog.getWindow();
+        window.getDecorView().post(() -> {
+            try {
+                styleButton(dialog, android.R.id.button1, true);
+                styleButton(dialog, android.R.id.button2, false);
+                styleButton(dialog, android.R.id.button3, false);
+            } catch (Exception ignored) {
+            }
+        });
+    }
+
+    /**
+     * @param primary true=主按钮（强调色边框+强调色字），false=次按钮（主字色边框+主字色字）
+     */
+    private static void styleButton(androidx.appcompat.app.AlertDialog dialog, int id, boolean primary) {
+        View v = dialog.findViewById(id);
+        if (!(v instanceof TextView)) return;
+        TextView button = (TextView) v;
+        if (button.getVisibility() != View.VISIBLE) return;
+        Context c = button.getContext();
+        int accent = primary ? accent(c) : primaryText(c);
+        int strokePx = Math.max(1, dp(c, 1) / 2 + 1);
+
+        if (button instanceof com.google.android.material.button.MaterialButton) {
+            com.google.android.material.button.MaterialButton mb = (com.google.android.material.button.MaterialButton) button;
+            mb.setStrokeWidth(strokePx);
+            mb.setStrokeColor(ColorStateList.valueOf(accent));
+            mb.setCornerRadius(dp(c, 18));
+            mb.setBackgroundTintList(ColorStateList.valueOf(Color.TRANSPARENT));
+            mb.setTextColor(new ColorStateList(
+                    new int[][]{{android.R.attr.state_pressed}, {}},
+                    new int[]{isLight(accent) ? 0xFF171310 : 0xFFFFFFFF, accent}));
+        } else {
+            try {
+                Drawable bg = ContextCompat.getDrawable(c, btnStyleRes());
+                if (bg != null) button.setBackground(bg.mutate());
+            } catch (Exception ignored) {
+            }
+            button.setTextColor(accent);
+        }
+        // 霓虹风格：按下时文字也变渐变
+        NeonButtonStyler.apply(button);
     }
 
     /** 统一 App 内弹窗尺寸：居中窄卡片，不铺满全屏（给自绘 Dialog 手工调用） */
@@ -119,6 +194,39 @@ public final class DialogThemeHelper {
         int maxH = Math.round(dm.heightPixels * 0.8f);
         android.view.View decor = window.getDecorView();
         window.setLayout(w, WindowManager.LayoutParams.WRAP_CONTENT);
+        if (decor != null) {
+            decor.post(() -> {
+                int h = decor.getHeight();
+                if (h > maxH) window.setLayout(w, maxH);
+            });
+        }
+    }
+
+    /**
+     * 「列表类弹窗」统一尺寸（站点弹窗 / 源脚本弹窗 / 源码预览 共用同一套规则，
+     * 保证这几个弹窗视觉上同宽同高）：
+     *  宽 = max(min(屏宽 * (横屏0.5 / 竖屏0.92), 620dp), 320dp)
+     *  高 = wrap_content，但封顶 屏高 * 0.62（超过则内部滚动，不顶状态栏）
+     *
+     * 只在这里改规则，三个弹窗一起变；不要在各自类里再写一套尺寸。
+     */
+    public static void applyListDialogSize(@Nullable Window window) {
+        if (window == null) return;
+        Context ctx = window.getContext();
+        android.util.DisplayMetrics dm = ctx.getResources().getDisplayMetrics();
+        boolean land = com.fongmi.android.tv.utils.ResUtil.isLand(ctx);
+        int width = Math.min(Math.round(com.fongmi.android.tv.utils.ResUtil.getScreenWidth(ctx) * (land ? 0.5f : 0.92f)),
+                com.fongmi.android.tv.utils.ResUtil.dp2px(620));
+        int w = Math.max(width, com.fongmi.android.tv.utils.ResUtil.dp2px(320));
+        WindowManager.LayoutParams lp = window.getAttributes();
+        lp.width = w;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        lp.gravity = android.view.Gravity.CENTER;
+        window.setAttributes(lp);
+        window.setLayout(w, WindowManager.LayoutParams.WRAP_CONTENT);
+
+        int maxH = Math.round(dm.heightPixels * 0.62f);
+        android.view.View decor = window.getDecorView();
         if (decor != null) {
             decor.post(() -> {
                 int h = decor.getHeight();
@@ -155,7 +263,17 @@ public final class DialogThemeHelper {
     @ColorInt public static int hintText(Context c)      { return resolveColor(c, R.attr.dialogTextHint); }
     @ColorInt public static int accent(Context c)        { return resolveColor(c, R.attr.dialogAccent); }
     @ColorInt public static int divider(Context c)       { return resolveColor(c, R.attr.dialogDivider); }
+
     public static int surfaceRes(Context c)              { return resolveResId(c, R.attr.dialogSurface); }
     public static int inputSurfaceRes(Context c)         { return resolveResId(c, R.attr.dialogInputSurface); }
     public static int cardSurfaceRes(Context c)          { return resolveResId(c, R.attr.dialogCardSurface); }
+
+    private static boolean isLight(@ColorInt int color) {
+        double lum = 0.299 * Color.red(color) + 0.587 * Color.green(color) + 0.114 * Color.blue(color);
+        return lum > 160;
+    }
+
+    private static int dp(Context c, int v) {
+        return Math.round(v * c.getResources().getDisplayMetrics().density);
+    }
 }

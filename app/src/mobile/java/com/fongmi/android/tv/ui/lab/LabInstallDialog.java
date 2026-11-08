@@ -30,7 +30,12 @@ public final class LabInstallDialog {
         return LabSkin.dp(a, v);
     }
 
-    /** 基础深底 Dialog：透明窗＋居中面板 */
+    /**
+     * 基础 Dialog：透明窗＋居中窄卡片。
+     * 注意：App 内弹窗不使用全局窗口（用户要求），宽度收敛为
+     * min(屏宽 * 0.92, 480dp) 的居中卡片，与其它弹窗一致；
+     * HK 小程序的全局窗口弹窗不走这里，不受影响。
+     */
     private static Dialog base(Activity a) {
         Dialog d = new Dialog(a, DialogThemeHelper.getTheme());
         d.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -39,10 +44,13 @@ public final class LabInstallDialog {
             w.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
             w.setDimAmount(0.40f);
             WindowManager.LayoutParams lp = w.getAttributes();
-            lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+            int screen = a.getResources().getDisplayMetrics().widthPixels;
+            int width = Math.min(Math.round(screen * 0.92f), dp(a, 480));
+            lp.width = Math.max(width, dp(a, 280));
             lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
             lp.gravity = Gravity.CENTER;
             w.setAttributes(lp);
+            w.setLayout(lp.width, WindowManager.LayoutParams.WRAP_CONTENT);
         }
         d.setCanceledOnTouchOutside(true);
         return d;
@@ -53,10 +61,10 @@ public final class LabInstallDialog {
         LinearLayout p = new LinearLayout(a);
         p.setOrientation(LinearLayout.VERTICAL);
         p.setBackground(LabSkin.dlgPanel(a));
-        p.setPadding(dp(a, 32), dp(a, 32), dp(a, 32), dp(a, 28));
+        p.setPadding(dp(a, 28), dp(a, 28), dp(a, 28), dp(a, 24));
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        int m = dp(a, 32);
+        int m = dp(a, 8);
         lp.setMargins(m, 0, m, 0);
         p.setLayoutParams(lp);
         return p;
@@ -71,7 +79,7 @@ public final class LabInstallDialog {
         return t;
     }
 
-    /** 选项卡：独立一张，有间距 */
+    /** 选项卡：独立一张，有边框 */
     private static TextView optionTv(Activity a, String text) {
         TextView o = new TextView(a);
         o.setText(text);
@@ -89,17 +97,22 @@ public final class LabInstallDialog {
         return o;
     }
 
-    private static TextView yellowBtn(Activity a, String text) {
+    /**
+     * 主按钮：常态=透明底+风格色边框；按下=风格色填充（霓虹为渐变）。
+     * 文字色跟随边框强调色，霓虹下按下时文字也变渐变。
+     */
+    private static TextView accentBtn(Activity a, String text) {
         TextView b = new TextView(a);
         b.setText(text);
         b.setTextSize(19);
         b.getPaint().setFakeBoldText(true);
         b.setGravity(Gravity.CENTER);
-        b.setTextColor(LabSkin.dlgOnAccent(a));
-        b.setBackground(LabSkin.dlgBtnAccent(a));
+        b.setTextColor(LabSkin.dlgButtonText(a));
+        b.setBackground(LabSkin.dlgButton(a));
         b.setPadding(0, dp(a, 15), 0, dp(a, 15));
         b.setClickable(true);
         b.setFocusable(true);
+        LabSkin.applyDlgPressEffect(b);
         return b;
     }
 
@@ -201,7 +214,7 @@ public final class LabInstallDialog {
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         rlp.topMargin = dp(a, 24);
         row.setLayoutParams(rlp);
-        TextView ok = yellowBtn(a, okText);
+        TextView ok = accentBtn(a, okText);
         ok.setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1));
         ok.setOnClickListener(v -> {
             d.dismiss();
@@ -355,7 +368,7 @@ public final class LabInstallDialog {
                         ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                 rlp.topMargin = dp(a, 24);
                 row.setLayoutParams(rlp);
-                TextView again = yellowBtn(a, "再试一次");
+                TextView again = accentBtn(a, "再试一次");
                 again.setLayoutParams(new LinearLayout.LayoutParams(
                         0, ViewGroup.LayoutParams.WRAP_CONTENT, 1));
                 again.setOnClickListener(v -> {
@@ -499,7 +512,7 @@ public final class LabInstallDialog {
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         rlp.topMargin = dp(a, 22);
         row.setLayoutParams(rlp);
-        TextView ok = yellowBtn(a, okText == null ? "保存" : okText);
+        TextView ok = accentBtn(a, okText == null ? "保存" : okText);
         ok.setLayoutParams(new LinearLayout.LayoutParams(
                 0, ViewGroup.LayoutParams.WRAP_CONTENT, 1));
         ok.setOnClickListener(v -> {

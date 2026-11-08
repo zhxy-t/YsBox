@@ -2,8 +2,11 @@ package com.fongmi.android.tv.ui.dialog;
 
 import android.app.Activity;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.LayerDrawable;
 import android.view.Gravity;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -31,6 +34,13 @@ public final class DialogStylePickerDialog {
     private static final int[] SECONDARY = {0xFFA8B0C0, 0xFF5F6368, 0xFF888888, 0xFF8E8E93, 0xFFAAAAFF};
     private static final int[] ACCENT = {0xFFD9A420, 0xFF6750A4, 0xFF4A9EFF, 0xFF007AFF, 0xFFFF006E};
     private static final int[] RADIUS = {16, 20, 20, 24, 20};
+    // 卡片/弹窗边框色：比 surface 明显一点，保证「有边框」肉眼可见
+    private static final int[] BORDER = {0xFFD9A420, 0xFFC9CFDA, 0xFF2F5A8A, 0xFFC7C7CC, 0xFFFFFFFF};
+
+    /** 霓虹三色（与 bg_dialog_neon.xml 完全一致） */
+    private static final int[] NEON = {0xFF00D4FF, 0xFF7B61FF, 0xFFFF006E};
+    private static final int NEON_INDEX = 4;
+    private static final int BTN_RADIUS = 14;
 
     public interface Listener {
         void onPick(int style);
@@ -61,11 +71,9 @@ public final class DialogStylePickerDialog {
             // 弹窗本体预览
             LinearLayout card = new LinearLayout(activity);
             card.setOrientation(LinearLayout.VERTICAL);
-            GradientDrawable bg = new GradientDrawable();
-            bg.setColor(SURFACE[i]);
-            bg.setCornerRadius(dp(activity, RADIUS[i]));
-            bg.setStroke(dp(activity, 1), blend(SURFACE[i], PRIMARY[i], 0.25f));
-            card.setBackground(bg);
+            float density = activity.getResources().getDisplayMetrics().density;
+            boolean neon = i == NEON_INDEX;
+            card.setBackground(cardBackground(density, i, neon));
             int cpad = dp(activity, 12);
             card.setPadding(cpad, cpad, cpad, cpad);
 
@@ -88,19 +96,19 @@ public final class DialogStylePickerDialog {
             buttons.setGravity(Gravity.END);
             TextView neg = new TextView(activity);
             neg.setText("取消");
-            neg.setTextColor(ACCENT[i]);
+            neg.setTextColor(neon ? Color.WHITE : ACCENT[i]);
             neg.setTextSize(12);
             neg.setPadding(dp(activity, 14), dp(activity, 5), dp(activity, 14), dp(activity, 5));
+            neg.setBackground(buttonNormal(density, i, neon, false));
+            attachPressEffect(neg, density, i, neon, false);
             buttons.addView(neg);
             TextView pos = new TextView(activity);
             pos.setText("确定");
-            pos.setTextColor(Color.WHITE);
+            pos.setTextColor(neon ? Color.WHITE : ACCENT[i]);
             pos.setTextSize(12);
             pos.setPadding(dp(activity, 14), dp(activity, 5), dp(activity, 14), dp(activity, 5));
-            GradientDrawable pb = new GradientDrawable();
-            pb.setColor(ACCENT[i]);
-            pb.setCornerRadius(dp(activity, 14));
-            pos.setBackground(pb);
+            pos.setBackground(buttonNormal(density, i, neon, true));
+            attachPressEffect(pos, density, i, neon, true);
             // pos 尚未 addView，getLayoutParams() 为 null，必须显式赋值后再加入父容器
             LinearLayout.LayoutParams plp = new LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -111,12 +119,9 @@ public final class DialogStylePickerDialog {
             cell.addView(card, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
 
             // 选中态：描边 + 勾选
-            GradientDrawable ring = new GradientDrawable();
-            ring.setColor(Color.TRANSPARENT);
-            ring.setCornerRadius(dp(activity, RADIUS[i]));
-            ring.setStroke(dp(activity, 3), ACCENT[i]);
+            // 选中态外框：霓虹为渐变描边
             View border = new View(activity);
-            border.setBackground(ring);
+            border.setBackground(ringBackground(density, i, neon));
             border.setVisibility(current == style ? View.VISIBLE : View.GONE);
             cell.addView(border, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
 
@@ -156,6 +161,92 @@ public final class DialogStylePickerDialog {
                 .show();
     }
 
+    /** 卡片背景：霓虹=渐变边框，其余=风格色边框 */
+    private static Drawable cardBackground(float density, int i, boolean neon) {
+        GradientDrawable inner = new GradientDrawable();
+        inner.setColor(SURFACE[i]);
+        inner.setCornerRadius(dp(density, RADIUS[i]));
+        if (neon) return gradientBorder(density, inner, RADIUS[i], Math.max(1, dp(density, 2)));
+        inner.setStroke(Math.max(1, dp(density, 1)), BORDER[i]);
+        return inner;
+    }
+
+    /** 按钮常态：透明底 + 边框（霓虹主钮为渐变边框） */
+    private static Drawable buttonNormal(float density, int i, boolean neon, boolean primary) {
+        GradientDrawable inner = new GradientDrawable();
+        inner.setColor(0x00000000);
+        inner.setCornerRadius(dp(density, BTN_RADIUS));
+        if (neon && primary) return gradientBorder(density, inner, BTN_RADIUS, Math.max(1, dp(density, 2)));
+        int strokeColor = primary ? ACCENT[i] : blend(ACCENT[i], SURFACE[i], 0.30f);
+        inner.setStroke(Math.max(1, dp(density, 1)), strokeColor);
+        return inner;
+    }
+
+    /** 按钮按下：强调色填充（霓虹为三色渐变填充） */
+    private static Drawable buttonPressed(float density, int i, boolean neon) {
+        GradientDrawable d = new GradientDrawable(
+                neon ? GradientDrawable.Orientation.TL_BR : GradientDrawable.Orientation.LEFT_RIGHT,
+                neon ? NEON : new int[]{ACCENT[i], ACCENT[i]});
+        d.setCornerRadius(dp(density, BTN_RADIUS));
+        return d;
+    }
+
+    /** 选中外框：霓虹=渐变描边，其余=强调色描边 */
+    private static Drawable ringBackground(float density, int i, boolean neon) {
+        GradientDrawable inner = new GradientDrawable();
+        inner.setCornerRadius(dp(density, RADIUS[i]));
+        if (neon) {
+            // 渐变环：内层必须用卡片自身的面色填充，才能“挖”出中间区域，
+            // 否则整块都会被渐变铺满、挡住卡片内容。
+            inner.setColor(SURFACE[i]);
+            return gradientBorder(density, inner, RADIUS[i], Math.max(1, dp(density, 3)));
+        }
+        inner.setColor(Color.TRANSPARENT);
+        inner.setStroke(Math.max(1, dp(density, 3)), ACCENT[i]);
+        return inner;
+    }
+
+    /** 按下时边框与文字一起变化；霓虹主钮的文字也变渐变 */
+    private static void attachPressEffect(TextView btn, float density, int i, boolean neon, boolean primary) {
+        final boolean hasBorder = !neon || primary;
+        final int normalColor = neon ? Color.WHITE : ACCENT[i];
+        final int pressedColor = onAccent(ACCENT[i]);
+        btn.setOnTouchListener((v, event) -> {
+            switch (event.getActionMasked()) {
+                case MotionEvent.ACTION_DOWN:
+                    if (hasBorder) v.setBackground(buttonPressed(density, i, neon));
+                    if (neon && primary) NeonButtonStyler.applyGradient((TextView) v, true);
+                    else ((TextView) v).setTextColor(pressedColor);
+                    break;
+                case MotionEvent.ACTION_UP:
+                case MotionEvent.ACTION_CANCEL:
+                    if (hasBorder) v.setBackground(buttonNormal(density, i, neon, primary));
+                    if (neon && primary) NeonButtonStyler.applyGradient((TextView) v, false);
+                    ((TextView) v).setTextColor(normalColor);
+                    break;
+                default:
+                    break;
+            }
+            return false;
+        });
+    }
+
+    /** 渐变边框 = 外层三色渐变 + 内层镂空缩进 stroke */
+    private static Drawable gradientBorder(float density, GradientDrawable inner, int radiusDp, int strokePx) {
+        GradientDrawable outer = new GradientDrawable(GradientDrawable.Orientation.TL_BR, NEON);
+        outer.setCornerRadius(dp(density, radiusDp));
+        inner.setCornerRadius(dp(density, radiusDp));
+        LayerDrawable layer = new LayerDrawable(new Drawable[]{outer, inner});
+        int s = Math.max(1, strokePx);
+        layer.setLayerInset(1, s, s, s, s);
+        return layer;
+    }
+
+    private static int onAccent(int accent) {
+        double lum = 0.299 * Color.red(accent) + 0.587 * Color.green(accent) + 0.114 * Color.blue(accent);
+        return lum > 160 ? 0xFF171310 : Color.WHITE;
+    }
+
     private static int clamp(int v) {
         return v < 0 || v >= NAMES.length ? 3 : v;
     }
@@ -163,11 +254,16 @@ public final class DialogStylePickerDialog {
     private static int blend(int a, int b, float f) {
         int ar = Color.red(a), ag = Color.green(a), ab = Color.blue(a);
         int br = Color.red(b), bg = Color.green(b), bb = Color.blue(b);
-        return Color.argb(0x33, (int) (ar + (br - ar) * f), (int) (ag + (bg - ag) * f), (int) (ab + (bb - ab) * f));
+        return Color.argb(0xFF, (int) (ar + (br - ar) * f), (int) (ag + (bg - ag) * f), (int) (ab + (bb - ab) * f));
     }
 
+    private static int dp(float density, int v) {
+        return Math.round(v * density);
+    }
+
+    /** 兼容旧调用点：直接传 Activity */
     private static int dp(Activity a, int v) {
-        return (int) (v * a.getResources().getDisplayMetrics().density);
+        return Math.round(v * a.getResources().getDisplayMetrics().density);
     }
 
     public static String nameOf(int style) {
