@@ -193,7 +193,7 @@ public class VodFragment extends BaseFragment implements ConfigListener, SiteLis
             Config config = configs.get(i);
             names[i] = TextUtils.isEmpty(config.getName()) ? config.getUrl() : config.getName();
         }
-        DialogThemeHelper.builder(requireActivity()).setTitle(R.string.switch_line).setNegativeButton(R.string.dialog_negative, null).setSingleChoiceItems(names, current, (dialog, which) -> {
+        DialogThemeHelper.builder(requireActivity()).setTitle(R.string.switch_line).setSingleChoiceItems(names, current, (dialog, which) -> {
             dialog.dismiss();
             if (which == current) return;
             setConfig(configs.get(which));
