@@ -2524,7 +2524,15 @@ public final class MpvPlayer extends SimpleBasePlayer implements MPVLib.EventObs
     public boolean addSubtitle(Uri uri) {
         if (!initialized || uri == null) return false;
         try {
-            mpvCommand(new String[]{"sub-add", playableUri(uri), "auto"});
+            // A manually added subtitle must be activated with "select"; "auto"
+            // only selects it while sid is still auto, so the track would show
+            // up but never become the active one.
+            int result = mpvCommand(new String[]{"sub-add", playableUri(uri), "select"});
+            if (result < 0) return false;
+            // mpvCommand reports failures by return value, not by throwing.
+            // Refresh Media3 Tracks so the selection UI maps to the new sid.
+            refreshTracks();
+            invalidateState();
             return true;
         } catch (Throwable ignored) {
             return false;
@@ -3019,12 +3027,21 @@ public final class MpvPlayer extends SimpleBasePlayer implements MPVLib.EventObs
 
     private void addSubtitleConfigurations() {
         if (mediaItem == null || mediaItem.localConfiguration == null || mediaItem.localConfiguration.subtitleConfigurations.isEmpty()) return;
+        boolean added = false;
         for (MediaItem.SubtitleConfiguration sub : mediaItem.localConfiguration.subtitleConfigurations) {
             Uri uri = sub.uri;
             try {
-                mpvCommand(new String[]{"sub-add", playableUri(uri), "auto"});
+                // "select" activates the track immediately; "auto" leaves it
+                // unselected whenever sid is already pinned by the user.
+                if (mpvCommand(new String[]{"sub-add", playableUri(uri), "select"}) >= 0) added = true;
             } catch (Throwable ignored) {
             }
+        }
+        // External subs are attached on file-loaded, after the initial track
+        // snapshot. Refresh so Media3 exposes them and selection maps to a sid.
+        if (added) {
+            refreshTracks();
+            invalidateState();
         }
     }
 
