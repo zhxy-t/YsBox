@@ -1035,7 +1035,7 @@ public class HkDetailBridge implements HkArticleFragment.DetailBridge {
                     }
                 });
         recyclerView.setAdapter(adapter);
-        popup.setBackgroundDrawable(androidx.core.content.ContextCompat.getDrawable(activity, R.drawable.bg_round_all));
+        popup.setBackgroundDrawable(androidx.core.content.ContextCompat.getDrawable(activity, com.fongmi.android.tv.ui.dialog.DialogThemeHelper.cardSurfaceRes(activity)));
         popup.setOutsideTouchable(true);
         popup.showAsDropDown(anchor);
     }
@@ -1045,13 +1045,13 @@ public class HkDetailBridge implements HkArticleFragment.DetailBridge {
         Dialog dialog = new Dialog(activity, DialogThemeHelper.getTheme());
         LinearLayout root = new LinearLayout(activity);
         root.setOrientation(LinearLayout.VERTICAL);
-        root.setBackground(androidx.core.content.ContextCompat.getDrawable(activity, R.drawable.bg_round_all));
+        root.setBackground(androidx.core.content.ContextCompat.getDrawable(activity, com.fongmi.android.tv.ui.dialog.DialogThemeHelper.cardSurfaceRes(activity)));
         int pad = (int) (16 * activity.getResources().getDisplayMetrics().density);
         root.setPadding(pad, pad, pad, pad);
         TextView titleView = new TextView(activity);
         titleView.setText(title);
         titleView.setTextSize(16);
-        titleView.setTextColor(0xFF222222);
+        titleView.setTextColor(DialogThemeHelper.primaryText(activity));
         root.addView(titleView);
         RecyclerView recyclerView = new RecyclerView(activity);
         int span = extra.col > 0 ? extra.col : 3;
@@ -1091,13 +1091,13 @@ public class HkDetailBridge implements HkArticleFragment.DetailBridge {
         Dialog dialog = new Dialog(activity, DialogThemeHelper.getTheme());
         LinearLayout root = new LinearLayout(activity);
         root.setOrientation(LinearLayout.VERTICAL);
-        root.setBackground(androidx.core.content.ContextCompat.getDrawable(activity, R.drawable.bg_round_all));
+        root.setBackground(androidx.core.content.ContextCompat.getDrawable(activity, com.fongmi.android.tv.ui.dialog.DialogThemeHelper.cardSurfaceRes(activity)));
         int pad = (int) (16 * activity.getResources().getDisplayMetrics().density);
         root.setPadding(pad, pad, pad, pad);
         TextView titleView = new TextView(activity);
         titleView.setText(title);
         titleView.setTextSize(16);
-        titleView.setTextColor(0xFF222222);
+        titleView.setTextColor(DialogThemeHelper.primaryText(activity));
         root.addView(titleView);
         RecyclerView recyclerView = new RecyclerView(activity);
         recyclerView.setLayoutManager(new GridLayoutManager(activity, 2));
@@ -1114,7 +1114,7 @@ public class HkDetailBridge implements HkArticleFragment.DetailBridge {
                 row.addView(icon, new LinearLayout.LayoutParams(iconSize, iconSize));
                 TextView text = new TextView(activity);
                 text.setTextSize(15);
-                text.setTextColor(0xFF222222);
+                text.setTextColor(DialogThemeHelper.primaryText(activity));
                 LinearLayout.LayoutParams textParams = new LinearLayout.LayoutParams(
                         LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
                 textParams.leftMargin = rowPad;

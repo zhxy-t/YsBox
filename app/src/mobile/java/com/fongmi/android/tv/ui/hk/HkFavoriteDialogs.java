@@ -58,7 +58,7 @@ public class HkFavoriteDialogs {
             item.setTextColor(DialogThemeHelper.primaryText(ctx));
             item.setTextSize(16);
             item.setGravity(Gravity.CENTER);
-            item.setBackgroundResource(R.drawable.dialog_option_card_light);
+            item.setBackgroundResource(DialogThemeHelper.cardSurfaceRes(ctx));
             item.setPadding(dp(ctx, 16), dp(ctx, 14), dp(ctx, 16), dp(ctx, 14));
             LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -104,10 +104,10 @@ public class HkFavoriteDialogs {
         et.setText(initTitle == null ? "" : initTitle);
         et.setSelection(et.getText().length());
         et.setTextColor(DialogThemeHelper.primaryText(ctx));
-        et.setHintTextColor(0xFF8A8F98);
+        et.setHintTextColor(DialogThemeHelper.hintText(ctx));
         et.setTextSize(15);
         et.setHint("请输入标题，不能为空");
-        et.setBackgroundResource(R.drawable.dialog_option_card_light);
+        et.setBackgroundResource(DialogThemeHelper.cardSurfaceRes(ctx));
         et.setPadding(dp(ctx, 16), dp(ctx, 12), dp(ctx, 16), dp(ctx, 12));
         LinearLayout.LayoutParams etLp = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -190,8 +190,8 @@ public class HkFavoriteDialogs {
         for (int i = 0; i < views.size(); i++) {
             TextView chip = views.get(i);
             boolean on = groups.get(i).equals(selected);
-            chip.setTextColor(on ? 0xFF7A5A00 : 0xFF1A1D24);
-            chip.setBackgroundResource(on ? R.drawable.hk_group_tag : R.drawable.dialog_option_card_light);
+            chip.setTextColor(on ? 0xFF7A5A00 : DialogThemeHelper.primaryText(ctx));
+            chip.setBackgroundResource(on ? R.drawable.hk_group_tag : DialogThemeHelper.cardSurfaceRes(ctx));
         }
     }
 }

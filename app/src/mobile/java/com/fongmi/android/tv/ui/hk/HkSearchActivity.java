@@ -29,6 +29,7 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.fongmi.android.tv.R;
+import com.fongmi.android.tv.ui.dialog.DialogThemeHelper;
 import com.fongmi.android.tv.api.hk.HkRule;
 import com.fongmi.android.tv.api.hk.HkRuleManager;
 import com.fongmi.android.tv.api.hk.HkSearchEngine;
@@ -615,7 +616,7 @@ public class HkSearchActivity extends AppCompatActivity implements HkSearchFragm
         public Holder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             TextView tv = (TextView) LayoutInflater.from(parent.getContext())
                     .inflate(android.R.layout.simple_list_item_1, parent, false);
-            tv.setTextColor(0xFF222222);
+            tv.setTextColor(DialogThemeHelper.primaryText(tv.getContext()));
             tv.setTextSize(15);
             return new Holder(tv);
         }

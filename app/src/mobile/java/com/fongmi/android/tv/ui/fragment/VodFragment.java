@@ -202,6 +202,11 @@ public class VodFragment extends BaseFragment implements ConfigListener, SiteLis
             rb.setText(TextUtils.isEmpty(config.getName()) ? config.getUrl() : config.getName());
             rb.setTextColor(textColor);
             rb.setTextSize(14);
+            // 单行显示，超长 URL 用走马灯横向滚动，避免撑成多行
+            rb.setSingleLine(true);
+            rb.setEllipsize(TextUtils.TruncateAt.MARQUEE);
+            rb.setMarqueeRepeatLimit(-1);
+            rb.setSelected(true);
             rb.setId(i + 1);
             rb.setChecked(i == current);
             final int index = i;

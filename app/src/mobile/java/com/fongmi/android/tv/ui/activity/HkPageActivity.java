@@ -1145,7 +1145,7 @@ public class HkPageActivity extends BaseActivity {
             tv.setTypeface(null, sel ? android.graphics.Typeface.BOLD : android.graphics.Typeface.NORMAL);
             tv.setTextSize(16);
             tv.setGravity(Gravity.CENTER);
-            tv.setBackgroundResource(R.drawable.dialog_option_card_light);
+            tv.setBackgroundResource(DialogThemeHelper.cardSurfaceRes(this));
             tv.setPadding(dp(16), dp(14), dp(16), dp(14));
             LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -1273,7 +1273,7 @@ public class HkPageActivity extends BaseActivity {
             tv.setTypeface(null, sel ? android.graphics.Typeface.BOLD : android.graphics.Typeface.NORMAL);
             tv.setTextSize(16);
             tv.setGravity(Gravity.CENTER);
-            tv.setBackgroundResource(R.drawable.dialog_option_card_light);
+            tv.setBackgroundResource(DialogThemeHelper.cardSurfaceRes(this));
             tv.setPadding(dp(16), dp(14), dp(16), dp(14));
             LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -1345,7 +1345,7 @@ public class HkPageActivity extends BaseActivity {
             tv.setTypeface(null, sel ? android.graphics.Typeface.BOLD : android.graphics.Typeface.NORMAL);
             tv.setTextSize(16);
             tv.setGravity(Gravity.CENTER);
-            tv.setBackgroundResource(R.drawable.dialog_option_card_light);
+            tv.setBackgroundResource(DialogThemeHelper.cardSurfaceRes(this));
             tv.setPadding(dp(16), dp(14), dp(16), dp(14));
             LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -1420,7 +1420,7 @@ public class HkPageActivity extends BaseActivity {
         addBtn.setTypeface(null, android.graphics.Typeface.BOLD);
         addBtn.setTextSize(15);
         addBtn.setGravity(Gravity.CENTER);
-        addBtn.setBackgroundResource(R.drawable.dialog_option_card_light);
+        addBtn.setBackgroundResource(DialogThemeHelper.cardSurfaceRes(this));
         addBtn.setPadding(dp(16), dp(13), dp(16), dp(13));
         LinearLayout.LayoutParams addLp = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -1618,7 +1618,7 @@ public class HkPageActivity extends BaseActivity {
             tv.setText(labels[i]);
             tv.setTextColor(DialogThemeHelper.primaryText(this));
             tv.setTextSize(16);
-            tv.setBackgroundResource(R.drawable.dialog_option_card_light);
+            tv.setBackgroundResource(DialogThemeHelper.cardSurfaceRes(this));
             tv.setPadding(dp(16), dp(14), dp(16), dp(14));
             final int which = i;
             tv.setOnClickListener(v -> {
@@ -1658,20 +1658,20 @@ public class HkPageActivity extends BaseActivity {
         et.setMinLines(2);
         et.setMaxLines(5);
         et.setGravity(android.view.Gravity.TOP | android.view.Gravity.START);
-        et.setTextColor(0xFF101216);
-        et.setHintTextColor(0xFF3A3F45);
+        et.setTextColor(DialogThemeHelper.primaryText(this));
+        et.setHintTextColor(DialogThemeHelper.hintText(this));
         if (!TextUtils.isEmpty(preset)) et.setText(preset);
         box.addView(et);
         EditText etPwd = new EditText(this);
         etPwd.setHint("密码（分享人设了密码才填，没有可不填）");
         etPwd.setSingleLine(true);
-        etPwd.setTextColor(0xFF101216);
-        etPwd.setHintTextColor(0xFF3A3F45);
+        etPwd.setTextColor(DialogThemeHelper.primaryText(this));
+        etPwd.setHintTextColor(DialogThemeHelper.hintText(this));
         etPwd.setInputType(android.text.InputType.TYPE_CLASS_TEXT | android.text.InputType.TYPE_TEXT_VARIATION_PASSWORD);
         box.addView(etPwd);
         CheckBox cb = new CheckBox(this);
         cb.setText("导入失败时，再问我一次密码");
-        cb.setTextColor(0xFF101216);
+        cb.setTextColor(DialogThemeHelper.primaryText(this));
         cb.setChecked(importPwdPromptEnabled());
         cb.setOnCheckedChangeListener((v, checked) -> setImportPwdPromptEnabled(checked));
         box.addView(cb);
@@ -1740,8 +1740,8 @@ public class HkPageActivity extends BaseActivity {
         EditText et = new EditText(this);
         et.setHint("输入分享人给的密码");
         et.setSingleLine(true);
-        et.setTextColor(0xFF101216);
-        et.setHintTextColor(0xFF3A3F45);
+        et.setTextColor(DialogThemeHelper.primaryText(this));
+        et.setHintTextColor(DialogThemeHelper.hintText(this));
         et.setInputType(android.text.InputType.TYPE_CLASS_TEXT | android.text.InputType.TYPE_TEXT_VARIATION_PASSWORD);
         // 跟随用户设置的弹窗风格
         new com.fongmi.android.tv.ui.hk.HkDialogs(this)
@@ -1818,7 +1818,7 @@ public class HkPageActivity extends BaseActivity {
         et.setHint("粘贴 rule.json / 规则数组 / js: 规则内容");
         et.setMinLines(4);
         et.setTextColor(DialogThemeHelper.primaryText(this));
-        et.setHintTextColor(0xFF9AA1B0);
+        et.setHintTextColor(DialogThemeHelper.hintText(this));
         new HkDialogs(this)
                 .setTitle("从口令导入")
                 .setView(et)
@@ -2499,7 +2499,7 @@ public class HkPageActivity extends BaseActivity {
             tv.setTextColor(DialogThemeHelper.primaryText(this));
             tv.setTextSize(15);
             tv.setGravity(Gravity.CENTER);
-            tv.setBackgroundResource(R.drawable.dialog_option_card_light);
+            tv.setBackgroundResource(DialogThemeHelper.cardSurfaceRes(this));
             tv.setPadding(dp(16), dp(14), dp(16), dp(14));
             LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -2880,7 +2880,7 @@ public class HkPageActivity extends BaseActivity {
             tv.setTextColor(DialogThemeHelper.primaryText(this));
             tv.setTextSize(16);
             tv.setGravity(Gravity.CENTER);
-            tv.setBackgroundResource(R.drawable.dialog_option_card_light);
+            tv.setBackgroundResource(DialogThemeHelper.cardSurfaceRes(this));
             tv.setPadding(dp(16), dp(14), dp(16), dp(14));
             LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -2911,7 +2911,7 @@ public class HkPageActivity extends BaseActivity {
             tv.setTextColor(DialogThemeHelper.primaryText(this));
             tv.setTextSize(16);
             tv.setGravity(Gravity.CENTER);
-            tv.setBackgroundResource(R.drawable.dialog_option_card_light);
+            tv.setBackgroundResource(DialogThemeHelper.cardSurfaceRes(this));
             tv.setPadding(dp(16), dp(14), dp(16), dp(14));
             LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -2951,7 +2951,7 @@ public class HkPageActivity extends BaseActivity {
             tv.setTextColor(DialogThemeHelper.primaryText(this));
             tv.setTextSize(16);
             tv.setGravity(Gravity.CENTER);
-            tv.setBackgroundResource(R.drawable.dialog_option_card_light);
+            tv.setBackgroundResource(DialogThemeHelper.cardSurfaceRes(this));
             tv.setPadding(dp(16), dp(14), dp(16), dp(14));
             LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -3118,7 +3118,7 @@ public class HkPageActivity extends BaseActivity {
         android.view.Window w = dialog.getWindow();
         if (w != null) {
             w.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-            w.setBackgroundDrawableResource(R.drawable.dialog_glass_dark);
+            w.setBackgroundDrawableResource(DialogThemeHelper.surfaceRes(this));
             w.getDecorView().setPadding(0, 0, 0, 0);
             w.setSoftInputMode(android.view.WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
         }
@@ -3135,7 +3135,7 @@ public class HkPageActivity extends BaseActivity {
                 LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
         LinearLayout card = new LinearLayout(this);
         card.setOrientation(LinearLayout.VERTICAL);
-        card.setBackgroundResource(R.drawable.dialog_option_card_light);
+        card.setBackgroundResource(DialogThemeHelper.cardSurfaceRes(this));
         card.setPadding(dp(14), dp(4), dp(14), dp(14));
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -3169,7 +3169,7 @@ public class HkPageActivity extends BaseActivity {
         et.setTextSize(14);
         et.setTextColor(DialogThemeHelper.primaryText(this));
         et.setHint(hint);
-        et.setHintTextColor(0xFFB0B6BE);
+        et.setHintTextColor(DialogThemeHelper.hintText(this));
         et.setInputType(inputType);
         if (multiLine) {
             et.setSingleLine(false);
@@ -3223,7 +3223,7 @@ public class HkPageActivity extends BaseActivity {
                 tv.setTypeface(null, sel ? android.graphics.Typeface.BOLD : android.graphics.Typeface.NORMAL);
                 tv.setTextSize(15);
                 tv.setGravity(Gravity.CENTER);
-                tv.setBackgroundResource(R.drawable.dialog_option_card_light);
+                tv.setBackgroundResource(DialogThemeHelper.cardSurfaceRes(this));
                 tv.setPadding(dp(16), dp(12), dp(16), dp(12));
                 LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
                         LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -3572,7 +3572,7 @@ public class HkPageActivity extends BaseActivity {
             Context ctx = parent.getContext();
             float d = ctx.getResources().getDisplayMetrics().density;
             TextView tv = new TextView(ctx);
-            tv.setBackgroundResource(R.drawable.dialog_option_card_light);
+            tv.setBackgroundResource(DialogThemeHelper.cardSurfaceRes(this));
             tv.setGravity(Gravity.CENTER);
             tv.setMaxLines(1);
             tv.setEllipsize(TextUtils.TruncateAt.END);
@@ -6513,7 +6513,7 @@ public class HkPageActivity extends BaseActivity {
             String ct = colTypeOf(item);
             if ("text_center_1".equals(ct)) {
                 h.title.setGravity(Gravity.CENTER);
-                h.title.setTextColor(0xFF101216);
+                h.title.setTextColor(DialogThemeHelper.primaryText(h.title.getContext()));
                 h.title.setTextSize(13);
                 h.title.setMaxLines(4);
                 h.title.setText(titleSpan(item.getTitle()));

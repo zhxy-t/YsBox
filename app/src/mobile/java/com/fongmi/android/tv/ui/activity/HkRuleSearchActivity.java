@@ -353,7 +353,7 @@ public class HkRuleSearchActivity extends BaseActivity {
             TextView tv = new TextView(parent.getContext());
             tv.setTextColor(DialogThemeHelper.primaryText(parent.getContext()));
             tv.setTextSize(13);
-            tv.setBackgroundResource(R.drawable.dialog_option_card_light);
+            tv.setBackgroundResource(DialogThemeHelper.cardSurfaceRes(parent.getContext()));
             int p = (int) (12 * parent.getContext().getResources().getDisplayMetrics().density);
             tv.setPadding(p, p / 2, p, p / 2);
             RecyclerView.LayoutParams lp = new RecyclerView.LayoutParams(

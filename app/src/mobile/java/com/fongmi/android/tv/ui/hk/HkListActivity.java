@@ -1610,7 +1610,7 @@ public class HkListActivity extends AppCompatActivity
         }
         EditText edit = new EditText(this);
         edit.setText(content);
-        edit.setTextColor(0xFF222222);
+        edit.setTextColor(DialogThemeHelper.primaryText(this));
         edit.setTextSize(13f);
         edit.setTypeface(android.graphics.Typeface.MONOSPACE);
         edit.setGravity(android.view.Gravity.TOP | android.view.Gravity.START);
@@ -1639,7 +1639,7 @@ public class HkListActivity extends AppCompatActivity
         TextView text = new TextView(this);
         text.setText(code == null ? "" : code);
         text.setTextSize(13f);
-        text.setTextColor(0xFF222222);
+        text.setTextColor(DialogThemeHelper.primaryText(text.getContext()));
         text.setTypeface(android.graphics.Typeface.MONOSPACE);
         int pad = (int) (16 * getResources().getDisplayMetrics().density + 0.5f);
         text.setPadding(pad, pad, pad, pad);
@@ -1657,7 +1657,7 @@ public class HkListActivity extends AppCompatActivity
     public void openHighlightEditor(String text, Consumer<String> callback) {
         EditText edit = new EditText(this);
         edit.setText(text == null ? "" : text);
-        edit.setTextColor(0xFF222222);
+        edit.setTextColor(DialogThemeHelper.primaryText(this));
         edit.setTextSize(14f);
         int pad = (int) (16 * getResources().getDisplayMetrics().density + 0.5f);
         edit.setPadding(pad, pad, pad, pad);
@@ -2056,7 +2056,8 @@ public class HkListActivity extends AppCompatActivity
             android.content.Context ctx = parent.getContext();
             float d = ctx.getResources().getDisplayMetrics().density;
             TextView tv = new TextView(ctx);
-            tv.setBackgroundResource(R.drawable.dialog_option_card_light);
+            tv.setBackgroundResource(DialogThemeHelper.cardSurfaceRes(ctx));
+            tv.setTextColor(DialogThemeHelper.primaryText(ctx));
             tv.setGravity(Gravity.CENTER);
             tv.setMaxLines(1);
             tv.setEllipsize(android.text.TextUtils.TruncateAt.END);
