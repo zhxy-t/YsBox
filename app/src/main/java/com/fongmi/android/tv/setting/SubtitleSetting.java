@@ -297,19 +297,26 @@ public class SubtitleSetting {
         return getPosition() != DEFAULT_POSITION;
     }
 
+    /** EXO 侧使用：用户是否挑过任意非默认颜色（MPV 的 OSD 不用这个）。 */
+    private static boolean hasCustomColorValue() {
+        return getTextBaseColor() != DEFAULT_TEXT_COLOR
+                || getEdgeBaseColor() != DEFAULT_EDGE_COLOR
+                || getBackgroundBaseColor() != DEFAULT_BACKGROUND_COLOR;
+    }
+
     public static CaptionStyleCompat getStyle(Context context) {
         CaptioningManager manager = (CaptioningManager) context.getSystemService(Context.CAPTIONING_SERVICE);
         if (isSystemStyle()) return manager == null ? CaptionStyleCompat.DEFAULT : CaptionStyleCompat.createFromCaptionStyle(manager.getUserStyle());
         // 默认的「原始」样式过去固定返回 DEFAULT，导致用户在面板里挑的颜色永远不生效。
         // 只要挑过任意非默认颜色就构造自定义样式；系统样式仍优先。
-        if (isCustomStyle() || hasCustomColor()) return new CaptionStyleCompat(getTextColor(), getBackgroundColor(), Color.TRANSPARENT, getEdgeType(), getEdgeColor(), null);
+        if (isCustomStyle() || hasCustomColorValue()) return new CaptionStyleCompat(getTextColor(), getBackgroundColor(), Color.TRANSPARENT, getEdgeType(), getEdgeColor(), null);
         return CaptionStyleCompat.DEFAULT;
     }
     public static void applyStyle(Context context, @Nullable SubtitleView subtitleView) {
         if (subtitleView == null) return;
         subtitleView.reset();
         subtitleView.setStyle(getStyle(context));
-        boolean forced = isStyleForced() || hasCustomColor() || isScaleForced();
+        boolean forced = isStyleForced() || hasCustomColorValue() || isScaleForced();
         // 用户显式调过颜色/大小后关闭内嵌样式，避免 ASS/SSA 自带颜色与字号把设置覆盖掉。
         subtitleView.setApplyEmbeddedStyles(!forced);
         subtitleView.setApplyEmbeddedFontSizes(!isScaleApplied());
@@ -349,10 +356,7 @@ public class SubtitleSetting {
     }
 
     public static boolean hasCustomColor() {
-        return isCustomStyle()
-                || getTextBaseColor() != DEFAULT_TEXT_COLOR
-                || getEdgeBaseColor() != DEFAULT_EDGE_COLOR
-                || getBackgroundBaseColor() != DEFAULT_BACKGROUND_COLOR;
+        return isCustomStyle();
     }
 
     public static int getColor() {
