@@ -157,7 +157,7 @@ public final class DialogStylePickerDialog {
         ref[0] = DialogThemeHelper.builder(activity)
                 .setTitle("弹窗风格")
                 .setView(scroll)
-                .setNegativeButton(R.string.dialog_negative, null)
+                
                 .show();
     }
 

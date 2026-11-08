@@ -325,7 +325,7 @@ public class SettingFragment extends BaseFragment implements ConfigListener, Sit
     }
 
     private void setDoh(View view) {
-        DialogThemeHelper.builder(requireActivity()).setTitle(R.string.setting_doh).setNegativeButton(R.string.dialog_negative, null).setSingleChoiceItems(getDohList(), getDohIndex(), (dialog, which) -> {
+        DialogThemeHelper.builder(requireActivity()).setTitle(R.string.setting_doh).setSingleChoiceItems(getDohList(), getDohIndex(), (dialog, which) -> {
             setDoh(VodConfig.get().getDoh().get(which));
             dialog.dismiss();
         }).show();

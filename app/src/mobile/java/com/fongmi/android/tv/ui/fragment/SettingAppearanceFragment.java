@@ -158,7 +158,7 @@ public class SettingAppearanceFragment extends BaseFragment implements ThemeDial
     }
 
     private void setCover(View view) {
-        DialogThemeHelper.builder(requireActivity()).setTitle(R.string.setting_cover).setNegativeButton(R.string.dialog_negative, null).setSingleChoiceItems(sizes, PlayerSetting.getSize(), (dialog, which) -> {
+        DialogThemeHelper.builder(requireActivity()).setTitle(R.string.setting_cover).setSingleChoiceItems(sizes, PlayerSetting.getSize(), (dialog, which) -> {
             mBinding.coverText.setText(sizes[which]);
             PlayerSetting.putSize(which);
             RefreshEvent.size();
@@ -167,7 +167,7 @@ public class SettingAppearanceFragment extends BaseFragment implements ThemeDial
     }
 
     private void setCoverRatio(View view) {
-        DialogThemeHelper.builder(requireActivity()).setTitle(R.string.setting_cover_ratio).setNegativeButton(R.string.dialog_negative, null).setSingleChoiceItems(RATIO_NAMES, PlayerSetting.getCoverRatio(), (dialog, which) -> {
+        DialogThemeHelper.builder(requireActivity()).setTitle(R.string.setting_cover_ratio).setSingleChoiceItems(RATIO_NAMES, PlayerSetting.getCoverRatio(), (dialog, which) -> {
             PlayerSetting.putCoverRatio(which);
             mBinding.coverRatioText.setText(RATIO_NAMES[which]);
             RefreshEvent.size();
@@ -176,7 +176,7 @@ public class SettingAppearanceFragment extends BaseFragment implements ThemeDial
     }
 
     private void setCoverRadius(View view) {
-        DialogThemeHelper.builder(requireActivity()).setTitle(R.string.setting_cover_radius).setNegativeButton(R.string.dialog_negative, null).setSingleChoiceItems(RADIUS_NAMES, PlayerSetting.getCoverRadius(), (dialog, which) -> {
+        DialogThemeHelper.builder(requireActivity()).setTitle(R.string.setting_cover_radius).setSingleChoiceItems(RADIUS_NAMES, PlayerSetting.getCoverRadius(), (dialog, which) -> {
             PlayerSetting.putCoverRadius(which);
             mBinding.coverRadiusText.setText(RADIUS_NAMES[which]);
             RefreshEvent.size();
@@ -186,7 +186,7 @@ public class SettingAppearanceFragment extends BaseFragment implements ThemeDial
 
     private void setLanguage(View view) {
         int checked = indexOf(LANGUAGES, Setting.getLanguage());
-        DialogThemeHelper.builder(requireActivity()).setTitle(R.string.setting_language).setNegativeButton(R.string.dialog_negative, null).setSingleChoiceItems(LANGUAGE_NAMES, checked, (dialog, which) -> {
+        DialogThemeHelper.builder(requireActivity()).setTitle(R.string.setting_language).setSingleChoiceItems(LANGUAGE_NAMES, checked, (dialog, which) -> {
             Setting.putLanguage(LANGUAGES[which]);
             dialog.dismiss();
             requireActivity().recreate();

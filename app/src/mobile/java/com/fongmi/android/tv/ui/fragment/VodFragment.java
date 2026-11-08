@@ -222,10 +222,29 @@ public class VodFragment extends BaseFragment implements ConfigListener, SiteLis
         if (count == 0) return;
         String[] names = new String[count];
         for (int i = 0; i < count; i++) names[i] = mAdapter.get(i).getTypeName();
-        DialogThemeHelper.builder(requireActivity()).setTitle(R.string.type_all).setNegativeButton(R.string.dialog_negative, null).setSingleChoiceItems(names, mBinding.pager.getCurrentItem(), (dialog, which) -> {
+        final int[] selected = {mBinding.pager.getCurrentItem()};
+        android.widget.GridView grid = new android.widget.GridView(DialogThemeHelper.wrap(requireActivity()));
+        grid.setNumColumns(2);
+        grid.setVerticalSpacing(0);
+        grid.setPadding(0, ResUtil.dp2px(8), 0, 0);
+        grid.setClipToPadding(false);
+        android.widget.ArrayAdapter<String> adapter = new android.widget.ArrayAdapter<String>(grid.getContext(), R.layout.item_type_all, R.id.text, names) {
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                View item = super.getView(position, convertView, parent);
+                ((android.widget.RadioButton) item.findViewById(R.id.radio)).setChecked(position == selected[0]);
+                return item;
+            }
+        };
+        grid.setAdapter(adapter);
+        androidx.appcompat.app.AlertDialog dialog = DialogThemeHelper.builder(requireActivity()).setTitle(R.string.type_all).setView(grid).create();
+        grid.setOnItemClickListener((parent, item, position, id) -> {
+            selected[0] = position;
+            adapter.notifyDataSetChanged();
             dialog.dismiss();
-            onItemClick(which, mAdapter.get(which));
-        }).show();
+            onItemClick(position, mAdapter.get(position));
+        });
+        dialog.show();
     }
 
     private void updateTypeMoreVisible() {

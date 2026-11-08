@@ -1638,7 +1638,7 @@ public class VideoActivity extends PlaybackActivity implements Clock.Callback, C
     private void onScale() {
         String[] array = ResUtil.getStringArray(R.array.select_scale);
         if (mKeyDown.getScale() != 1.0f) mKeyDown.resetScale();
-        DialogThemeHelper.builder(this).setTitle(R.string.player_scale).setNegativeButton(R.string.dialog_negative, null).setSingleChoiceItems(array, getScale(), (dialog, which) -> {
+        DialogThemeHelper.builder(this).setTitle(R.string.player_scale).setSingleChoiceItems(array, getScale(), (dialog, which) -> {
             setScale(which);
             setR1Callback();
             dialog.dismiss();

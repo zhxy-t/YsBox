@@ -90,7 +90,7 @@ public final class WallPickerDialog {
         ref[0] = DialogThemeHelper.builder(activity)
                 .setTitle(R.string.wall_default)
                 .setView(root)
-                .setNegativeButton(R.string.dialog_negative, null)
+                
                 .show();
     }
 

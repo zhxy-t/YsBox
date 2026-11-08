@@ -81,7 +81,7 @@ public class SettingPersonalActivity extends BaseActivity {
     }
 
     private void setSize(View view) {
-        DialogThemeHelper.builder(this).setTitle(R.string.setting_size).setNegativeButton(R.string.dialog_negative, null).setSingleChoiceItems(size, PlayerSetting.getSize(), (dialog, which) -> {
+        DialogThemeHelper.builder(this).setTitle(R.string.setting_size).setSingleChoiceItems(size, PlayerSetting.getSize(), (dialog, which) -> {
             mBinding.sizeText.setText(size[which]);
             PlayerSetting.putSize(which);
             RefreshEvent.size();

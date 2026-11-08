@@ -63,7 +63,7 @@ public class DownloadActivity extends BaseActivity implements DownloadTaskAdapte
     private void setThreads(View view) {
         String[] values = new String[DownloadSetting.MAX_THREADS];
         for (int i = 0; i < values.length; i++) values[i] = String.valueOf(i + 1);
-        DialogThemeHelper.builder(this).setTitle(R.string.download_threads).setNegativeButton(R.string.dialog_negative, null).setSingleChoiceItems(values, DownloadSetting.getThreads() - 1, (dialog, which) -> {
+        DialogThemeHelper.builder(this).setTitle(R.string.download_threads).setSingleChoiceItems(values, DownloadSetting.getThreads() - 1, (dialog, which) -> {
             DownloadSetting.putThreads(which + 1);
             mBinding.threadsText.setText(String.valueOf(DownloadSetting.getThreads()));
             dialog.dismiss();

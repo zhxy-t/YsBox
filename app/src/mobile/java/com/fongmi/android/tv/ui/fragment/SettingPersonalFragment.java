@@ -80,7 +80,7 @@ public class SettingPersonalFragment extends BaseFragment {
     }
 
     private void setSize(View view) {
-        DialogThemeHelper.builder(requireActivity()).setTitle(R.string.setting_size).setNegativeButton(R.string.dialog_negative, null).setSingleChoiceItems(size, PlayerSetting.getSize(), (dialog, which) -> {
+        DialogThemeHelper.builder(requireActivity()).setTitle(R.string.setting_size).setSingleChoiceItems(size, PlayerSetting.getSize(), (dialog, which) -> {
             mBinding.sizeText.setText(size[which]);
             PlayerSetting.putSize(which);
             RefreshEvent.size();

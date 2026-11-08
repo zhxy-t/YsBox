@@ -101,7 +101,7 @@ public class SettingSubtitleFragment extends BaseFragment {
     private void setSize(View view) {
         String[] items = new String[SCALES.length];
         for (int i = 0; i < SCALES.length; i++) items[i] = formatScale(SCALES[i]);
-        DialogThemeHelper.builder(requireActivity()).setTitle(R.string.subtitle_size).setNegativeButton(R.string.dialog_negative, null).setSingleChoiceItems(items, findNearest(SCALES, SubtitleSetting.getScale()), (dialog, which) -> {
+        DialogThemeHelper.builder(requireActivity()).setTitle(R.string.subtitle_size).setSingleChoiceItems(items, findNearest(SCALES, SubtitleSetting.getScale()), (dialog, which) -> {
             SubtitleSetting.putScale(SCALES[which]);
             mBinding.subtitleSizeText.setText(items[which]);
             dialog.dismiss();
@@ -111,7 +111,7 @@ public class SettingSubtitleFragment extends BaseFragment {
     private void setPosition(View view) {
         String[] items = new String[POSITIONS.length];
         for (int i = 0; i < POSITIONS.length; i++) items[i] = formatPosition(POSITIONS[i]);
-        DialogThemeHelper.builder(requireActivity()).setTitle(R.string.subtitle_position).setNegativeButton(R.string.dialog_negative, null).setSingleChoiceItems(items, findNearest(POSITIONS, SubtitleSetting.getPosition()), (dialog, which) -> {
+        DialogThemeHelper.builder(requireActivity()).setTitle(R.string.subtitle_position).setSingleChoiceItems(items, findNearest(POSITIONS, SubtitleSetting.getPosition()), (dialog, which) -> {
             SubtitleSetting.putPosition(POSITIONS[which]);
             mBinding.subtitlePositionText.setText(items[which]);
             dialog.dismiss();
@@ -160,7 +160,7 @@ public class SettingSubtitleFragment extends BaseFragment {
         for (int i = 0; i < DELAYS.length; i++) items[i] = formatDelay(DELAYS[i]);
         int index = 0;
         for (int i = 0; i < DELAYS.length; i++) if (DELAYS[i] == SubtitleSetting.getDelayMs()) index = i;
-        DialogThemeHelper.builder(requireActivity()).setTitle(R.string.subtitle_delay).setNegativeButton(R.string.dialog_negative, null).setSingleChoiceItems(items, index, (dialog, which) -> {
+        DialogThemeHelper.builder(requireActivity()).setTitle(R.string.subtitle_delay).setSingleChoiceItems(items, index, (dialog, which) -> {
             SubtitleSetting.putDelayMs(DELAYS[which]);
             mBinding.subtitleDelayText.setText(items[which]);
             dialog.dismiss();
@@ -170,7 +170,7 @@ public class SettingSubtitleFragment extends BaseFragment {
     private void setLanguage(View view) {
         int index = 0;
         for (int i = 0; i < LANGUAGE_TAGS.length; i++) if (LANGUAGE_TAGS[i].equals(SubtitleSetting.getPreferredLanguage())) index = i;
-        DialogThemeHelper.builder(requireActivity()).setTitle(R.string.subtitle_preferred_language).setNegativeButton(R.string.dialog_negative, null).setSingleChoiceItems(LANGUAGE_NAMES, index, (dialog, which) -> {
+        DialogThemeHelper.builder(requireActivity()).setTitle(R.string.subtitle_preferred_language).setSingleChoiceItems(LANGUAGE_NAMES, index, (dialog, which) -> {
             SubtitleSetting.putPreferredLanguage(LANGUAGE_TAGS[which]);
             mBinding.subtitleLanguageText.setText(LANGUAGE_NAMES[which]);
             dialog.dismiss();

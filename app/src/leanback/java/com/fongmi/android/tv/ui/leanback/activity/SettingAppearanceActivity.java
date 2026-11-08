@@ -50,7 +50,7 @@ public class SettingAppearanceActivity extends BaseActivity {
 
     private void setLanguage(View view) {
         int checked = indexOf(LANGUAGES, Setting.getLanguage());
-        DialogThemeHelper.builder(this).setTitle(R.string.setting_language).setNegativeButton(R.string.dialog_negative, null).setSingleChoiceItems(LANGUAGE_NAMES, checked, (dialog, which) -> {
+        DialogThemeHelper.builder(this).setTitle(R.string.setting_language).setSingleChoiceItems(LANGUAGE_NAMES, checked, (dialog, which) -> {
             Setting.putLanguage(LANGUAGES[which]);
             dialog.dismiss();
             recreate();
@@ -59,7 +59,7 @@ public class SettingAppearanceActivity extends BaseActivity {
 
     private void setThemeColor(View view) {
         int checked = findIndex(THEME_COLORS, Setting.getThemeColor());
-        DialogThemeHelper.builder(this).setTitle(R.string.setting_theme_color).setNegativeButton(R.string.dialog_negative, null).setSingleChoiceItems(getThemeColorNames(), checked, (dialog, which) -> {
+        DialogThemeHelper.builder(this).setTitle(R.string.setting_theme_color).setSingleChoiceItems(getThemeColorNames(), checked, (dialog, which) -> {
             Setting.putThemeColor(THEME_COLORS[which]);
             mBinding.themeColorText.setText(getThemeColorName(THEME_COLORS[which]));
             dialog.dismiss();
