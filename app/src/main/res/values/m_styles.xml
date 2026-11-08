@@ -102,6 +102,19 @@
         <item name="textColorAlertDialogListItem">?attr/dialogTextPrimary</item>
 </style>
 
+    <!-- 原始：系统默认 Material 观感，但补齐 dialog* 语义属性，避免自绘布局 inflate 时因 ?attr 解析不到而崩溃 -->
+    <style name="Theme.App.DialogOriginal" parent="Theme.App">
+        <item name="dialogSurface">@drawable/bg_dialog_original</item>
+        <item name="dialogTextPrimary">#1C1B1F</item>
+        <item name="dialogTextSecondary">#49454F</item>
+        <item name="dialogTextHint">#79747E</item>
+        <item name="dialogAccent">#6750A4</item>
+        <item name="dialogInputSurface">@drawable/bg_dialog_input_white</item>
+        <item name="dialogDivider">#1F000000</item>
+        <item name="dialogCardSurface">@drawable/dialog_option_card_light</item>
+        <item name="textColorAlertDialogListItem">?attr/dialogTextPrimary</item>
+    </style>
+
     <!-- 毛玻璃：磨砂深蓝 + 淡蓝强调色 -->
     <style name="Theme.App.DialogFrost" parent="Theme.App">
         <item name="alertDialogTheme">@style/ThemeOverlay.FongMi.Dialog.Frost</item>
@@ -595,6 +608,19 @@
     <!-- ========== 弹窗风格 5: 原始（系统默认 Material，无自定义边框） ========== -->
     <style name="ThemeOverlay.FongMi.Dialog.Original" parent="ThemeOverlay.Material3.MaterialAlertDialog">
         <item name="dialogCornerRadius">20dp</item>
+        <item name="dialogSurface">@drawable/bg_dialog_original</item>
+        <item name="dialogTextPrimary">#1C1B1F</item>
+        <item name="dialogTextSecondary">#49454F</item>
+        <item name="dialogTextHint">#79747E</item>
+        <item name="dialogAccent">#6750A4</item>
+        <item name="dialogInputSurface">@drawable/bg_dialog_input_white</item>
+        <item name="dialogDivider">#1F000000</item>
+        <item name="dialogCardSurface">@drawable/dialog_option_card_light</item>
+        <item name="colorOnSurface">#1C1B1F</item>
+        <item name="colorOnSurfaceVariant">#49454F</item>
+        <item name="colorSurface">#FFFBFE</item>
+        <item name="colorSurfaceVariant">#E7E0EC</item>
+        <item name="colorPrimary">#6750A4</item>
     </style>
 
     <!-- ========== 弹窗风格 6: 毛玻璃（磨砂深蓝 + 淡蓝描边） ========== -->

@@ -33,7 +33,7 @@ public final class DialogThemeHelper {
             case 1: return R.style.Theme_App_DialogWhite;
             case 2: return R.style.Theme_App_DialogAmoled;
             case 4: return R.style.Theme_App_DialogNeon;
-            case 5: return R.style.Theme_App;
+            case 5: return R.style.Theme_App_DialogOriginal;
             case 6: return R.style.Theme_App_DialogFrost;
             case 7: return R.style.Theme_App_DialogViolet;
             case 3:

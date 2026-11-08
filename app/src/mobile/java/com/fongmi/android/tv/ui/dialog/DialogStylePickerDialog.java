@@ -29,10 +29,10 @@ public final class DialogStylePickerDialog {
     /** 与 Setting.getDialogStyle() 的 0~7 一一对应 */
     private static final String[] NAMES = {"经典深色", "纯白 Material", "暗色模式", "iOS 风格", "霓虹渐变", "原始", "毛玻璃", "紫夜"};
     // surface, primary, secondary, accent, card(按钮底), radius
-    private static final int[] SURFACE = {0xFF1A1D24, 0xFFFFFFFF, 0xFF0A0A0A, 0xFFF2F2F7, 0xFF101A33, 0xFF1C1B1F, 0xFF1E2633, 0xFF1A1428};
-    private static final int[] PRIMARY = {0xFFF2F4F8, 0xFF101216, 0xFFF0F0F0, 0xFF1C1C1E, 0xFFFFFFFF, 0xFFE6E1E5, 0xFFF2F6FC, 0xFFF4F0FF};
-    private static final int[] SECONDARY = {0xFFA8B0C0, 0xFF5F6368, 0xFF888888, 0xFF8E8E93, 0xFFAAAAFF, 0xFFCAC4D0, 0xFFAEB9C9, 0xFFBDADD9};
-    private static final int[] ACCENT = {0xFFD9A420, 0xFF6750A4, 0xFF4A9EFF, 0xFF007AFF, 0xFFFF006E, 0xFFD0BCFF, 0xFF8AB4F8, 0xFFB79CFF};
+    private static final int[] SURFACE = {0xFF1A1D24, 0xFFFFFFFF, 0xFF0A0A0A, 0xFFF2F2F7, 0xFF101A33, 0xFFFFFBFE, 0xFF1E2633, 0xFF1A1428};
+    private static final int[] PRIMARY = {0xFFF2F4F8, 0xFF101216, 0xFFF0F0F0, 0xFF1C1C1E, 0xFFFFFFFF, 0xFF1C1B1F, 0xFFF2F6FC, 0xFFF4F0FF};
+    private static final int[] SECONDARY = {0xFFA8B0C0, 0xFF5F6368, 0xFF888888, 0xFF8E8E93, 0xFFAAAAFF, 0xFF49454F, 0xFFAEB9C9, 0xFFBDADD9};
+    private static final int[] ACCENT = {0xFFD9A420, 0xFF6750A4, 0xFF4A9EFF, 0xFF007AFF, 0xFFFF006E, 0xFF6750A4, 0xFF8AB4F8, 0xFFB79CFF};
     private static final int[] RADIUS = {20, 20, 20, 20, 20, 20, 20, 20};
     // 卡片/弹窗边框色：比 surface 明显一点，保证「有边框」肉眼可见
     private static final int[] BORDER = {0xFFD9A420, 0xFFC9CFDA, 0xFF2F5A8A, 0xFFC7C7CC, 0xFFFFFFFF, 0x00000000, 0xFF8AB4F8, 0xFFB79CFF};
