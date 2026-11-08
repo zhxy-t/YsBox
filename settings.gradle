@@ -1,12 +1,14 @@
 pluginManagement {
     repositories {
-        // 官方仓库优先：阿里云镜像近期频繁 502，只作兜底
+        // 阿里云镜像优先：GitHub Actions 上 Maven Central 常被 403 限流，
+        // 阿里云 central/public 镜像可在构建机上稳定拉到同一批构件。
+        maven { url = "https://maven.aliyun.com/repository/gradle-plugin" }
+        maven { url = "https://maven.aliyun.com/repository/central" }
+        maven { url = "https://maven.aliyun.com/repository/public" }
+        maven { url = "https://maven.aliyun.com/repository/google" }
         google()
         mavenCentral()
         gradlePluginPortal()
-        maven { url = "https://maven.aliyun.com/repository/gradle-plugin" }
-        maven { url = "https://maven.aliyun.com/repository/google" }
-        maven { url = "https://maven.aliyun.com/repository/public" }
     }
 }
 
@@ -18,12 +20,13 @@ dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
         maven { url = uri("$rootDir/third_party/maven") }
-        // 官方仓库优先：阿里云镜像近期频繁 502，只作兜底
+        // 同上：镜像优先，官方仓库兜底
+        maven { url = "https://maven.aliyun.com/repository/central" }
+        maven { url = "https://maven.aliyun.com/repository/public" }
+        maven { url = "https://maven.aliyun.com/repository/google" }
         google()
         mavenCentral()
         maven { url = "https://jitpack.io" }
-        maven { url = "https://maven.aliyun.com/repository/google" }
-        maven { url = "https://maven.aliyun.com/repository/public" }
         flatDir { dirs "$rootDir/app/libs" }
     }
 }
