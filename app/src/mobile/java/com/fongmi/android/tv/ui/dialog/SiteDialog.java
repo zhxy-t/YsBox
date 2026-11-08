@@ -219,7 +219,8 @@ public class SiteDialog extends BaseAlertDialog implements SiteAdapter.OnClickLi
             View view = binding.groupList.getChildAt(i);
             boolean selected = ((MaterialButton) view).getText().toString().equals(selectedGroup);
             view.setSelected(selected);
-            view.setAlpha(TextUtils.isEmpty(selectedGroup) || selected ? 1.0f : 0.5f);
+            // 选中态已由强调色边框/文字表达，未选中项保持原色，不再降透明度
+            view.setAlpha(1.0f);
         }
     }
 
