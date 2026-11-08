@@ -3029,7 +3029,7 @@ public class HkPageActivity extends BaseActivity {
         bar.setPadding(dp(6), dp(8), dp(6), dp(8));
         TextView btnCancel = new TextView(this);
         btnCancel.setText("取消");
-        btnCancel.setTextColor(0xFF8A8F98);
+        btnCancel.setTextColor(DialogThemeHelper.secondaryText(this));
         btnCancel.setTextSize(16);
         btnCancel.setPadding(dp(14), dp(10), dp(14), dp(10));
         TextView tvTitle = new TextView(this);
@@ -3158,7 +3158,7 @@ public class HkPageActivity extends BaseActivity {
                                   boolean multiLine, int inputType) {
         TextView tv = new TextView(this);
         tv.setText(label);
-        tv.setTextColor(0xFF8A8F98);
+        tv.setTextColor(DialogThemeHelper.secondaryText(this));
         tv.setTextSize(12);
         tv.setPadding(0, dp(10), 0, dp(4));
         parent.addView(tv, new LinearLayout.LayoutParams(
@@ -6834,7 +6834,7 @@ public class HkPageActivity extends BaseActivity {
                 TextView btnExpand = new TextView(ctx);
                 btnExpand.setText(">");
                 btnExpand.setTextSize(16);
-                btnExpand.setTextColor(0xFF666666);
+                btnExpand.setTextColor(DialogThemeHelper.secondaryText(ctx));
                 btnExpand.setGravity(Gravity.CENTER);
                 try {
                     btnExpand.setBackgroundResource(R.drawable.tab_item_default);

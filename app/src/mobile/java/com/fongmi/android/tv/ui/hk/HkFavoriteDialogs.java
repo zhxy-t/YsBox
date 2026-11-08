@@ -45,7 +45,7 @@ public class HkFavoriteDialogs {
         root.setPadding(dp(ctx, 20), dp(ctx, 16), dp(ctx, 20), dp(ctx, 16));
         TextView tv = new TextView(ctx);
         tv.setText(title);
-        tv.setTextColor(0xFFF2F4F8);
+        tv.setTextColor(DialogThemeHelper.primaryText(ctx));
         tv.setTextSize(16);
         tv.setTypeface(null, Typeface.BOLD);
         tv.setGravity(Gravity.CENTER);
@@ -93,7 +93,7 @@ public class HkFavoriteDialogs {
 
         TextView title = new TextView(ctx);
         title.setText(dialogTitle);
-        title.setTextColor(0xFFF2F4F8);
+        title.setTextColor(DialogThemeHelper.primaryText(ctx));
         title.setTextSize(16);
         title.setTypeface(null, Typeface.BOLD);
         title.setGravity(Gravity.CENTER);
@@ -116,7 +116,7 @@ public class HkFavoriteDialogs {
 
         TextView groupLabel = new TextView(ctx);
         groupLabel.setText("分组");
-        groupLabel.setTextColor(0xFFA8B0C0);
+        groupLabel.setTextColor(DialogThemeHelper.secondaryText(ctx));
         groupLabel.setTextSize(13);
         LinearLayout.LayoutParams glLp = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -159,14 +159,14 @@ public class HkFavoriteDialogs {
 
         TextView cancel = new TextView(ctx);
         cancel.setText("取消");
-        cancel.setTextColor(0xFFA8B0C0);
+        cancel.setTextColor(DialogThemeHelper.secondaryText(ctx));
         cancel.setTextSize(15);
         cancel.setPadding(dp(ctx, 16), dp(ctx, 10), dp(ctx, 16), dp(ctx, 10));
         cancel.setOnClickListener(v -> dialog.dismiss());
 
         TextView ok = new TextView(ctx);
         ok.setText("确定");
-        ok.setTextColor(0xFFD9A420);
+        ok.setTextColor(DialogThemeHelper.accent(ctx));
         ok.setTypeface(null, Typeface.BOLD);
         ok.setTextSize(15);
         ok.setPadding(dp(ctx, 16), dp(ctx, 10), dp(ctx, 16), dp(ctx, 10));
