@@ -77,13 +77,15 @@ public class MpvPlayerEngine implements PlayerEngine {
         int cacheSeconds = Math.clamp(PlayerSetting.getBuffer() * 3, 15, 60);
         String ua = Setting.getUa();
         if (ua == null || ua.isBlank()) ua = MediaItemFactory.getDefaultUserAgent();
+        int renderMode = PlayerSetting.getMpvRenderMode();
+        boolean performance = renderMode == PlayerSetting.MPV_RENDER_PERFORMANCE;
+        boolean software = renderMode == PlayerSetting.MPV_RENDER_SOFTWARE;
         MpvPlayerConfig.Builder builder = MpvPlayerConfig.builder(App.get())
                 .configDir(MpvConfigStore.configDir())
                 .userAgent(ua)
-                .hwdec(hardwareDecode)
-                .vo("gpu-next")
+                .hwdec(software ? "no" : hardwareDecode)
+                .vo(performance ? "gpu-next" : "gpu")
                 .gpuContext("android")
-                .gpuApi("opengl")
                 .openglEs(true)
                 .audioSpdif(resolveAudioSpdifCodecs())
                 .multichannelPcm(false)
@@ -93,6 +95,7 @@ public class MpvPlayerEngine implements PlayerEngine {
                 .demuxerMaxBackBytes(0)
                 .cacheSeconds(cacheSeconds)
                 .option(HWDEC_SOFTWARE_FALLBACK, decode == HARD ? "no" : "yes");
+        if (performance) builder.gpuApi("opengl");
         return builder.build();
     }
 

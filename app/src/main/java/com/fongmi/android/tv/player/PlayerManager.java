@@ -333,6 +333,7 @@ public class PlayerManager implements ParseCallback {
     }
 
     public void setEngine(int targetEngine) {
+        com.fongmi.android.tv.player.engine.PlayerEngineFactory.setForceExo(false);
         if (targetEngine == PlayerSetting.ENGINE_MPV && !com.fongmi.android.tv.player.engine.MpvPlayerEngine.isAvailable()) {
             Notify.show(com.fongmi.android.tv.R.string.error_play_mpv_load_failed);
             return;
@@ -767,7 +768,17 @@ public class PlayerManager implements ParseCallback {
             switch (action) {
                 case DECODE -> handleDecodeError(e);
                 case RECOVERED -> notifyDanmakuSourceChanged();
-                case FATAL -> callback.onError(engine.getErrorMessage(e));
+                case FATAL -> {
+                    if (engine.getType() == PlayerEngine.Type.MPV
+                            && !com.fongmi.android.tv.player.engine.PlayerEngineFactory.isForceExo()) {
+                        com.fongmi.android.tv.player.engine.PlayerEngineFactory.setForceExo(true);
+                        retry = 0;
+                        Notify.show("MPV 播放失败，已自动切换到 EXO 播放器");
+                        startCurrent(Math.max(0, getPosition()));
+                    } else {
+                        callback.onError(engine.getErrorMessage(e));
+                    }
+                }
             }
         }
     };

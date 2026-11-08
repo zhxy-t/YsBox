@@ -92,6 +92,15 @@ public class SettingPlayerFragment extends BaseFragment implements UaListener, B
     }
 
     private void setRender(View view) {
+        if (PlayerSetting.isMpv()) {
+            String[] modes = PlayerSetting.getMpvRenderModeNames();
+            DialogThemeHelper.builder(requireActivity()).setTitle(R.string.player_render).setSingleChoiceItems(modes, PlayerSetting.getMpvRenderMode(), (dialog, which) -> {
+                PlayerSetting.putMpvRenderMode(which);
+                setPlaybackModeText();
+                dialog.dismiss();
+            }).show();
+            return;
+        }
         int index = (PlayerSetting.getRender() + 1) % render.length;
         PlayerSetting.putRender(index);
         setPlaybackModeText();
@@ -101,7 +110,9 @@ public class SettingPlayerFragment extends BaseFragment implements UaListener, B
         engine = engineNames();
         render = ResUtil.getStringArray(R.array.select_render);
         mBinding.engineText.setText(engine[Math.min(PlayerSetting.getEngine(), engine.length - 1)]);
-        mBinding.renderText.setText(render[PlayerSetting.getRender()]);
+        mBinding.renderText.setText(PlayerSetting.isMpv()
+                ? PlayerSetting.getMpvRenderModeNames()[PlayerSetting.getMpvRenderMode()]
+                : render[PlayerSetting.getRender()]);
     }
 
     /** 资源数组兜底：老包里 select_engine 可能只有 EXO，这里保证 MPV 一定出现在列表里。 */

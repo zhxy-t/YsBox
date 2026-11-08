@@ -14,6 +14,23 @@ public class PlayerSetting {
     public static final int SYSTEM = ENGINE_SYSTEM;
     public static final int RENDER_SURFACE = 0;
     public static final int RENDER_TEXTURE = 1;
+    /** MPV 视频输出模式：0=gpu 兼容(默认) 1=gpu-next 高性能 2=gpu+软解 兜底 */
+    public static final int MPV_RENDER_COMPAT = 0;
+    public static final int MPV_RENDER_PERFORMANCE = 1;
+    public static final int MPV_RENDER_SOFTWARE = 2;
+    private static final int MPV_RENDER_MAX = MPV_RENDER_SOFTWARE;
+
+    public static int getMpvRenderMode() {
+        return Math.clamp(Prefers.getInt("mpv_render_mode", MPV_RENDER_COMPAT), 0, MPV_RENDER_MAX);
+    }
+
+    public static void putMpvRenderMode(int mode) {
+        Prefers.put("mpv_render_mode", Math.clamp(mode, 0, MPV_RENDER_MAX));
+    }
+
+    public static String[] getMpvRenderModeNames() {
+        return new String[]{"gpu 兼容", "gpu-next 高性能", "gpu 软解"};
+    }
     public static final int MIN_SCALE = 0;
     public static final int MAX_SCALE = 4;
     private static final int MIN_SIZE = 0;
