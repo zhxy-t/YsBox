@@ -18,6 +18,8 @@
     </declare-styleable>
     <!-- ========== 统一弹窗语义色：5 种风格各自赋值，所有弹窗(含自绘裸 Dialog)引用 ========== -->
     <attr name="dialogSurface" format="reference|color" />
+    <!-- 弹窗底色「纯颜色」版本：给 shape 的 <solid> 用（dialogSurface 可能指向 drawable，不能当颜色用） -->
+    <attr name="dialogSurfaceColor" format="color" />
     <attr name="dialogTextPrimary" format="color" />
     <attr name="dialogTextSecondary" format="color" />
     <attr name="dialogTextHint" format="color" />

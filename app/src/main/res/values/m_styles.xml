@@ -28,6 +28,7 @@
 
         <!-- 主题级语义色：保证 ?attr 在任何 inflate 场景可解析，且 Material 弹窗不再用默认白底 -->
         <item name="dialogSurface">@drawable/dialog_glass_dark</item>
+        <item name="dialogSurfaceColor">#1A1D24</item>
         <item name="dialogTextPrimary">#F2F4F8</item>
         <item name="dialogTextSecondary">#A8B0C0</item>
         <item name="dialogTextHint">#7A8290</item>
@@ -44,6 +45,7 @@
 
         <!-- 主题级语义色：保证 ?attr 在任何 inflate 场景可解析，且 Material 弹窗不再用默认白底 -->
         <item name="dialogSurface">@drawable/bg_dialog_white</item>
+        <item name="dialogSurfaceColor">#FFFFFF</item>
         <item name="dialogTextPrimary">#101216</item>
         <item name="dialogTextSecondary">#5F6368</item>
         <item name="dialogTextHint">#9AA0A6</item>
@@ -60,6 +62,7 @@
 
         <!-- 主题级语义色：保证 ?attr 在任何 inflate 场景可解析，且 Material 弹窗不再用默认白底 -->
         <item name="dialogSurface">@drawable/bg_dialog_dark_amoled</item>
+        <item name="dialogSurfaceColor">#0A0A0A</item>
         <item name="dialogTextPrimary">#F0F0F0</item>
         <item name="dialogTextSecondary">#888888</item>
         <item name="dialogTextHint">#666666</item>
@@ -76,6 +79,7 @@
 
         <!-- 主题级语义色：保证 ?attr 在任何 inflate 场景可解析，且 Material 弹窗不再用默认白底 -->
         <item name="dialogSurface">@drawable/bg_dialog_ios</item>
+        <item name="dialogSurfaceColor">#F2F2F7</item>
         <item name="dialogTextPrimary">#1C1C1E</item>
         <item name="dialogTextSecondary">#8E8E93</item>
         <item name="dialogTextHint">#B0B0B5</item>
@@ -92,6 +96,7 @@
 
         <!-- 主题级语义色：保证 ?attr 在任何 inflate 场景可解析，且 Material 弹窗不再用默认白底 -->
         <item name="dialogSurface">@drawable/bg_dialog_neon</item>
+        <item name="dialogSurfaceColor">#101A33</item>
         <item name="dialogTextPrimary">#FFFFFF</item>
         <item name="dialogTextSecondary">#AAAAFF</item>
         <item name="dialogTextHint">#7777AA</item>
@@ -105,6 +110,7 @@
     <!-- 原始：系统默认 Material 观感，但补齐 dialog* 语义属性，避免自绘布局 inflate 时因 ?attr 解析不到而崩溃 -->
     <style name="Theme.App.DialogOriginal" parent="Theme.App">
         <item name="dialogSurface">@drawable/bg_dialog_original</item>
+        <item name="dialogSurfaceColor">#FFFBFE</item>
         <item name="dialogTextPrimary">#1C1B1F</item>
         <item name="dialogTextSecondary">#49454F</item>
         <item name="dialogTextHint">#79747E</item>
@@ -121,6 +127,7 @@
         <item name="materialAlertDialogTheme">@style/ThemeOverlay.FongMi.Dialog.OriginalDark</item>
         <item name="dialogCornerRadius">20dp</item>
         <item name="dialogSurface">@drawable/bg_dialog_original_dark</item>
+        <item name="dialogSurfaceColor">#1C1B1F</item>
         <item name="dialogTextPrimary">#E6E1E5</item>
         <item name="dialogTextSecondary">#CAC4D0</item>
         <item name="dialogTextHint">#938F99</item>
@@ -137,6 +144,7 @@
         <item name="materialAlertDialogTheme">@style/ThemeOverlay.FongMi.Dialog.Frost</item>
 
         <item name="dialogSurface">@drawable/bg_dialog_frost</item>
+        <item name="dialogSurfaceColor">#1E2633</item>
         <item name="dialogTextPrimary">#F2F6FC</item>
         <item name="dialogTextSecondary">#AEB9C9</item>
         <item name="dialogTextHint">#7D8899</item>
@@ -153,6 +161,7 @@
         <item name="materialAlertDialogTheme">@style/ThemeOverlay.FongMi.Dialog.Violet</item>
 
         <item name="dialogSurface">@drawable/bg_dialog_violet</item>
+        <item name="dialogSurfaceColor">#1A1428</item>
         <item name="dialogTextPrimary">#F4F0FF</item>
         <item name="dialogTextSecondary">#BDADD9</item>
         <item name="dialogTextHint">#8A7AA8</item>
@@ -378,6 +387,7 @@
 
         <!-- 统一弹窗语义色 -->
         <item name="dialogSurface">@drawable/dialog_glass_dark</item>
+        <item name="dialogSurfaceColor">#1A1D24</item>
         <item name="dialogTextPrimary">#F2F4F8</item>
         <item name="dialogTextSecondary">#A8B0C0</item>
         <item name="dialogTextHint">#7A8290</item>
@@ -450,6 +460,7 @@
 
         <!-- 统一弹窗语义色 -->
         <item name="dialogSurface">@drawable/bg_dialog_white</item>
+        <item name="dialogSurfaceColor">#FFFFFF</item>
         <item name="dialogTextPrimary">#101216</item>
         <item name="dialogTextSecondary">#5F6368</item>
         <item name="dialogTextHint">#9AA0A6</item>
@@ -495,6 +506,7 @@
 
         <!-- 统一弹窗语义色 -->
         <item name="dialogSurface">@drawable/bg_dialog_dark_amoled</item>
+        <item name="dialogSurfaceColor">#0A0A0A</item>
         <item name="dialogTextPrimary">#F0F0F0</item>
         <item name="dialogTextSecondary">#888888</item>
         <item name="dialogTextHint">#666666</item>
@@ -554,6 +566,7 @@
 
         <!-- 统一弹窗语义色 -->
         <item name="dialogSurface">@drawable/bg_dialog_ios</item>
+        <item name="dialogSurfaceColor">#F2F2F7</item>
         <item name="dialogTextPrimary">#1C1C1E</item>
         <item name="dialogTextSecondary">#8E8E93</item>
         <item name="dialogTextHint">#B0B0B5</item>
@@ -599,6 +612,7 @@
 
         <!-- 统一弹窗语义色 -->
         <item name="dialogSurface">@drawable/bg_dialog_neon</item>
+        <item name="dialogSurfaceColor">#101A33</item>
         <item name="dialogTextPrimary">#FFFFFF</item>
         <item name="dialogTextSecondary">#AAAAFF</item>
         <item name="dialogTextHint">#7777AA</item>
@@ -625,6 +639,7 @@
     <style name="ThemeOverlay.FongMi.Dialog.Original" parent="ThemeOverlay.Material3.MaterialAlertDialog">
         <item name="dialogCornerRadius">20dp</item>
         <item name="dialogSurface">@drawable/bg_dialog_original</item>
+        <item name="dialogSurfaceColor">#FFFBFE</item>
         <item name="dialogTextPrimary">#1C1B1F</item>
         <item name="dialogTextSecondary">#49454F</item>
         <item name="dialogTextHint">#79747E</item>
@@ -644,6 +659,7 @@
         <item name="dialogCornerRadius">20dp</item>
         <item name="android:windowBackground">@drawable/bg_dialog_original_dark</item>
         <item name="dialogSurface">@drawable/bg_dialog_original_dark</item>
+        <item name="dialogSurfaceColor">#1C1B1F</item>
         <item name="dialogTextPrimary">#E6E1E5</item>
         <item name="dialogTextSecondary">#CAC4D0</item>
         <item name="dialogTextHint">#938F99</item>
@@ -685,6 +701,7 @@
         <item name="android:windowAnimationStyle">@style/HkDialogFade</item>
 
         <item name="dialogSurface">@drawable/bg_dialog_frost</item>
+        <item name="dialogSurfaceColor">#1E2633</item>
         <item name="dialogTextPrimary">#F2F6FC</item>
         <item name="dialogTextSecondary">#AEB9C9</item>
         <item name="dialogTextHint">#7D8899</item>
@@ -726,6 +743,7 @@
         <item name="android:windowAnimationStyle">@style/HkDialogFade</item>
 
         <item name="dialogSurface">@drawable/bg_dialog_violet</item>
+        <item name="dialogSurfaceColor">#1A1428</item>
         <item name="dialogTextPrimary">#F4F0FF</item>
         <item name="dialogTextSecondary">#BDADD9</item>
         <item name="dialogTextHint">#8A7AA8</item>

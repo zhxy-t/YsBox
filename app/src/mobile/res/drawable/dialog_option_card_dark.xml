@@ -3,14 +3,14 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:state_pressed="true">
         <shape android:shape="rectangle">
-            <solid android:color="?attr/dialogSurface" />
+            <solid android:color="?attr/dialogSurfaceColor" />
             <stroke android:width="1.5dp" android:color="?attr/dialogAccent" />
             <corners android:radius="12dp" />
         </shape>
     </item>
     <item android:state_focused="true">
         <shape android:shape="rectangle">
-            <solid android:color="?attr/dialogSurface" />
+            <solid android:color="?attr/dialogSurfaceColor" />
             <stroke android:width="1.5dp" android:color="?attr/dialogAccent" />
             <corners android:radius="12dp" />
         </shape>
@@ -18,7 +18,7 @@
     <item>
         <!-- 常态：始终可见的描边，比 dialogDivider 更亮一档，但比 accent 弱 -->
         <shape android:shape="rectangle">
-            <solid android:color="?attr/dialogSurface" />
+            <solid android:color="?attr/dialogSurfaceColor" />
             <stroke android:width="1dp" android:color="?attr/dialogTextHint" />
             <corners android:radius="12dp" />
         </shape>
