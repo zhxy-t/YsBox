@@ -40,7 +40,10 @@ public class ScriptAdapter extends RecyclerView.Adapter<ScriptAdapter.ViewHolder
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_script, parent, false);
+        // item_script.xml 用了 ?attr/dialogCardSurface 与 ?attr/dialogTextPrimary，
+        // 必须用带弹窗主题的 context inflate，否则解析不到会崩（闪退根因）。
+        View v = LayoutInflater.from(com.fongmi.android.tv.ui.dialog.DialogThemeHelper.wrap(parent.getContext()))
+                .inflate(R.layout.item_script, parent, false);
         return new ViewHolder(v);
     }
 

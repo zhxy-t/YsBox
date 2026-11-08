@@ -154,7 +154,7 @@ public class SiteAdapter extends RecyclerView.Adapter<SiteAdapter.ViewHolder> {
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new ViewHolder(AdapterSiteBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
+        return new ViewHolder(AdapterSiteBinding.inflate(LayoutInflater.from(com.fongmi.android.tv.ui.dialog.DialogThemeHelper.wrap(parent.getContext())), parent, false));
     }
 
     @Override
