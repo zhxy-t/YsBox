@@ -1,12 +1,10 @@
 pluginManagement {
     repositories {
-        // 阿里云镜像优先：GitHub Actions 上 Maven Central 常被 403 限流，
-        // 阿里云 central/public 镜像可在构建机上稳定拉到同一批构件。
-        maven { url = "https://maven.aliyun.com/repository/gradle-plugin" }
-        maven { url = "https://maven.aliyun.com/repository/central" }
-        maven { url = "https://maven.aliyun.com/repository/public" }
-        maven { url = "https://maven.aliyun.com/repository/google" }
+        // Google Maven 放最前：androidx / AGP 只在 dl.google.com，走阿里云 central 会 404/502。
         google()
+        // 阿里云镜像兜底：GitHub Actions 上 Maven Central 常被 403 限流。
+        maven { url = "https://maven.aliyun.com/repository/gradle-plugin" }
+        maven { url = "https://maven.aliyun.com/repository/public" }
         mavenCentral()
         gradlePluginPortal()
     }
@@ -20,11 +18,11 @@ dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
         maven { url = uri("$rootDir/third_party/maven") }
-        // 同上：镜像优先，官方仓库兜底
-        maven { url = "https://maven.aliyun.com/repository/central" }
-        maven { url = "https://maven.aliyun.com/repository/public" }
-        maven { url = "https://maven.aliyun.com/repository/google" }
+        // 顺序很重要：androidx 等 Jetpack 构件只在 Google Maven，
+        // 若先问阿里云 central，镜像 502 会直接中断解析（armeabi_v7a 就是这样挂的）。
         google()
+        maven { url = "https://maven.aliyun.com/repository/google" }
+        maven { url = "https://maven.aliyun.com/repository/public" }
         mavenCentral()
         maven { url = "https://jitpack.io" }
         flatDir { dirs "$rootDir/app/libs" }
