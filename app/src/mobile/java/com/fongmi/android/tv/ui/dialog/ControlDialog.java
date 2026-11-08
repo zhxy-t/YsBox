@@ -154,7 +154,8 @@ public class ControlDialog extends BaseBottomSheetDialog implements ParseAdapter
 
     private void setOsdChecked(TextView view, boolean checked) {
         view.setSelected(checked);
-        view.setAlpha(checked ? 1f : 0.45f);
+        // 选中态由 selector_control / shape_accent 表达，未选中项不再降透明度
+        view.setAlpha(1f);
     }
 
     private void toggleOsd(TextView view, BooleanSupplier getter, Consumer<Boolean> setter) {
