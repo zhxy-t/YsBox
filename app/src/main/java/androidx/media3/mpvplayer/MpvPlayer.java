@@ -2520,7 +2520,16 @@ public final class MpvPlayer extends SimpleBasePlayer implements MPVLib.EventObs
         refreshTracks();
         invalidateState();
     }
-
+    /** Dynamically add an external subtitle track via mpv `sub-add`. */
+    public boolean addSubtitle(Uri uri) {
+        if (!initialized || uri == null) return false;
+        try {
+            mpvCommand(new String[]{"sub-add", playableUri(uri), "auto"});
+            return true;
+        } catch (Throwable ignored) {
+            return false;
+        }
+    }
     public boolean isSecondarySubtitleSelected(String mpvId) {
         if (TextUtils.isEmpty(mpvId)) return false;
         String selected = secondarySubtitleTrackId();

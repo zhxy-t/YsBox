@@ -195,9 +195,9 @@ public class MpvPlayerEngine implements PlayerEngine {
 
     @Override
     public boolean addSubtitle(com.fongmi.android.tv.bean.Sub sub) {
-        // MPV 的内嵌字幕走 MediaItem 的 SubtitleConfiguration：返回 false 让
-        // PlayerManager 用新 spec 重新起播，subs 会随 MediaItem 一起进 MPV。
-        return false;
+        // MPV supports dynamic subtitle injection via `sub-add`. Return true so
+        // PlayerManager does not need to restart playback.
+        return player.addSubtitle(sub.getUri());
     }
 
     @Override

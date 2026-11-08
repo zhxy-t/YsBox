@@ -299,18 +299,20 @@ public class SubtitleSetting {
 
     public static CaptionStyleCompat getStyle(Context context) {
         CaptioningManager manager = (CaptioningManager) context.getSystemService(Context.CAPTIONING_SERVICE);
-        if (getStyleSource() == STYLE_SOURCE_ORIGINAL) return CaptionStyleCompat.DEFAULT;
         if (isSystemStyle()) return manager == null ? CaptionStyleCompat.DEFAULT : CaptionStyleCompat.createFromCaptionStyle(manager.getUserStyle());
-        // Pinned Media3 uses the standard 6-argument CaptionStyleCompat constructor.
-        return new CaptionStyleCompat(getTextColor(), getBackgroundColor(), Color.TRANSPARENT, getEdgeType(), getEdgeColor(), null);
+        // 默认的「原始」样式过去固定返回 DEFAULT，导致用户在面板里挑的颜色永远不生效。
+        // 只要挑过任意非默认颜色就构造自定义样式；系统样式仍优先。
+        if (isCustomStyle() || hasCustomColor()) return new CaptionStyleCompat(getTextColor(), getBackgroundColor(), Color.TRANSPARENT, getEdgeType(), getEdgeColor(), null);
+        return CaptionStyleCompat.DEFAULT;
     }
-
     public static void applyStyle(Context context, @Nullable SubtitleView subtitleView) {
         if (subtitleView == null) return;
         subtitleView.reset();
         subtitleView.setStyle(getStyle(context));
-        subtitleView.setApplyEmbeddedStyles(!isStyleForced());
-        subtitleView.setApplyEmbeddedFontSizes(true);
+        boolean forced = isStyleForced() || hasCustomColor() || isScaleForced();
+        // 用户显式调过颜色/大小后关闭内嵌样式，避免 ASS/SSA 自带颜色与字号把设置覆盖掉。
+        subtitleView.setApplyEmbeddedStyles(!forced);
+        subtitleView.setApplyEmbeddedFontSizes(!isScaleApplied());
         if (isScaleApplied()) subtitleView.setFractionalTextSize(SubtitleView.DEFAULT_TEXT_SIZE_FRACTION * getScale(context));
         if (isPositionSet()) subtitleView.setBottomPosition(getPosition() / 100.0f);
     }
@@ -347,7 +349,10 @@ public class SubtitleSetting {
     }
 
     public static boolean hasCustomColor() {
-        return isCustomStyle();
+        return isCustomStyle()
+                || getTextBaseColor() != DEFAULT_TEXT_COLOR
+                || getEdgeBaseColor() != DEFAULT_EDGE_COLOR
+                || getBackgroundBaseColor() != DEFAULT_BACKGROUND_COLOR;
     }
 
     public static int getColor() {
