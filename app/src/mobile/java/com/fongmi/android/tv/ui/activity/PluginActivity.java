@@ -154,7 +154,6 @@ public class PluginActivity extends BaseActivity implements PluginAdapter.Listen
                     if (which == 0) importFiles();
                     else importTree();
                 })
-                .setNegativeButton(R.string.dialog_negative, null)
                 .show();
     }
 

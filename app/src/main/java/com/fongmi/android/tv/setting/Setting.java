@@ -26,13 +26,13 @@ public class Setting {
     private static final int MIN_DIALOG_STYLE = 0;
     private static final int MAX_DIALOG_STYLE = 4;
 
-    /** 全局字体缩放：0.85 / 1.0 / 1.15 / 1.3，默认 1.0 */
+    /** 全局字体缩放：0.85 / 1.0 / 1.15 / 1.3 / 1.5，最后一项 -1 表示跟随系统；默认跟随系统 */
     public static float[] getFontScales() {
-        return new float[]{0.85f, 1.0f, 1.15f, 1.3f};
+        return new float[]{0.85f, 1.0f, 1.15f, 1.3f, 1.5f, -1f};
     }
 
     public static int getFontScaleIndex() {
-        return Math.clamp(Prefers.getInt("font_scale_index", 1), 0, getFontScales().length - 1);
+        return Math.clamp(Prefers.getInt("font_scale_index", 5), 0, getFontScales().length - 1);
     }
 
     public static void putFontScaleIndex(int index) {
@@ -43,9 +43,10 @@ public class Setting {
         return getFontScales()[getFontScaleIndex()];
     }
 
-    /** 供所有 Activity 的 getResources() 覆盖：影响所有 sp 字号 */
+    /** 供所有 Activity 的 getResources() 覆盖：影响所有 sp 字号（-1 = 跟随系统，不覆盖） */
     public static Configuration applyFontScale(Configuration config) {
-        config.fontScale = getFontScale();
+        float scale = getFontScale();
+        if (scale > 0) config.fontScale = scale;
         return config;
     }
 
@@ -198,10 +199,13 @@ public class Setting {
     }
 
     public static Context wrapLocale(Context context) {
-        String tag = getLanguage();
-        if (TextUtils.isEmpty(tag)) return context;
         Configuration config = new Configuration(context.getResources().getConfiguration());
-        config.setLocale(Locale.forLanguageTag(tag));
+        String tag = getLanguage();
+        if (!TextUtils.isEmpty(tag)) config.setLocale(Locale.forLanguageTag(tag));
+        // 字体缩放：在 Context 层就应用，保证 Activity 及所有 inflate 出来的 sp 字号一致生效
+        float scale = getFontScale();
+        if (scale <= 0) scale = android.content.res.Resources.getSystem().getConfiguration().fontScale;
+        config.fontScale = scale;
         return context.createConfigurationContext(config);
     }
 

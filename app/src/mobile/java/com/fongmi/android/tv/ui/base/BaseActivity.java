@@ -171,12 +171,14 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
     }
 
-    /** 应用全局字体缩放：影响本 Activity 及所有子 View 的 sp 字号 */
+    /** 应用全局字体缩放：影响本 Activity 及所有子 View 的 sp 字号（-1 = 跟随系统） */
     @Override
     public Resources getResources() {
         Resources res = super.getResources();
+        float scale = com.fongmi.android.tv.setting.Setting.getFontScale();
+        if (scale <= 0) scale = Resources.getSystem().getConfiguration().fontScale;
         Configuration config = new Configuration(res.getConfiguration());
-        config.fontScale = com.fongmi.android.tv.setting.Setting.getFontScale();
+        config.fontScale = scale;
         res.updateConfiguration(config, res.getDisplayMetrics());
         return res;
     }

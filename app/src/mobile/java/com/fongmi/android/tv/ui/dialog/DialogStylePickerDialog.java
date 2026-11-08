@@ -73,7 +73,15 @@ public final class DialogStylePickerDialog {
             card.setOrientation(LinearLayout.VERTICAL);
             float density = activity.getResources().getDisplayMetrics().density;
             boolean neon = i == NEON_INDEX;
-            card.setBackground(cardBackground(density, i, neon));
+            if (neon) {
+                // 渐变边框直接作为卡片背景，内容画在它上面；否则后加的不透明描边层会盖住卡片内容
+                GradientDrawable inner = new GradientDrawable();
+                inner.setColor(SURFACE[i]);
+                inner.setCornerRadius(dp(density, RADIUS[i]));
+                card.setBackground(gradientBorder(density, inner, RADIUS[i], Math.max(1, dp(density, 3))));
+            } else {
+                card.setBackground(cardBackground(density, i, false));
+            }
             int cpad = dp(activity, 12);
             card.setPadding(cpad, cpad, cpad, cpad);
 
@@ -118,13 +126,14 @@ public final class DialogStylePickerDialog {
             card.addView(buttons);
             cell.addView(card, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
 
-            // 选中态：描边 + 勾选
-            // 选中态外框：霓虹为渐变描边
-            View border = new View(activity);
-            border.setBackground(ringBackground(density, i, neon));
-            // 所有卡片常驻显示边框，不只是选中的
-            border.setVisibility(View.VISIBLE);
-            cell.addView(border, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+            // 选中态：描边 + 勾选（霓虹的渐变边框已画在卡片背景上，不再叠加不透明描边层）
+            if (!neon) {
+                View border = new View(activity);
+                border.setBackground(ringBackground(density, i, false));
+                // 所有卡片常驻显示边框，不只是选中的
+                border.setVisibility(View.VISIBLE);
+                cell.addView(border, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+            }
             TextView check = new TextView(activity);
             check.setText("\u2713");
             check.setTextSize(22);

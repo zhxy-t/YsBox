@@ -126,8 +126,10 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     public Resources getResources() {
         Resources res = hackResources(super.getResources());
+        float scale = Setting.getFontScale();
+        if (scale <= 0) scale = Resources.getSystem().getConfiguration().fontScale;
         Configuration config = new Configuration(res.getConfiguration());
-        config.fontScale = Setting.getFontScale();
+        config.fontScale = scale;
         res.updateConfiguration(config, res.getDisplayMetrics());
         return res;
     }

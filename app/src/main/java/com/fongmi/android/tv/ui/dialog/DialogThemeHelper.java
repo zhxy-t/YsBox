@@ -316,6 +316,16 @@ public final class DialogThemeHelper {
         return themed(ctx);
     }
 
+    /**
+     * 给弹窗内容 inflate 布局用：在 Activity 主题之上叠加当前风格的 overlay 主题。
+     * Activity 的 Theme.App.Dialog* 只带 dialogXxx 语义色，没有 colorOnSurface /
+     * colorOnSurfaceVariant 等 Material 颜色；不叠加 overlay 时这些 ?attr 会解析成黑色，
+     * 深色弹窗上的文字/输入框提示就看不见了。
+     */
+    public static Context wrapOverlay(Context ctx) {
+        return new android.view.ContextThemeWrapper(ctx, getOverlay());
+    }
+
     @ColorInt public static int primaryText(Context c)   { return resolveColor(c, R.attr.dialogTextPrimary); }
     @ColorInt public static int secondaryText(Context c) { return resolveColor(c, R.attr.dialogTextSecondary); }
     @ColorInt public static int hintText(Context c)      { return resolveColor(c, R.attr.dialogTextHint); }

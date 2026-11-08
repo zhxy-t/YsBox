@@ -198,12 +198,12 @@ public class SettingAppearanceFragment extends BaseFragment implements ThemeDial
     }
 
     private void updateFontSizeText() {
-        int[] labels = {R.string.setting_font_size_0, R.string.setting_font_size_1, R.string.setting_font_size_2, R.string.setting_font_size_3};
+        int[] labels = {R.string.setting_font_size_0, R.string.setting_font_size_1, R.string.setting_font_size_2, R.string.setting_font_size_3, R.string.setting_font_size_4, R.string.setting_font_size_5};
         mBinding.fontSizeText.setText(labels[Setting.getFontScaleIndex()]);
     }
 
     private void showFontSizeDialog(View view) {
-        CharSequence[] items = {getString(R.string.setting_font_size_0), getString(R.string.setting_font_size_1), getString(R.string.setting_font_size_2), getString(R.string.setting_font_size_3)};
+        CharSequence[] items = {getString(R.string.setting_font_size_0), getString(R.string.setting_font_size_1), getString(R.string.setting_font_size_2), getString(R.string.setting_font_size_3), getString(R.string.setting_font_size_4), getString(R.string.setting_font_size_5)};
         int checked = Setting.getFontScaleIndex();
         DialogThemeHelper.builder(requireActivity())
                 .setTitle(R.string.setting_font_size)
@@ -213,7 +213,6 @@ public class SettingAppearanceFragment extends BaseFragment implements ThemeDial
                     updateFontSizeText();
                     requireActivity().recreate();
                 })
-                .setNegativeButton(R.string.dialog_negative, null)
                 .show();
     }
 

@@ -712,6 +712,8 @@
     <string name="setting_font_size_1">标准</string>
     <string name="setting_font_size_2">大</string>
     <string name="setting_font_size_3">超大</string>
+    <string name="setting_font_size_4">巨大</string>
+    <string name="setting_font_size_5">跟随系统</string>
     <string name="setting_ui_mode_confirm">切换界面？</string>
     <string name="setting_ui_mode_confirm_msg">切换后应用将重启并进入新的界面。</string>
     <string name="wall_random">随机</string>

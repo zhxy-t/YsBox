@@ -721,6 +721,8 @@
     <string name="setting_font_size_1">Standard</string>
     <string name="setting_font_size_2">Large</string>
     <string name="setting_font_size_3">Extra large</string>
+    <string name="setting_font_size_4">Huge</string>
+    <string name="setting_font_size_5">Follow system</string>
     <string name="setting_ui_mode_confirm">Switch UI?</string>
     <string name="setting_ui_mode_confirm_msg">The app will restart to apply the new UI.</string>
     <string name="wall_random">Random</string>

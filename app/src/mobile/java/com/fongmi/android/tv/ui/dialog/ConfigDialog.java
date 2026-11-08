@@ -62,7 +62,9 @@ public class ConfigDialog extends BaseAlertDialog {
 
     @Override
     protected ViewBinding getBinding() {
-        return binding = DialogConfigBinding.inflate(getLayoutInflater());
+        // 用弹窗 overlay 主题的 inflater：否则 Activity 主题里没有 colorOnSurfaceVariant 等语义色，
+        // TextInputLayout 的提示文字会解析成黑色（深色弹窗上看不见）。
+        return binding = DialogConfigBinding.inflate(android.view.LayoutInflater.from(DialogThemeHelper.wrapOverlay(requireContext())));
     }
 
     @Override
