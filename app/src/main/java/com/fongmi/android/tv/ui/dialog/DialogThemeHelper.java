@@ -143,7 +143,7 @@ public final class DialogThemeHelper {
     }
 
     /** 当前风格对应的弹窗边框背景（带 stroke） */
-    private static int dialogBackgroundRes() {
+    static int dialogBackgroundRes() {
         switch (Setting.getDialogStyle()) {
             case 0: return R.drawable.dialog_glass_dark;
             case 1: return R.drawable.bg_dialog_white;

@@ -41,6 +41,10 @@ public abstract class BaseBottomSheetDialog extends BottomSheetDialogFragment {
         dialog.setOnShowListener(d -> setSheet(dialog));
         Window window = dialog.getWindow();
         if (window == null) return dialog;
+        // 弹窗主题的 android:windowBackground 是「卡片」drawable，而 BottomSheet 窗口是全屏的，
+        // 直接沿用会把卡片铺满整个屏幕（描边贴屏幕边、上方留一大块空白）。改为透明窗口，
+        // 卡片背景在 setBehavior() 里画到实际的 sheet 上，让外观只包住内容。
+        window.setBackgroundDrawableResource(android.R.color.transparent);
         if (stableOverlay()) {
             window.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND | WindowManager.LayoutParams.FLAG_FULLSCREEN);
             window.setDimAmount(0f);
@@ -113,6 +117,9 @@ public abstract class BaseBottomSheetDialog extends BottomSheetDialogFragment {
             if (sheet.getParent() instanceof View) ((View) sheet.getParent()).setBackgroundColor(color);
             Window window = dialog.getWindow();
             if (window != null) window.setBackgroundDrawableResource(android.R.color.transparent);
+        } else {
+            // 卡片背景画在 sheet 上（高度=内容高度），而不是铺满全屏窗口
+            sheet.setBackgroundResource(DialogThemeHelper.dialogBackgroundRes());
         }
     }
 
