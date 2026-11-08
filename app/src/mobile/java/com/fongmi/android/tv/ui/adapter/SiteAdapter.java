@@ -174,6 +174,12 @@ public class SiteAdapter extends RecyclerView.Adapter<SiteAdapter.ViewHolder> {
         holder.binding.change.setImageResource(getChangeIcon(item));
         holder.binding.search.setVisibility(!block && search && singleColumn ? View.VISIBLE : View.GONE);
         holder.binding.change.setVisibility(!block && change && singleColumn ? View.VISIBLE : View.GONE);
+        // 整行可点：胶囊以外的空白/健康点也能响应，按压有 ripple 反馈。
+        // 搜索模式下该行只做“可搜索”开关，不触发选站点，保持不可点。
+        holder.binding.getRoot().setClickable(on);
+        holder.binding.getRoot().setFocusable(on);
+        if (on) holder.binding.getRoot().setOnClickListener(v -> listener.onTextClick(item));
+        else holder.binding.getRoot().setOnClickListener(null);
         holder.binding.text.setOnClickListener(v -> listener.onTextClick(item));
         holder.binding.search.setOnClickListener(v -> listener.onSearchClick(position, item));
         holder.binding.change.setOnClickListener(v -> listener.onChangeClick(position, item));

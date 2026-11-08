@@ -32,7 +32,7 @@
 
     <!-- 共享代码（app/src/main/java 的 ChoiceDialog 等）使用；原先只在 mobile res 定义，leanback 变体缺符号 -->
     <color name="dialog_outlined_button_text">#FF202124</color>
-    <color name="dialog_outlined_button_bg">#00000000</color>
+    <!-- dialog_outlined_button_bg 已移到 res/color/ 下作为按下/选中状态选择器 -->
     <color name="dialog_outlined_button_stroke">#FF8A8F98</color>
     <color name="dialog_primary_button_text">#FFFFFFFF</color>
     <color name="dialog_primary_button_bg">#FF2F7CF6</color>
