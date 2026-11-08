@@ -33,6 +33,7 @@ public class HkCenterListAdapter extends RecyclerView.Adapter<HkCenterListAdapte
     private OnItemClickListener onItemClickListener;
     private final boolean center;
     private boolean dark;
+    private boolean themeText;
     private boolean reSetTextColor = true;
     private int selectIndex = -1;
 
@@ -53,6 +54,11 @@ public class HkCenterListAdapter extends RecyclerView.Adapter<HkCenterListAdapte
 
     public void setDark(boolean dark) {
         this.dark = dark;
+    }
+
+    /** 条目背景走弹窗主题卡片（dialogCardSurface）时置 true：文字用主题主字色，避免深色卡片上黑字不可见。 */
+    public void setThemeText(boolean themeText) {
+        this.themeText = themeText;
     }
 
     public boolean isDark() {
@@ -95,10 +101,10 @@ public class HkCenterListAdapter extends RecyclerView.Adapter<HkCenterListAdapte
                 if (selectIndex == position) {
                     h.item_rect_text.setTextColor(context.getResources().getColor(R.color.redAction));
                 } else {
-                    h.item_rect_text.setTextColor(context.getResources().getColor(dark ? R.color.white : R.color.black_666));
+                    h.item_rect_text.setTextColor(defaultTextColor());
                 }
             } else if (reSetTextColor) {
-                h.item_rect_text.setTextColor(context.getResources().getColor(dark ? R.color.white : R.color.black_666));
+                h.item_rect_text.setTextColor(defaultTextColor());
             }
             h.item_rect_text.setOnClickListener(v -> {
                 if (onItemClickListener != null && h.getAdapterPosition() >= 0) {
@@ -121,5 +127,10 @@ public class HkCenterListAdapter extends RecyclerView.Adapter<HkCenterListAdapte
             super(itemView);
             item_rect_text = itemView.findViewById(R.id.item_rect_text);
         }
+    }
+
+    private int defaultTextColor() {
+        if (themeText) return com.fongmi.android.tv.ui.dialog.DialogThemeHelper.primaryText(context);
+        return context.getResources().getColor(dark ? R.color.white : R.color.black_666);
     }
 }

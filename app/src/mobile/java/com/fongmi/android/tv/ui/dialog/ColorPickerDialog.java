@@ -59,7 +59,7 @@ public final class ColorPickerDialog {
             GradientDrawable ring = new GradientDrawable();
             ring.setShape(GradientDrawable.OVAL);
             ring.setColor(Color.TRANSPARENT);
-            if (color == current) ring.setStroke(dp(activity, 2), Color.WHITE);
+            if (color == current) ring.setStroke(dp(activity, 2), DialogThemeHelper.accent(activity));
             holder.setBackground(ring);
             View dot = new View(activity);
             GradientDrawable fill = new GradientDrawable();

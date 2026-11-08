@@ -175,15 +175,24 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
     }
 
+    private float appliedFontScale = -1f;
+
     /** 应用全局字体缩放：影响本 Activity 及所有子 View 的 sp 字号（-1 = 跟随系统） */
     @Override
     public Resources getResources() {
         Resources res = super.getResources();
         float scale = com.fongmi.android.tv.setting.Setting.getFontScale();
         if (scale <= 0) scale = Resources.getSystem().getConfiguration().fontScale;
-        Configuration config = new Configuration(res.getConfiguration());
-        config.fontScale = scale;
-        res.updateConfiguration(config, res.getDisplayMetrics());
+        // getResources() 是超高频调用（每次取字符串/颜色/尺寸都会走这里），
+        // updateConfiguration 会重建资源缓存；只有缩放真的变了才更新，避免整页卡顿。
+        if (scale != appliedFontScale) {
+            appliedFontScale = scale;
+            Configuration config = new Configuration(res.getConfiguration());
+            if (config.fontScale != scale) {
+                config.fontScale = scale;
+                res.updateConfiguration(config, res.getDisplayMetrics());
+            }
+        }
         return res;
     }
 }

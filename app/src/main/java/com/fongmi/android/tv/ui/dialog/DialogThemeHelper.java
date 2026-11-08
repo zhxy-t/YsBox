@@ -322,16 +322,46 @@ public final class DialogThemeHelper {
         return new android.view.ContextThemeWrapper(ctx, getTheme());
     }
 
+    /**
+     * 语义色/资源缓存：同一个风格下同一 attr 的结果恒定。
+     * 这些方法在列表 bind / 弹窗构建里调用非常密集，每次都 new ContextThemeWrapper 再解析主题
+     * 会明显拖慢滚动，这里按「主题 style + attr」缓存一次即可。
+     */
+    private static final android.util.LongSparseArray<Integer> COLOR_CACHE = new android.util.LongSparseArray<>();
+    private static final android.util.LongSparseArray<Integer> RES_CACHE = new android.util.LongSparseArray<>();
+
+    private static long cacheKey(int style, int attr) {
+        return ((long) style << 32) | (attr & 0xFFFFFFFFL);
+    }
+
     @ColorInt public static int resolveColor(Context ctx, @AttrRes int attr) {
+        long key = cacheKey(getTheme(), attr);
+        synchronized (COLOR_CACHE) {
+            Integer cached = COLOR_CACHE.get(key);
+            if (cached != null) return cached;
+        }
         TypedValue tv = new TypedValue();
-        if (themed(ctx).getTheme().resolveAttribute(attr, tv, true)) return tv.data;
-        return 0xFF888888;
+        int color = 0xFF888888;
+        if (themed(ctx).getTheme().resolveAttribute(attr, tv, true)) color = tv.data;
+        synchronized (COLOR_CACHE) {
+            COLOR_CACHE.put(key, color);
+        }
+        return color;
     }
 
     public static int resolveResId(Context ctx, @AttrRes int attr) {
+        long key = cacheKey(getTheme(), attr);
+        synchronized (RES_CACHE) {
+            Integer cached = RES_CACHE.get(key);
+            if (cached != null) return cached;
+        }
         TypedValue tv = new TypedValue();
-        if (themed(ctx).getTheme().resolveAttribute(attr, tv, true)) return tv.resourceId;
-        return 0;
+        int resId = 0;
+        if (themed(ctx).getTheme().resolveAttribute(attr, tv, true)) resId = tv.resourceId;
+        synchronized (RES_CACHE) {
+            RES_CACHE.put(key, resId);
+        }
+        return resId;
     }
 
     /** 给自绘弹窗 inflate 布局用：返回带弹窗主题、且 ?attr 可解析的 Context */

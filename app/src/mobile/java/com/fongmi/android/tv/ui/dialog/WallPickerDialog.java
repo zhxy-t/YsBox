@@ -105,7 +105,7 @@ public final class WallPickerDialog {
         randRing.setShape(GradientDrawable.RECTANGLE);
         randRing.setColor(Color.TRANSPARENT);
         randRing.setCornerRadius(dp(activity, 12));
-        randRing.setStroke(dp(activity, 2), Color.WHITE);
+        randRing.setStroke(dp(activity, 2), DialogThemeHelper.accent(activity));
         View randBorder = new View(activity);
         randBorder.setBackground(randRing);
         randBorder.setVisibility(current == 0 ? View.VISIBLE : View.GONE);
@@ -113,7 +113,7 @@ public final class WallPickerDialog {
         TextView randCheck = new TextView(activity);
         randCheck.setText("\u2713");
         randCheck.setTextSize(20);
-        randCheck.setTextColor(Color.WHITE);
+        randCheck.setTextColor(DialogThemeHelper.accent(activity));
         randCheck.setGravity(Gravity.CENTER);
         randCheck.setVisibility(current == 0 ? View.VISIBLE : View.GONE);
         randCell.addView(randCheck, new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT));

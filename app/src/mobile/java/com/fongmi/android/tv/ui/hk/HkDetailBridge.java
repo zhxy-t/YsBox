@@ -1034,6 +1034,7 @@ public class HkDetailBridge implements HkArticleFragment.DetailBridge {
                     public void onLongClick(View v, int position) {
                     }
                 });
+        adapter.setThemeText(true);
         recyclerView.setAdapter(adapter);
         popup.setBackgroundDrawable(androidx.core.content.ContextCompat.getDrawable(activity, com.fongmi.android.tv.ui.dialog.DialogThemeHelper.cardSurfaceRes(activity)));
         popup.setOutsideTouchable(true);
@@ -1069,6 +1070,7 @@ public class HkDetailBridge implements HkArticleFragment.DetailBridge {
                     }
                 });
         adapter.setSelectIndex(extra.selectedIndex);
+        adapter.setThemeText(true);
         recyclerView.setAdapter(adapter);
         root.addView(recyclerView);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);

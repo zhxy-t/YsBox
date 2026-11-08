@@ -1009,9 +1009,9 @@ public class HkArticleFragment extends Fragment implements HkArticleListModel.Ca
                     .create();
             dialog.setOnShowListener(d -> {
                 android.widget.Button b1 = dialog.getButton(androidx.appcompat.app.AlertDialog.BUTTON_POSITIVE);
-                if (b1 != null) b1.setTextColor(0xFFD9A420);
+                if (b1 != null) b1.setTextColor(com.fongmi.android.tv.ui.dialog.DialogThemeHelper.accent(a));
                 android.widget.Button b2 = dialog.getButton(androidx.appcompat.app.AlertDialog.BUTTON_NEGATIVE);
-                if (b2 != null) b2.setTextColor(0xFFA8B0C0);
+                if (b2 != null) b2.setTextColor(com.fongmi.android.tv.ui.dialog.DialogThemeHelper.secondaryText(a));
             });
             dialog.show();
         });

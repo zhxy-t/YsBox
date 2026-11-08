@@ -51,6 +51,10 @@ public class CustomWallView extends FrameLayout implements DefaultLifecycleObser
     private PlayerView video;
     private ExoPlayer player;
 
+    /** 壁纸取色缓存：同一张缓存图（路径+时间戳）只解码取色一次，避免每次进页都在主线程跑 Palette。 */
+    private static String sPaletteKey;
+    private static int sPaletteColor;
+
     public CustomWallView(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
     }
@@ -185,11 +189,16 @@ public class CustomWallView extends FrameLayout implements DefaultLifecycleObser
     }
 
     private int paletteColor(File file) {
+        String key = file.getAbsolutePath() + "@" + file.lastModified();
+        if (key.equals(sPaletteKey)) return sPaletteColor;
         Bitmap bitmap = decodeBitmap(file);
         if (bitmap == null) return WALL_COLORS[1];
         Palette palette = Palette.from(bitmap).maximumColorCount(8).generate();
         bitmap.recycle();
-        return swatchColor(palette);
+        int color = swatchColor(palette);
+        sPaletteKey = key;
+        sPaletteColor = color;
+        return color;
     }
 
     private Bitmap decodeBitmap(File file) {

@@ -53,6 +53,8 @@ public class HkDynamicBgView extends View {
     private boolean mUserPaused = false;        // Activity onPause 兜底
     private boolean mWindowVisible = true;      // 窗口可见性（被全屏页盖住时为 false）
     private final Paint mPaint = new Paint(Paint.FILTER_BITMAP_FLAG);
+    /** 复用绘制目标矩形，避免 onDraw 每帧 new 对象（背景 2fps 刷新时高频调用） */
+    private final android.graphics.RectF mDstRect = new android.graphics.RectF();
 
     public HkDynamicBgView(Context context) {
         super(context);
@@ -130,8 +132,8 @@ public class HkDynamicBgView extends View {
             buf = sBuffer;
         }
         if (buf != null && !buf.isRecycled()) {
-            canvas.drawBitmap(buf, null,
-                    new android.graphics.RectF(0, 0, getWidth(), getHeight()), mPaint);
+            mDstRect.set(0, 0, getWidth(), getHeight());
+            canvas.drawBitmap(buf, null, mDstRect, mPaint);
         } else {
             canvas.drawColor(0xFFF4F6F8); // 缓冲未就绪兜底：淡色场顶色
         }

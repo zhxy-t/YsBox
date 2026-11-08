@@ -127,14 +127,22 @@ public abstract class BaseActivity extends AppCompatActivity {
     public void onSubscribe(Object o) {
     }
 
+    private float appliedFontScale = -1f;
+
     @Override
     public Resources getResources() {
         Resources res = hackResources(super.getResources());
         float scale = Setting.getFontScale();
         if (scale <= 0) scale = Resources.getSystem().getConfiguration().fontScale;
-        Configuration config = new Configuration(res.getConfiguration());
-        config.fontScale = scale;
-        res.updateConfiguration(config, res.getDisplayMetrics());
+        // getResources() 调用极频繁，updateConfiguration 会重建资源缓存：只在缩放变化时执行一次
+        if (scale != appliedFontScale) {
+            appliedFontScale = scale;
+            Configuration config = new Configuration(res.getConfiguration());
+            if (config.fontScale != scale) {
+                config.fontScale = scale;
+                res.updateConfiguration(config, res.getDisplayMetrics());
+            }
+        }
         return res;
     }
 

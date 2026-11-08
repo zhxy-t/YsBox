@@ -1516,7 +1516,7 @@ public class HkPageActivity extends BaseActivity {
             box.addView(row);
             if (i < customGroups.size() - 1) {
                 View div = new View(this);
-                div.setBackgroundColor(0x33FFFFFF);
+                div.setBackgroundColor(DialogThemeHelper.divider(this));
                 box.addView(div, new LinearLayout.LayoutParams(
                         LinearLayout.LayoutParams.MATCH_PARENT, dp(1)));
             }
@@ -1542,7 +1542,9 @@ public class HkPageActivity extends BaseActivity {
         et.setHint(oldName == null ? "分组名，如：追剧" : "新分组名");
         if (oldName != null) et.setText(oldName);
         et.setSingleLine(true);
-        et.setBackgroundResource(R.drawable.xc_input_bg);
+        et.setTextColor(DialogThemeHelper.primaryText(this));
+        et.setHintTextColor(DialogThemeHelper.hintText(this));
+        et.setBackgroundResource(DialogThemeHelper.inputSurfaceRes(this));
         et.setPadding(dp(14), dp(12), dp(14), dp(12));
         root.addView(et, new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
@@ -3053,7 +3055,7 @@ public class HkPageActivity extends BaseActivity {
         root.addView(bar, new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
         View divider = new View(this);
-        divider.setBackgroundColor(0x33FFFFFF);
+        divider.setBackgroundColor(DialogThemeHelper.divider(this));
         root.addView(divider, new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT, dp(1)));
 
@@ -3164,7 +3166,7 @@ public class HkPageActivity extends BaseActivity {
         parent.addView(tv, new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
         EditText et = new EditText(this);
-        et.setBackgroundResource(R.drawable.bg_input_light);
+        et.setBackgroundResource(DialogThemeHelper.inputSurfaceRes(this));
         et.setPadding(dp(12), dp(10), dp(12), dp(10));
         et.setTextSize(14);
         et.setTextColor(DialogThemeHelper.primaryText(this));
@@ -5665,6 +5667,7 @@ public class HkPageActivity extends BaseActivity {
         et.setHint(TextUtils.isEmpty(hint) ? "请输入" : hint);
         if (!TextUtils.isEmpty(def)) et.setText(def);
         et.setTextColor(DialogThemeHelper.primaryText(this));
+        et.setHintTextColor(DialogThemeHelper.hintText(this));
         int pad = dp(16);
         et.setPadding(pad, pad, pad, pad);
         // 弹窗标题也走标题颜色标记逻辑（弯引号/ASCII三引号 → 红色）

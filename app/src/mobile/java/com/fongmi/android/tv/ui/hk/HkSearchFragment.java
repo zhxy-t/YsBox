@@ -683,7 +683,7 @@ public class HkSearchFragment extends Fragment implements HkSearchModel.Callback
             android.widget.TextView text = new android.widget.TextView(activity);
             text.setText("动态解析规则中，请稍候");
             text.setTextSize(15);
-            text.setTextColor(0xFFF2F4F8);
+            text.setTextColor(com.fongmi.android.tv.ui.dialog.DialogThemeHelper.primaryText(activity));
             text.setPadding(48, 40, 48, 40);
             loadingDialog = new com.fongmi.android.tv.ui.hk.HkDialogs(activity)
                     .setView(text).setCancelable(false).create();

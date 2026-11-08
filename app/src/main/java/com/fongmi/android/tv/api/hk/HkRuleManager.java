@@ -1187,10 +1187,25 @@ public class HkRuleManager {
     }
 
     /** 列出所有已导入规则（损坏的文件跳过，不影响整体；异常写入文件日志方便定位）。 */
+    /** getRules 结果缓存：目录未变、且未被 save/delete/setEnabled 失效时直接复用，避免每次进页都重读重解析全部规则。 */
+    private volatile List<HkRule> ruleCache;
+    private volatile long ruleCacheStamp = Long.MIN_VALUE;
+    private volatile long ruleCacheDirMtime = Long.MIN_VALUE;
+    private volatile int ruleCacheCount = -1;
+
     public List<HkRule> getRules() {
-        List<HkRule> list = new ArrayList<>();
         File dir = getDir();
         File[] files = dir.listFiles((d, name) -> name.endsWith(".json"));
+        long stamp = SAVE_STAMP.get();
+        long dirMtime = dir.lastModified();
+        int count = files == null ? 0 : files.length;
+        List<HkRule> cached = ruleCache;
+        if (cached != null && stamp == ruleCacheStamp
+                && dirMtime == ruleCacheDirMtime && count == ruleCacheCount) {
+            // 防御性拷贝：调用方会增删/替换列表元素，不能把缓存本体交出去
+            return new ArrayList<>(cached);
+        }
+        List<HkRule> list = new ArrayList<>();
         if (files == null) return list;
         Gson gson = new Gson();
         // 同标题去重：保留最后落盘（mtime 最新）的那份，平局时标准文件名优先。
@@ -1231,6 +1246,10 @@ public class HkRuleManager {
             }
         }
         list.addAll(best.values());
+        ruleCache = new ArrayList<>(list);
+        ruleCacheStamp = stamp;
+        ruleCacheDirMtime = dirMtime;
+        ruleCacheCount = count;
         return list;
     }
 
@@ -1310,6 +1329,8 @@ public class HkRuleManager {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        // 启用状态也是规则列表的一部分：失效缓存，避免其它页面读到旧 enabled
+        SAVE_STAMP.incrementAndGet();
     }
 
     /** 默认启用；只有用户手动关闭后才为 false。 */

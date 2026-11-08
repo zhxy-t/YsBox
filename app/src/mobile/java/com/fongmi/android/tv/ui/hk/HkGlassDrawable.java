@@ -41,6 +41,8 @@ public class HkGlassDrawable extends Drawable {
 
     private int mLastVersion = -1;
     private boolean mLastOk = false;
+    /** 缓存的动态背景引用：避免每次版本刷新都 findViewById 遍历一次视图树 */
+    private java.lang.ref.WeakReference<HkDynamicBgView> mBgRef;
 
     // 白玻璃默认：白渐变罩 .58→.34→.46 ＋ 1dp 白描边（75%）
     private static final int[] OVERLAY_WHITE = {0x94FFFFFF, 0x57FFFFFF, 0x75FFFFFF};
@@ -123,20 +125,25 @@ public class HkGlassDrawable extends Drawable {
         View host = (View) getCallback();
         View root = host.getRootView();
         if (root == null) return false;
-        HkDynamicBgView bg = root.findViewById(com.fongmi.android.tv.R.id.hk_dynamic_bg);
-        if (bg == null || !HkDynamicBgView.hasBuffer()) return false;
+        HkDynamicBgView bg = mBgRef == null ? null : mBgRef.get();
+        if (bg == null || bg.getWindowToken() == null) {
+            bg = root.findViewById(com.fongmi.android.tv.R.id.hk_dynamic_bg);
+            if (bg == null) return false;
+            mBgRef = new java.lang.ref.WeakReference<>(bg);
+        }
+        if (!HkDynamicBgView.hasBuffer()) return false;
         int bgW = bg.getWidth(), bgH = bg.getHeight();
         if (bgW <= 0 || bgH <= 0) return false;
+        int bw = HkDynamicBgView.bufferWidth(), bh = HkDynamicBgView.bufferHeight();
         host.getLocationInWindow(mHostLoc);
         bg.getLocationInWindow(mBgLoc);
-        float sx = (float) HkDynamicBgView.bufferWidth() / bgW;
-        float sy = (float) HkDynamicBgView.bufferHeight() / bgH;
+        float sx = (float) bw / bgW;
+        float sy = (float) bh / bgH;
         int x0 = (int) ((mHostLoc[0] + b.left - mBgLoc[0]) * sx);
         int y0 = (int) ((mHostLoc[1] + b.top - mBgLoc[1]) * sy);
         int x1 = (int) ((mHostLoc[0] + b.right - mBgLoc[0]) * sx);
         int y1 = (int) ((mHostLoc[1] + b.bottom - mBgLoc[1]) * sy);
         // clamp 进缓冲界
-        int bw = HkDynamicBgView.bufferWidth(), bh = HkDynamicBgView.bufferHeight();
         x0 = Math.max(0, Math.min(x0, bw - 1));
         y0 = Math.max(0, Math.min(y0, bh - 1));
         x1 = Math.max(x0 + 1, Math.min(x1, bw));
