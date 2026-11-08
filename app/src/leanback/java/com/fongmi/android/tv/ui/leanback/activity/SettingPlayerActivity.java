@@ -87,15 +87,6 @@ public class SettingPlayerActivity extends BaseActivity implements UaListener, B
     }
 
     private void setRender(View view) {
-        if (PlayerSetting.isMpv()) {
-            String[] modes = PlayerSetting.getMpvRenderModeNames();
-            DialogThemeHelper.builder(this).setTitle(R.string.player_render).setSingleChoiceItems(modes, PlayerSetting.getMpvRenderMode(), (dialog, which) -> {
-                PlayerSetting.putMpvRenderMode(which);
-                setPlaybackModeText();
-                dialog.dismiss();
-            }).show();
-            return;
-        }
         int index = (PlayerSetting.getRender() + 1) % render.length;
         PlayerSetting.putRender(index);
         setPlaybackModeText();
@@ -105,9 +96,7 @@ public class SettingPlayerActivity extends BaseActivity implements UaListener, B
         engine = ResUtil.getStringArray(R.array.select_engine);
         render = ResUtil.getStringArray(R.array.select_render);
         mBinding.engineText.setText(engine[PlayerSetting.getEngine()]);
-        mBinding.renderText.setText(PlayerSetting.isMpv()
-                ? PlayerSetting.getMpvRenderModeNames()[PlayerSetting.getMpvRenderMode()]
-                : render[PlayerSetting.getRender()]);
+        mBinding.renderText.setText(render[PlayerSetting.getRender()]);
     }
 
     private void setScale(View view) {

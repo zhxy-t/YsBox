@@ -77,15 +77,13 @@ public class MpvPlayerEngine implements PlayerEngine {
         int cacheSeconds = Math.clamp(PlayerSetting.getBuffer() * 3, 15, 60);
         String ua = Setting.getUa();
         if (ua == null || ua.isBlank()) ua = MediaItemFactory.getDefaultUserAgent();
-        int renderMode = PlayerSetting.getMpvRenderMode();
-        boolean performance = renderMode == PlayerSetting.MPV_RENDER_PERFORMANCE;
-        boolean software = renderMode == PlayerSetting.MPV_RENDER_SOFTWARE;
         MpvPlayerConfig.Builder builder = MpvPlayerConfig.builder(App.get())
                 .configDir(MpvConfigStore.configDir())
                 .userAgent(ua)
-                .hwdec(software ? "no" : hardwareDecode)
-                .vo(performance ? "gpu-next" : "gpu")
+                .hwdec(hardwareDecode)
+                .vo("gpu-next")
                 .gpuContext("android")
+                .gpuApi("opengl")
                 .openglEs(true)
                 .audioSpdif(resolveAudioSpdifCodecs())
                 .multichannelPcm(false)
@@ -95,7 +93,6 @@ public class MpvPlayerEngine implements PlayerEngine {
                 .demuxerMaxBackBytes(0)
                 .cacheSeconds(cacheSeconds)
                 .option(HWDEC_SOFTWARE_FALLBACK, decode == HARD ? "no" : "yes");
-        if (performance) builder.gpuApi("opengl");
         return builder.build();
     }
 
@@ -198,9 +195,9 @@ public class MpvPlayerEngine implements PlayerEngine {
 
     @Override
     public boolean addSubtitle(com.fongmi.android.tv.bean.Sub sub) {
-        // MPV supports dynamic subtitle injection via `sub-add`. Return true so
-        // PlayerManager does not need to restart playback.
-        return player.addSubtitle(sub.getUri());
+        // MPV 的内嵌字幕走 MediaItem 的 SubtitleConfiguration：返回 false 让
+        // PlayerManager 用新 spec 重新起播，subs 会随 MediaItem 一起进 MPV。
+        return false;
     }
 
     @Override

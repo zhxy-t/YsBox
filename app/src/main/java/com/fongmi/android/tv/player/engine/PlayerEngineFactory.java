@@ -11,17 +11,6 @@ import com.fongmi.android.tv.setting.PlayerSetting;
 
 public final class PlayerEngineFactory {
 
-    /** 进程内强制回退 EXO（不改用户全局设置），由播放失败自动触发。 */
-    private static volatile boolean forceExo;
-
-    public static void setForceExo(boolean value) {
-        forceExo = value;
-    }
-
-    public static boolean isForceExo() {
-        return forceExo;
-    }
-
     public static PlayerEngine create(int decode, Player.Listener listener) {
         return create(decode, resolve(), listener);
     }
@@ -46,7 +35,6 @@ public final class PlayerEngineFactory {
     }
 
     private static PlayerEngine.Type resolve() {
-        if (forceExo) return EXO;
         return PlayerSetting.isMpv() && MpvPlayerEngine.isAvailable() ? MPV : EXO;
     }
 
