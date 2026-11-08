@@ -22,9 +22,9 @@ public class Setting {
     private static final int MAX_SYNC_MODE = 2;
     private static final int MIN_FLAG = 0;
     private static final int MAX_FLAG = 1;
-    // 弹窗风格：0=经典深色 1=纯白Material 2=暗色模式 3=iOS风格 4=霓虹渐变 5=原始（系统默认） 6=毛玻璃 7=紫夜
+    // 弹窗风格：0=经典深色 1=纯白Material 2=暗色模式 3=iOS风格 4=霓虹渐变 5=原始（系统默认） 6=毛玻璃 7=紫夜 8=M3深色
     private static final int MIN_DIALOG_STYLE = 0;
-    private static final int MAX_DIALOG_STYLE = 7;
+    private static final int MAX_DIALOG_STYLE = 8;
 
     /** 全局字体缩放：0.85 / 1.0 / 1.15 / 1.3 / 1.5，最后一项 -1 表示跟随系统；默认跟随系统 */
     public static float[] getFontScales() {

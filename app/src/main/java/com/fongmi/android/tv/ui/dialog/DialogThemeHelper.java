@@ -36,6 +36,7 @@ public final class DialogThemeHelper {
             case 5: return R.style.Theme_App_DialogOriginal;
             case 6: return R.style.Theme_App_DialogFrost;
             case 7: return R.style.Theme_App_DialogViolet;
+            case 8: return R.style.Theme_App_DialogOriginalDark;
             case 3:
             default: return R.style.Theme_App_DialogIOS;
         }
@@ -51,6 +52,7 @@ public final class DialogThemeHelper {
             case 5: return R.style.ThemeOverlay_FongMi_Dialog_Original;
             case 6: return R.style.ThemeOverlay_FongMi_Dialog_Frost;
             case 7: return R.style.ThemeOverlay_FongMi_Dialog_Violet;
+            case 8: return R.style.ThemeOverlay_FongMi_Dialog_OriginalDark;
             case 3:
             default: return R.style.ThemeOverlay_FongMi_Dialog_IOS;
         }
@@ -65,7 +67,8 @@ public final class DialogThemeHelper {
             case 4: return R.style.Theme_App_DialogNeon_Translucent;
             case 5: return R.style.Theme_App_DialogClassic_Translucent;
             case 6:
-            case 7: return R.style.Theme_App_DialogClassic_Translucent;
+            case 7:
+            case 8: return R.style.Theme_App_DialogClassic_Translucent;
             case 3:
             default: return R.style.Theme_App_DialogIOS_Translucent;
         }
@@ -80,7 +83,8 @@ public final class DialogThemeHelper {
             case 4: return R.drawable.dialog_btn_style_neon;
             case 5: return R.drawable.dialog_btn_style_classic;
             case 6:
-            case 7: return R.drawable.dialog_btn_style_classic;
+            case 7:
+            case 8: return R.drawable.dialog_btn_style_classic;
             case 3:
             default: return R.drawable.dialog_btn_style_ios;
         }
@@ -167,6 +171,7 @@ public final class DialogThemeHelper {
             case 5: return 0;
             case 6: return R.drawable.bg_dialog_frost;
             case 7: return R.drawable.bg_dialog_violet;
+            case 8: return R.drawable.bg_dialog_original_dark;
             case 3:
             default: return R.drawable.bg_dialog_ios;
         }

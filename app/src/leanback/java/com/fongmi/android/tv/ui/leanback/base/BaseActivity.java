@@ -68,6 +68,7 @@ public abstract class BaseActivity extends AppCompatActivity {
             case 5: setTheme(R.style.Theme_App_DialogOriginal); break;
             case 6: setTheme(R.style.Theme_App_DialogFrost); break;
             case 7: setTheme(R.style.Theme_App_DialogViolet); break;
+            case 8: setTheme(R.style.Theme_App_DialogOriginalDark); break;
             case 3:
             default: setTheme(R.style.Theme_App_DialogIOS); break;
         }
