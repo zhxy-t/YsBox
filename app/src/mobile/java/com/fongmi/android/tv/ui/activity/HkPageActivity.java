@@ -3572,7 +3572,8 @@ public class HkPageActivity extends BaseActivity {
             Context ctx = parent.getContext();
             float d = ctx.getResources().getDisplayMetrics().density;
             TextView tv = new TextView(ctx);
-            tv.setBackgroundResource(DialogThemeHelper.cardSurfaceRes(this));
+            tv.setBackgroundResource(DialogThemeHelper.cardSurfaceRes(ctx));
+            tv.setTextColor(DialogThemeHelper.primaryText(ctx));
             tv.setGravity(Gravity.CENTER);
             tv.setMaxLines(1);
             tv.setEllipsize(TextUtils.TruncateAt.END);
