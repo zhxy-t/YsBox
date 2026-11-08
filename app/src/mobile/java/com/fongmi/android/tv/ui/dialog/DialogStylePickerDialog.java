@@ -184,7 +184,11 @@ public final class DialogStylePickerDialog {
         GradientDrawable inner = new GradientDrawable();
         inner.setColor(0x00000000);
         inner.setCornerRadius(dp(density, BTN_RADIUS));
-        if (neon && primary) return gradientBorder(density, inner, BTN_RADIUS, Math.max(1, dp(density, 2)));
+        if (neon && primary) {
+            // 渐变描边需要不透明内层“挖空”，否则整个按钮会被外层渐变填满
+            inner.setColor(SURFACE[i]);
+            return gradientBorder(density, inner, BTN_RADIUS, Math.max(1, dp(density, 2)));
+        }
         int strokeColor = primary ? ACCENT[i] : blend(ACCENT[i], SURFACE[i], 0.30f);
         inner.setStroke(Math.max(1, dp(density, 1)), strokeColor);
         return inner;
