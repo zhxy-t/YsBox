@@ -40,6 +40,8 @@ public class HkDialogs extends AlertDialog.Builder {
             case 3: return R.style.ThemeOverlay_FongMi_Dialog_IOS;
             case 4: return R.style.ThemeOverlay_FongMi_Dialog_Neon;
             case 5: return R.style.ThemeOverlay_FongMi_Dialog_Original;
+            case 6: return R.style.ThemeOverlay_FongMi_Dialog_Frost;
+            case 7: return R.style.ThemeOverlay_FongMi_Dialog_Violet;
             case 0:
             default: return R.style.ThemeOverlay_XingChen_GlassDialog_Dark;
         }
@@ -81,6 +83,8 @@ public class HkDialogs extends AlertDialog.Builder {
             case 3: return R.drawable.bg_dialog_ios;
             case 4: return R.drawable.bg_dialog_neon;
             case 5: return 0;
+            case 6: return R.drawable.bg_dialog_frost;
+            case 7: return R.drawable.bg_dialog_violet;
             case 0:
             default: return R.drawable.dialog_glass_dark;
         }

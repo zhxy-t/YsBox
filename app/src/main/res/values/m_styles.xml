@@ -102,6 +102,38 @@
         <item name="textColorAlertDialogListItem">?attr/dialogTextPrimary</item>
 </style>
 
+    <!-- 毛玻璃：磨砂深蓝 + 淡蓝强调色 -->
+    <style name="Theme.App.DialogFrost" parent="Theme.App">
+        <item name="alertDialogTheme">@style/ThemeOverlay.FongMi.Dialog.Frost</item>
+        <item name="materialAlertDialogTheme">@style/ThemeOverlay.FongMi.Dialog.Frost</item>
+
+        <item name="dialogSurface">@drawable/bg_dialog_frost</item>
+        <item name="dialogTextPrimary">#F2F6FC</item>
+        <item name="dialogTextSecondary">#AEB9C9</item>
+        <item name="dialogTextHint">#7D8899</item>
+        <item name="dialogAccent">#8AB4F8</item>
+        <item name="dialogInputSurface">@drawable/bg_dialog_input_amoled</item>
+        <item name="dialogDivider">#33FFFFFF</item>
+        <item name="dialogCardSurface">@drawable/dialog_option_card_dark</item>
+        <item name="textColorAlertDialogListItem">?attr/dialogTextPrimary</item>
+    </style>
+
+    <!-- 紫夜：深紫黑 + 薰衣草紫强调色 -->
+    <style name="Theme.App.DialogViolet" parent="Theme.App">
+        <item name="alertDialogTheme">@style/ThemeOverlay.FongMi.Dialog.Violet</item>
+        <item name="materialAlertDialogTheme">@style/ThemeOverlay.FongMi.Dialog.Violet</item>
+
+        <item name="dialogSurface">@drawable/bg_dialog_violet</item>
+        <item name="dialogTextPrimary">#F4F0FF</item>
+        <item name="dialogTextSecondary">#BDADD9</item>
+        <item name="dialogTextHint">#8A7AA8</item>
+        <item name="dialogAccent">#B79CFF</item>
+        <item name="dialogInputSurface">@drawable/bg_dialog_input_amoled</item>
+        <item name="dialogDivider">#33FFFFFF</item>
+        <item name="dialogCardSurface">@drawable/dialog_option_card_dark</item>
+        <item name="textColorAlertDialogListItem">?attr/dialogTextPrimary</item>
+    </style>
+
     <!-- 实验室页面：与主 App 同源——透明底＋自定义壁纸，不再铺近黑底 -->
     <style name="Theme.Lab" parent="Theme.App">
         <item name="android:windowBackground">@android:color/transparent</item>
@@ -562,6 +594,88 @@
     
     <!-- ========== 弹窗风格 5: 原始（系统默认 Material，无自定义边框） ========== -->
     <style name="ThemeOverlay.FongMi.Dialog.Original" parent="ThemeOverlay.Material3.MaterialAlertDialog" />
+
+    <!-- ========== 弹窗风格 6: 毛玻璃（磨砂深蓝 + 淡蓝描边） ========== -->
+    <style name="XingChen.DialogEditText.Frost" parent="android:Widget.EditText">
+        <item name="android:background">@drawable/bg_dialog_input_amoled</item>
+        <item name="android:textColor">#F2F6FC</item>
+        <item name="android:textColorHint">#7D8899</item>
+        <item name="android:padding">12dp</item>
+    </style>
+
+    <style name="ThemeOverlay.FongMi.Dialog.Frost" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+        <item name="dialogCornerRadius">20dp</item>
+        <item name="android:windowBackground">@drawable/bg_dialog_frost</item>
+        <item name="android:textColor">#F2F6FC</item>
+        <item name="android:textColorPrimary">#F2F6FC</item>
+        <item name="android:textColorSecondary">#AEB9C9</item>
+        <item name="colorOnSurface">#F2F6FC</item>
+        <item name="colorOnSurfaceVariant">#F2F6FC</item>
+        <item name="android:textColorAlertDialogListItem">#F2F6FC</item>
+        <item name="textColorAlertDialogListItem">#F2F6FC</item>
+        <item name="android:colorAccent">#8AB4F8</item>
+        <item name="android:editTextStyle">@style/XingChen.DialogEditText.Frost</item>
+        <item name="android:windowAnimationStyle">@style/HkDialogFade</item>
+
+        <item name="dialogSurface">@drawable/bg_dialog_frost</item>
+        <item name="dialogTextPrimary">#F2F6FC</item>
+        <item name="dialogTextSecondary">#AEB9C9</item>
+        <item name="dialogTextHint">#7D8899</item>
+        <item name="dialogAccent">#8AB4F8</item>
+        <item name="dialogInputSurface">@drawable/bg_dialog_input_amoled</item>
+        <item name="dialogDivider">#33FFFFFF</item>
+        <item name="dialogCardSurface">@drawable/dialog_option_card_dark</item>
+        <item name="buttonBarPositiveButtonStyle">@style/XingChen.DialogButton.IOS</item>
+        <item name="buttonBarNegativeButtonStyle">@style/XingChen.DialogButton.IOS</item>
+        <item name="buttonBarNeutralButtonStyle">@style/XingChen.DialogButton.IOS</item>
+        <item name="android:buttonBarPositiveButtonStyle">@style/XingChen.DialogButton.IOS</item>
+        <item name="android:buttonBarNegativeButtonStyle">@style/XingChen.DialogButton.IOS</item>
+        <item name="android:buttonBarNeutralButtonStyle">@style/XingChen.DialogButton.IOS</item>
+        <item name="colorSurface">#1E2633</item>
+        <item name="colorSurfaceVariant">#1E2633</item>
+        <item name="colorPrimary">#8AB4F8</item>
+    </style>
+
+    <!-- ========== 弹窗风格 7: 紫夜（深紫黑 + 薰衣草紫描边） ========== -->
+    <style name="XingChen.DialogEditText.Violet" parent="android:Widget.EditText">
+        <item name="android:background">@drawable/bg_dialog_input_amoled</item>
+        <item name="android:textColor">#F4F0FF</item>
+        <item name="android:textColorHint">#8A7AA8</item>
+        <item name="android:padding">12dp</item>
+    </style>
+
+    <style name="ThemeOverlay.FongMi.Dialog.Violet" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+        <item name="dialogCornerRadius">20dp</item>
+        <item name="android:windowBackground">@drawable/bg_dialog_violet</item>
+        <item name="android:textColor">#F4F0FF</item>
+        <item name="android:textColorPrimary">#F4F0FF</item>
+        <item name="android:textColorSecondary">#BDADD9</item>
+        <item name="colorOnSurface">#F4F0FF</item>
+        <item name="colorOnSurfaceVariant">#F4F0FF</item>
+        <item name="android:textColorAlertDialogListItem">#F4F0FF</item>
+        <item name="textColorAlertDialogListItem">#F4F0FF</item>
+        <item name="android:colorAccent">#B79CFF</item>
+        <item name="android:editTextStyle">@style/XingChen.DialogEditText.Violet</item>
+        <item name="android:windowAnimationStyle">@style/HkDialogFade</item>
+
+        <item name="dialogSurface">@drawable/bg_dialog_violet</item>
+        <item name="dialogTextPrimary">#F4F0FF</item>
+        <item name="dialogTextSecondary">#BDADD9</item>
+        <item name="dialogTextHint">#8A7AA8</item>
+        <item name="dialogAccent">#B79CFF</item>
+        <item name="dialogInputSurface">@drawable/bg_dialog_input_amoled</item>
+        <item name="dialogDivider">#33FFFFFF</item>
+        <item name="dialogCardSurface">@drawable/dialog_option_card_dark</item>
+        <item name="buttonBarPositiveButtonStyle">@style/XingChen.DialogButton.IOS</item>
+        <item name="buttonBarNegativeButtonStyle">@style/XingChen.DialogButton.IOS</item>
+        <item name="buttonBarNeutralButtonStyle">@style/XingChen.DialogButton.IOS</item>
+        <item name="android:buttonBarPositiveButtonStyle">@style/XingChen.DialogButton.IOS</item>
+        <item name="android:buttonBarNegativeButtonStyle">@style/XingChen.DialogButton.IOS</item>
+        <item name="android:buttonBarNeutralButtonStyle">@style/XingChen.DialogButton.IOS</item>
+        <item name="colorSurface">#1A1428</item>
+        <item name="colorSurfaceVariant">#1A1428</item>
+        <item name="colorPrimary">#B79CFF</item>
+    </style>
 
     <style name="HkDialogFade">
         <item name="android:windowEnterAnimation">@anim/hk_dialog_fade_in</item>
