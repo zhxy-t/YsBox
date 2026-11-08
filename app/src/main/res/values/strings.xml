@@ -644,7 +644,7 @@
     <string name="player_osd_traffic">Network speed</string>
     <string name="player_osd_mini">Mini</string>
     <string name="player_osd_diagnostics">Playback params</string>
-    <string name="player_osd_reset">Reset settings</string>
+    <string name="player_osd_reset">Reset</string>
     <string name="osd_time">Clock %1$s</string>
     <string name="osd_traffic">Speed %1$s</string>
     <string name="osd_diagnostics">Params %1$s</string>

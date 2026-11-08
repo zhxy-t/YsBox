@@ -635,7 +635,7 @@
     <string name="player_osd_traffic">網速</string>
     <string name="player_osd_mini">迷你</string>
     <string name="player_osd_diagnostics">播放參數</string>
-    <string name="player_osd_reset">重設設定</string>
+    <string name="player_osd_reset">重設</string>
     <string name="osd_time">時間 %1$s</string>
     <string name="osd_traffic">網速 %1$s</string>
     <string name="osd_diagnostics">參數 %1$s</string>
