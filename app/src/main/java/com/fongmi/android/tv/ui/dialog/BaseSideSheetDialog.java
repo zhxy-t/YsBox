@@ -69,7 +69,8 @@ public abstract class BaseSideSheetDialog extends AppCompatDialogFragment {
         ViewGroup.LayoutParams params = sheet.getLayoutParams();
         params.width = getWidth();
         sheet.setLayoutParams(params);
-        // 卡片背景画在 sheet 上，避免铺满全屏窗口
-        sheet.setBackgroundResource(DialogThemeHelper.dialogBackgroundRes());
+        // 卡片背景画在 sheet 上，避免铺满全屏窗口；0=原始风格，保留系统默认背景
+        int bg = DialogThemeHelper.dialogBackgroundRes();
+        if (bg != 0) sheet.setBackgroundResource(bg);
     }
 }

@@ -39,6 +39,7 @@ public class HkDialogs extends AlertDialog.Builder {
             case 2: return R.style.ThemeOverlay_FongMi_Dialog_Amoled;
             case 3: return R.style.ThemeOverlay_FongMi_Dialog_IOS;
             case 4: return R.style.ThemeOverlay_FongMi_Dialog_Neon;
+            case 5: return R.style.ThemeOverlay_FongMi_Dialog_Original;
             case 0:
             default: return R.style.ThemeOverlay_XingChen_GlassDialog_Dark;
         }
@@ -64,9 +65,10 @@ public class HkDialogs extends AlertDialog.Builder {
         Window window = dialog.getWindow();
         if (window != null) {
             window.setWindowAnimations(R.style.HkDialogFade);
-            // 强制应用弹窗背景，确保主题生效
+            // 强制应用弹窗背景，确保主题生效（原始风格=0，保持系统默认背景）
             int style = com.fongmi.android.tv.setting.Setting.getDialogStyle();
-            window.setBackgroundDrawableResource(getDialogBackgroundRes(style));
+            int bg = getDialogBackgroundRes(style);
+            if (bg != 0) window.setBackgroundDrawableResource(bg);
         }
         return dialog;
     }
@@ -78,6 +80,7 @@ public class HkDialogs extends AlertDialog.Builder {
             case 2: return R.drawable.bg_dialog_dark_amoled;
             case 3: return R.drawable.bg_dialog_ios;
             case 4: return R.drawable.bg_dialog_neon;
+            case 5: return 0;
             case 0:
             default: return R.drawable.dialog_glass_dark;
         }

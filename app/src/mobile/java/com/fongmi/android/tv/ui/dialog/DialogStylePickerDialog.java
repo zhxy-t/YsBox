@@ -26,20 +26,21 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
  */
 public final class DialogStylePickerDialog {
 
-    /** 与 Setting.getDialogStyle() 的 0~4 一一对应 */
-    private static final String[] NAMES = {"经典深色", "纯白 Material", "暗色模式", "iOS 风格", "霓虹渐变"};
+    /** 与 Setting.getDialogStyle() 的 0~5 一一对应 */
+    private static final String[] NAMES = {"经典深色", "纯白 Material", "暗色模式", "iOS 风格", "霓虹渐变", "原始"};
     // surface, primary, secondary, accent, card(按钮底), radius
-    private static final int[] SURFACE = {0xFF1A1D24, 0xFFFFFFFF, 0xFF0A0A0A, 0xFFF2F2F7, 0xFF101A33};
-    private static final int[] PRIMARY = {0xFFF2F4F8, 0xFF101216, 0xFFF0F0F0, 0xFF1C1C1E, 0xFFFFFFFF};
-    private static final int[] SECONDARY = {0xFFA8B0C0, 0xFF5F6368, 0xFF888888, 0xFF8E8E93, 0xFFAAAAFF};
-    private static final int[] ACCENT = {0xFFD9A420, 0xFF6750A4, 0xFF4A9EFF, 0xFF007AFF, 0xFFFF006E};
-    private static final int[] RADIUS = {16, 20, 20, 24, 20};
+    private static final int[] SURFACE = {0xFF1A1D24, 0xFFFFFFFF, 0xFF0A0A0A, 0xFFF2F2F7, 0xFF101A33, 0xFF1C1B1F};
+    private static final int[] PRIMARY = {0xFFF2F4F8, 0xFF101216, 0xFFF0F0F0, 0xFF1C1C1E, 0xFFFFFFFF, 0xFFE6E1E5};
+    private static final int[] SECONDARY = {0xFFA8B0C0, 0xFF5F6368, 0xFF888888, 0xFF8E8E93, 0xFFAAAAFF, 0xFFCAC4D0};
+    private static final int[] ACCENT = {0xFFD9A420, 0xFF6750A4, 0xFF4A9EFF, 0xFF007AFF, 0xFFFF006E, 0xFFD0BCFF};
+    private static final int[] RADIUS = {16, 20, 20, 24, 20, 28};
     // 卡片/弹窗边框色：比 surface 明显一点，保证「有边框」肉眼可见
-    private static final int[] BORDER = {0xFFD9A420, 0xFFC9CFDA, 0xFF2F5A8A, 0xFFC7C7CC, 0xFFFFFFFF};
+    private static final int[] BORDER = {0xFFD9A420, 0xFFC9CFDA, 0xFF2F5A8A, 0xFFC7C7CC, 0xFFFFFFFF, 0x00000000};
 
     /** 霓虹三色（与 bg_dialog_neon.xml 完全一致） */
     private static final int[] NEON = {0xFF00D4FF, 0xFF7B61FF, 0xFFFF006E};
     private static final int NEON_INDEX = 4;
+    private static final int ORIGINAL_INDEX = 5;
     private static final int BTN_RADIUS = 14;
 
     public interface Listener {
@@ -126,8 +127,8 @@ public final class DialogStylePickerDialog {
             card.addView(buttons);
             cell.addView(card, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
 
-            // 选中态：描边 + 勾选（霓虹的渐变边框已画在卡片背景上，不再叠加不透明描边层）
-            if (!neon) {
+            // 选中态：描边 + 勾选（霓虹的渐变边框已画在卡片背景上；原始风格是系统默认无边框，均不叠加）
+            if (!neon && i != ORIGINAL_INDEX) {
                 View border = new View(activity);
                 border.setBackground(ringBackground(density, i, false));
                 // 所有卡片常驻显示边框，不只是选中的

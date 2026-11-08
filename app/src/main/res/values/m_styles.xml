@@ -560,6 +560,9 @@
 
     
     
+    <!-- ========== 弹窗风格 5: 原始（系统默认 Material，无自定义边框） ========== -->
+    <style name="ThemeOverlay.FongMi.Dialog.Original" parent="ThemeOverlay.Material3.MaterialAlertDialog" />
+
     <style name="HkDialogFade">
         <item name="android:windowEnterAnimation">@anim/hk_dialog_fade_in</item>
         <item name="android:windowExitAnimation">@anim/hk_dialog_fade_out</item>

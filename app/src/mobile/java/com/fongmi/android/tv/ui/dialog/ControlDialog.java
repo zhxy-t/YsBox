@@ -69,6 +69,12 @@ public class ControlDialog extends BaseBottomSheetDialog implements ParseAdapter
         return this;
     }
 
+    /** 高度按屏高一半，不写死 dp；内容超出时由布局内的 NestedScrollView 滚动 */
+    @Override
+    protected int getMaxHeight() {
+        return ResUtil.getScreenHeight() / 2;
+    }
+
     @Override
     protected ViewBinding getBinding(@NonNull LayoutInflater inflater, @Nullable ViewGroup container) {
         binding = DialogControlBinding.inflate(inflater, container, false);

@@ -118,8 +118,9 @@ public abstract class BaseBottomSheetDialog extends BottomSheetDialogFragment {
             Window window = dialog.getWindow();
             if (window != null) window.setBackgroundDrawableResource(android.R.color.transparent);
         } else {
-            // 卡片背景画在 sheet 上（高度=内容高度），而不是铺满全屏窗口
-            sheet.setBackgroundResource(DialogThemeHelper.dialogBackgroundRes());
+            // 卡片背景画在 sheet 上（高度=内容高度），而不是铺满全屏窗口；0=原始风格，保留系统默认背景
+            int bg = DialogThemeHelper.dialogBackgroundRes();
+            if (bg != 0) sheet.setBackgroundResource(bg);
         }
     }
 

@@ -33,6 +33,7 @@ public final class DialogThemeHelper {
             case 1: return R.style.Theme_App_DialogWhite;
             case 2: return R.style.Theme_App_DialogAmoled;
             case 4: return R.style.Theme_App_DialogNeon;
+            case 5: return R.style.Theme_App;
             case 3:
             default: return R.style.Theme_App_DialogIOS;
         }
@@ -45,6 +46,7 @@ public final class DialogThemeHelper {
             case 1: return R.style.ThemeOverlay_FongMi_Dialog_White;
             case 2: return R.style.ThemeOverlay_FongMi_Dialog_Amoled;
             case 4: return R.style.ThemeOverlay_FongMi_Dialog_Neon;
+            case 5: return R.style.ThemeOverlay_FongMi_Dialog_Original;
             case 3:
             default: return R.style.ThemeOverlay_FongMi_Dialog_IOS;
         }
@@ -57,6 +59,7 @@ public final class DialogThemeHelper {
             case 1: return R.style.Theme_App_DialogWhite_Translucent;
             case 2: return R.style.Theme_App_DialogAmoled_Translucent;
             case 4: return R.style.Theme_App_DialogNeon_Translucent;
+            case 5: return R.style.Theme_App_DialogClassic_Translucent;
             case 3:
             default: return R.style.Theme_App_DialogIOS_Translucent;
         }
@@ -69,6 +72,7 @@ public final class DialogThemeHelper {
             case 1: return R.drawable.dialog_btn_style_white;
             case 2: return R.drawable.dialog_btn_style_amoled;
             case 4: return R.drawable.dialog_btn_style_neon;
+            case 5: return R.drawable.dialog_btn_style_classic;
             case 3:
             default: return R.drawable.dialog_btn_style_ios;
         }
@@ -123,6 +127,8 @@ public final class DialogThemeHelper {
         @Override
         public androidx.appcompat.app.AlertDialog create() {
             androidx.appcompat.app.AlertDialog dialog = super.create();
+            // 「原始」风格：保持系统默认 Material 外观，不套自定义背景/按钮/列表着色
+            if (Setting.getDialogStyle() == 5) return dialog;
             applyWindowBackground(dialog);
             applyDialogSize(dialog.getWindow());
             applyButtonStyle(dialog);
@@ -139,16 +145,18 @@ public final class DialogThemeHelper {
      */
     private static void applyWindowBackground(@Nullable androidx.appcompat.app.AlertDialog dialog) {
         if (dialog == null || dialog.getWindow() == null) return;
-        dialog.getWindow().setBackgroundDrawableResource(dialogBackgroundRes());
+        int res = dialogBackgroundRes();
+        if (res != 0) dialog.getWindow().setBackgroundDrawableResource(res);
     }
 
-    /** 当前风格对应的弹窗边框背景（带 stroke） */
+    /** 当前风格对应的弹窗边框背景（带 stroke）；0 = 不设置（原始风格） */
     static int dialogBackgroundRes() {
         switch (Setting.getDialogStyle()) {
             case 0: return R.drawable.dialog_glass_dark;
             case 1: return R.drawable.bg_dialog_white;
             case 2: return R.drawable.bg_dialog_dark_amoled;
             case 4: return R.drawable.bg_dialog_neon;
+            case 5: return 0;
             case 3:
             default: return R.drawable.bg_dialog_ios;
         }
