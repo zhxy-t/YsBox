@@ -40,10 +40,8 @@ public class ScriptAdapter extends RecyclerView.Adapter<ScriptAdapter.ViewHolder
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        // item_script.xml 用了 ?attr/dialogCardSurface 与 ?attr/dialogTextPrimary，
-        // 必须用带弹窗主题的 context inflate，否则解析不到会崩（闪退根因）。
-        View v = LayoutInflater.from(com.fongmi.android.tv.ui.dialog.DialogThemeHelper.wrap(parent.getContext()))
-                .inflate(R.layout.item_script, parent, false);
+        // 布局里不再用 ?attr，直接 inflate 即可，颜色在 onBindViewHolder 里按主题设置
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_script, parent, false);
         return new ViewHolder(v);
     }
 
@@ -51,6 +49,12 @@ public class ScriptAdapter extends RecyclerView.Adapter<ScriptAdapter.ViewHolder
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         File f = files.get(position);
         holder.name.setText(f.getName());
+        // 直接按当前弹窗风格着色，不依赖 XML 里的 ?attr（避免 context 无主题时崩溃）
+        android.content.Context ctx = holder.itemView.getContext();
+        int textColor = com.fongmi.android.tv.ui.dialog.DialogThemeHelper.primaryText(ctx);
+        int bgRes = com.fongmi.android.tv.ui.dialog.DialogThemeHelper.resolveResId(ctx, com.fongmi.android.tv.R.attr.dialogCardSurface);
+        holder.name.setTextColor(textColor);
+        if (bgRes != 0) holder.name.setBackgroundResource(bgRes);
         holder.itemView.setOnClickListener(v -> {
             if (listener != null) listener.onItemClick(f);
         });

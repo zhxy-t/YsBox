@@ -122,9 +122,9 @@ public final class DialogStylePickerDialog {
             // 选中态外框：霓虹为渐变描边
             View border = new View(activity);
             border.setBackground(ringBackground(density, i, neon));
-            border.setVisibility(current == style ? View.VISIBLE : View.GONE);
+            // 所有卡片常驻显示边框，不只是选中的
+            border.setVisibility(View.VISIBLE);
             cell.addView(border, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-
             TextView check = new TextView(activity);
             check.setText("\u2713");
             check.setTextSize(22);
@@ -161,13 +161,11 @@ public final class DialogStylePickerDialog {
                 .show();
     }
 
-    /** 卡片背景：霓虹=渐变边框，其余=风格色边框 */
+    /** 卡片背景：无边框，只留底色和圆角，边框由 ringBackground 统一提供 */
     private static Drawable cardBackground(float density, int i, boolean neon) {
         GradientDrawable inner = new GradientDrawable();
         inner.setColor(SURFACE[i]);
         inner.setCornerRadius(dp(density, RADIUS[i]));
-        if (neon) return gradientBorder(density, inner, RADIUS[i], Math.max(1, dp(density, 2)));
-        inner.setStroke(Math.max(1, dp(density, 1)), BORDER[i]);
         return inner;
     }
 

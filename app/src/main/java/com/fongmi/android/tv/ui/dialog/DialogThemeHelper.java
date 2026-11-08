@@ -125,6 +125,7 @@ public final class DialogThemeHelper {
             androidx.appcompat.app.AlertDialog dialog = super.create();
             applyDialogSize(dialog.getWindow());
             applyButtonStyle(dialog);
+            applyListItemStyle(dialog);
             return dialog;
         }
     }
@@ -139,6 +140,39 @@ public final class DialogThemeHelper {
      * 用 MaterialButton 原生 strokeColor / strokeWidth 而不是换背景 drawable：
      * 原生描边会保留 Material 自带的按下涟漪与文字变色，观感比自绘背景更自然。
      */
+    /**
+     * 给 AlertDialog 的列表 item（singleChoiceItems / multiChoiceItems / setAdapter）强制着色。
+     * 系统 AlertDialog 的列表 item 用内置布局，主题里的 textColorAlertDialogListItem 经常不生效，
+     * 这里直接遍历 ListView 的 children 并强制设置 textColor。
+     */
+    private static void applyListItemStyle(androidx.appcompat.app.AlertDialog dialog) {
+        if (dialog == null || dialog.getWindow() == null) return;
+        dialog.getWindow().getDecorView().post(() -> {
+            try {
+                android.widget.ListView listView = dialog.getListView();
+                if (listView == null) return;
+                int textColor = primaryText(dialog.getContext());
+                for (int i = 0; i < listView.getChildCount(); i++) {
+                    View child = listView.getChildAt(i);
+                    if (child instanceof android.widget.TextView) {
+                        ((android.widget.TextView) child).setTextColor(textColor);
+                    } else if (child instanceof android.widget.CheckedTextView) {
+                        ((android.widget.CheckedTextView) child).setTextColor(textColor);
+                    } else if (child instanceof android.view.ViewGroup) {
+                        // 有些 item 是 FrameLayout 包裹的
+                        for (int j = 0; j < ((android.view.ViewGroup) child).getChildCount(); j++) {
+                            View inner = ((android.view.ViewGroup) child).getChildAt(j);
+                            if (inner instanceof android.widget.TextView) {
+                                ((android.widget.TextView) inner).setTextColor(textColor);
+                            }
+                        }
+                    }
+                }
+            } catch (Exception ignored) {
+            }
+        });
+    }
+
     private static void applyButtonStyle(androidx.appcompat.app.AlertDialog dialog) {
         if (dialog == null || dialog.getWindow() == null) return;
         Window window = dialog.getWindow();
