@@ -35,6 +35,20 @@
             android:text="@string/script_preview_copy"
             android:textColor="?attr/dialogTextPrimary"
             android:textSize="13sp" />
+
+        <TextView
+            android:id="@+id/btn_open"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:background="?attr/dialogCardSurface"
+            android:paddingStart="18dp"
+            android:paddingTop="8dp"
+            android:paddingEnd="18dp"
+            android:paddingBottom="8dp"
+            android:text="@string/script_preview_open"
+            android:textColor="?attr/dialogTextPrimary"
+            android:textSize="13sp" />
     </LinearLayout>
 
     <ScrollView

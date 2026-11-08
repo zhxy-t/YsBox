@@ -95,11 +95,10 @@ public class EnhancedActivity extends BaseActivity {
     }
 
     private int countPlugins(boolean py) {
+        // 只统计用户脚本目录；cache/py|js 是运行时缓存，不计入「共 N 个脚本」
         File own = new File(getFilesDir(), py ? "plugins/py" : "plugins/js");
-        File cache = py ? Path.py() : Path.js();
         Set<String> names = new HashSet<>();
         collect(own, py, names);
-        collect(cache, py, names);
         return names.size();
     }
 

@@ -114,7 +114,7 @@ public class PluginActivity extends BaseActivity implements PluginAdapter.Listen
         String ext = mPy ? ".py" : ".js";
         Set<String> names = new HashSet<>();
         addFiles(new File(getFilesDir(), mPy ? "plugins/py" : "plugins/js"), ext, names);
-        addFiles(mPy ? Path.py() : Path.js(), ext, names);
+        // cache/py|js 是运行时缓存，不列进插件管理
         mPlugins.sort(Comparator.comparing(Plugin::getName));
         mBinding.selectAll.setOnCheckedChangeListener(null);
         mBinding.selectAll.setChecked(false);

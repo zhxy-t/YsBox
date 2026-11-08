@@ -184,20 +184,46 @@ public class VodFragment extends BaseFragment implements ConfigListener, SiteLis
     }
 
     private void onLogo(View view) {
-        // 短按：切换线路（首页配置线路列表）
+        // 短按：切换线路（首页配置线路列表）。线路多/URL 长时在弹窗内滚动
         List<Config> configs = Config.getAll(0);
         if (configs.isEmpty()) return;
-        String[] names = new String[configs.size()];
         final int current = indexOfCurrent(configs);
+        android.content.Context ctx = DialogThemeHelper.wrap(requireActivity());
+        int pad = ResUtil.dp2px(12);
+        android.widget.ScrollView scroll = new android.widget.ScrollView(ctx);
+        android.widget.RadioGroup group = new android.widget.RadioGroup(ctx);
+        group.setOrientation(android.widget.RadioGroup.VERTICAL);
+        group.setPadding(pad, pad / 2, pad, pad / 2);
+        androidx.appcompat.app.AlertDialog[] ref = new androidx.appcompat.app.AlertDialog[1];
+        int textColor = DialogThemeHelper.primaryText(requireActivity());
         for (int i = 0; i < configs.size(); i++) {
             Config config = configs.get(i);
-            names[i] = TextUtils.isEmpty(config.getName()) ? config.getUrl() : config.getName();
+            android.widget.RadioButton rb = new android.widget.RadioButton(ctx);
+            rb.setText(TextUtils.isEmpty(config.getName()) ? config.getUrl() : config.getName());
+            rb.setTextColor(textColor);
+            rb.setTextSize(14);
+            rb.setId(i + 1);
+            rb.setChecked(i == current);
+            final int index = i;
+            rb.setOnClickListener(v -> {
+                if (ref[0] != null) ref[0].dismiss();
+                if (index == current) return;
+                setConfig(configs.get(index));
+            });
+            group.addView(rb, new android.widget.RadioGroup.LayoutParams(
+                    android.widget.RadioGroup.LayoutParams.MATCH_PARENT,
+                    android.widget.RadioGroup.LayoutParams.WRAP_CONTENT));
         }
-        DialogThemeHelper.builder(requireActivity()).setTitle(R.string.switch_line).setSingleChoiceItems(names, current, (dialog, which) -> {
-            dialog.dismiss();
-            if (which == current) return;
-            setConfig(configs.get(which));
-        }).show();
+        scroll.addView(group);
+        if (configs.size() > 3) {
+            int maxH = Math.round(ResUtil.getScreenHeight() * 0.55f);
+            scroll.setLayoutParams(new android.view.ViewGroup.LayoutParams(
+                    android.view.ViewGroup.LayoutParams.MATCH_PARENT, maxH));
+        }
+        ref[0] = DialogThemeHelper.builder(requireActivity())
+                .setTitle(R.string.switch_line)
+                .setView(scroll)
+                .show();
     }
 
     private int indexOfCurrent(List<Config> configs) {

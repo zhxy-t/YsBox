@@ -13,6 +13,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 
 import com.fongmi.android.tv.R;
+import com.fongmi.android.tv.utils.FileUtil;
+import com.fongmi.android.tv.utils.Notify;
 import com.fongmi.android.tv.utils.Util;
 
 import java.io.BufferedReader;
@@ -61,6 +63,7 @@ public class ScriptPreviewDialog extends Dialog {
         TextView tvPath = findViewById(R.id.tv_path);
         TextView tvContent = findViewById(R.id.tv_content);
         TextView btnCopy = findViewById(R.id.btn_copy);
+        TextView btnOpen = findViewById(R.id.btn_open);
 
         if (tvPath != null) tvPath.setText(file == null ? "" : file.getAbsolutePath());
         if (tvContent != null) tvContent.setText(content.isEmpty() ? "（空文件）" : content);
@@ -70,6 +73,20 @@ public class ScriptPreviewDialog extends Dialog {
             btnCopy.setFocusable(true);
             btnCopy.setOnClickListener(v -> Util.copy(content));
             NeonButtonStyler.apply(btnCopy);
+        }
+
+        if (btnOpen != null) {
+            btnOpen.setClickable(true);
+            btnOpen.setFocusable(true);
+            btnOpen.setOnClickListener(v -> {
+                if (file == null || !file.isFile()) return;
+                try {
+                    FileUtil.openFile(file);
+                } catch (Exception e) {
+                    Notify.show("没有可打开该文件的应用");
+                }
+            });
+            NeonButtonStyler.apply(btnOpen);
         }
 
         // 源码区限高：内容再长也只占屏幕一半，超出部分在内部滚动，

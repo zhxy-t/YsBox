@@ -1127,7 +1127,7 @@ public class HkPageActivity extends BaseActivity {
         root.setPadding(dp(20), dp(16), dp(20), dp(16));
         TextView title = new TextView(this);
         title.setText("小程序列数");
-        title.setTextColor(0xFFF2F4F8);
+        title.setTextColor(DialogThemeHelper.primaryText(this));
         title.setTextSize(16);
         title.setTypeface(null, android.graphics.Typeface.BOLD);
         title.setGravity(Gravity.CENTER);
@@ -1141,7 +1141,7 @@ public class HkPageActivity extends BaseActivity {
             TextView tv = new TextView(this);
             tv.setText(labels[i]);
             boolean sel = spans[i] == current;
-            tv.setTextColor(sel ? 0xFFB8890F : 0xFF1A1D24);
+            tv.setTextColor(sel ? DialogThemeHelper.accent(this) : DialogThemeHelper.primaryText(this));
             tv.setTypeface(null, sel ? android.graphics.Typeface.BOLD : android.graphics.Typeface.NORMAL);
             tv.setTextSize(16);
             tv.setGravity(Gravity.CENTER);
@@ -1246,7 +1246,7 @@ public class HkPageActivity extends BaseActivity {
         root.setPadding(dp(20), dp(16), dp(20), dp(16));
         TextView title = new TextView(this);
         title.setText(rule.getTitle());
-        title.setTextColor(0xFFF2F4F8);
+        title.setTextColor(DialogThemeHelper.primaryText(this));
         title.setTextSize(16);
         title.setTypeface(null, android.graphics.Typeface.BOLD);
         title.setGravity(Gravity.CENTER);
@@ -1254,7 +1254,7 @@ public class HkPageActivity extends BaseActivity {
                 LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
         TextView sub = new TextView(this);
         sub.setText("选择分组");
-        sub.setTextColor(0xFFA8B0C0);
+        sub.setTextColor(DialogThemeHelper.secondaryText(this));
         sub.setTextSize(13);
         sub.setGravity(Gravity.CENTER);
         LinearLayout.LayoutParams subLp = new LinearLayout.LayoutParams(
@@ -1269,7 +1269,7 @@ public class HkPageActivity extends BaseActivity {
             TextView tv = new TextView(this);
             tv.setText(TextUtils.isEmpty(g) ? "无分组" : stripGroupPrefix(g));
             boolean sel = g.equals(current);
-            tv.setTextColor(sel ? 0xFFB8890F : 0xFF1A1D24);
+            tv.setTextColor(sel ? DialogThemeHelper.accent(this) : DialogThemeHelper.primaryText(this));
             tv.setTypeface(null, sel ? android.graphics.Typeface.BOLD : android.graphics.Typeface.NORMAL);
             tv.setTextSize(16);
             tv.setGravity(Gravity.CENTER);
@@ -1317,7 +1317,7 @@ public class HkPageActivity extends BaseActivity {
         root.setPadding(dp(20), dp(16), dp(20), dp(16));
         TextView title = new TextView(this);
         title.setText(titleText);
-        title.setTextColor(0xFFF2F4F8);
+        title.setTextColor(DialogThemeHelper.primaryText(this));
         title.setTextSize(16);
         title.setTypeface(null, android.graphics.Typeface.BOLD);
         title.setGravity(Gravity.CENTER);
@@ -1325,7 +1325,7 @@ public class HkPageActivity extends BaseActivity {
                 LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
         TextView sub = new TextView(this);
         sub.setText("选择分组（忽略规则自带的分组名）");
-        sub.setTextColor(0xFFA8B0C0);
+        sub.setTextColor(DialogThemeHelper.secondaryText(this));
         sub.setTextSize(13);
         sub.setGravity(Gravity.CENTER);
         LinearLayout.LayoutParams subLp = new LinearLayout.LayoutParams(
@@ -1341,7 +1341,7 @@ public class HkPageActivity extends BaseActivity {
             TextView tv = new TextView(this);
             tv.setText(TextUtils.isEmpty(g) ? "全部" : g);
             boolean sel = TextUtils.isEmpty(g); // 默认选中"全部"
-            tv.setTextColor(sel ? 0xFFB8890F : 0xFF1A1D24);
+            tv.setTextColor(sel ? DialogThemeHelper.accent(this) : DialogThemeHelper.primaryText(this));
             tv.setTypeface(null, sel ? android.graphics.Typeface.BOLD : android.graphics.Typeface.NORMAL);
             tv.setTextSize(16);
             tv.setGravity(Gravity.CENTER);
@@ -1390,7 +1390,7 @@ public class HkPageActivity extends BaseActivity {
         root.setPadding(dp(20), dp(16), dp(20), dp(16));
         TextView title = new TextView(this);
         title.setText("分组管理");
-        title.setTextColor(0xFFF2F4F8);
+        title.setTextColor(DialogThemeHelper.primaryText(this));
         title.setTextSize(16);
         title.setTypeface(null, android.graphics.Typeface.BOLD);
         title.setGravity(Gravity.CENTER);
@@ -1398,7 +1398,7 @@ public class HkPageActivity extends BaseActivity {
                 LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
         TextView sub = new TextView(this);
         sub.setText("自定义分组保存在本地，不修改规则文件");
-        sub.setTextColor(0xFFA8B0C0);
+        sub.setTextColor(DialogThemeHelper.secondaryText(this));
         sub.setTextSize(12);
         sub.setGravity(Gravity.CENTER);
         LinearLayout.LayoutParams subLp = new LinearLayout.LayoutParams(
@@ -1416,7 +1416,7 @@ public class HkPageActivity extends BaseActivity {
         root.addView(sv, svLp);
         TextView addBtn = new TextView(this);
         addBtn.setText("＋ 新建分组");
-        addBtn.setTextColor(0xFFB8890F);
+        addBtn.setTextColor(DialogThemeHelper.accent(this));
         addBtn.setTypeface(null, android.graphics.Typeface.BOLD);
         addBtn.setTextSize(15);
         addBtn.setGravity(Gravity.CENTER);
@@ -1448,7 +1448,7 @@ public class HkPageActivity extends BaseActivity {
         if (customGroups.isEmpty()) {
             TextView hint = new TextView(this);
             hint.setText("暂无自定义分组，点下方新建");
-            hint.setTextColor(0xFFA8B0C0);
+            hint.setTextColor(DialogThemeHelper.secondaryText(this));
             hint.setTextSize(14);
             hint.setGravity(Gravity.CENTER);
             hint.setPadding(0, dp(24), 0, dp(24));
@@ -1464,7 +1464,7 @@ public class HkPageActivity extends BaseActivity {
             row.setPadding(dp(4), dp(10), dp(4), dp(10));
             TextView name = new TextView(this);
             name.setText(stripGroupPrefix(g));
-            name.setTextColor(0xFFF2F4F8);
+            name.setTextColor(DialogThemeHelper.primaryText(this));
             name.setTextSize(15);
             LinearLayout.LayoutParams nameLp = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1);
             row.addView(name, nameLp);
@@ -1526,7 +1526,7 @@ public class HkPageActivity extends BaseActivity {
     private TextView groupRowBtn(String text, View.OnClickListener l) {
         TextView tv = new TextView(this);
         tv.setText(text);
-        tv.setTextColor(0xFFB8890F);
+        tv.setTextColor(DialogThemeHelper.accent(this));
         tv.setTextSize(14);
         tv.setPadding(dp(10), dp(8), dp(10), dp(8));
         tv.setOnClickListener(l);
@@ -1616,7 +1616,7 @@ public class HkPageActivity extends BaseActivity {
         for (int i = 0; i < labels.length; i++) {
             TextView tv = new TextView(this);
             tv.setText(labels[i]);
-            tv.setTextColor(0xFF1A1D24);
+            tv.setTextColor(DialogThemeHelper.primaryText(this));
             tv.setTextSize(16);
             tv.setBackgroundResource(R.drawable.dialog_option_card_light);
             tv.setPadding(dp(16), dp(14), dp(16), dp(14));
@@ -1817,7 +1817,7 @@ public class HkPageActivity extends BaseActivity {
         EditText et = new EditText(this);
         et.setHint("粘贴 rule.json / 规则数组 / js: 规则内容");
         et.setMinLines(4);
-        et.setTextColor(0xFFF2F4F8);
+        et.setTextColor(DialogThemeHelper.primaryText(this));
         et.setHintTextColor(0xFF9AA1B0);
         new HkDialogs(this)
                 .setTitle("从口令导入")
@@ -2355,7 +2355,7 @@ public class HkPageActivity extends BaseActivity {
         CheckBox cbAll = new CheckBox(this);
         cbAll.setText("全选");
         cbAll.setChecked(true);
-        cbAll.setTextColor(0xFFF2F4F8);
+        cbAll.setTextColor(DialogThemeHelper.primaryText(this));
         root.addView(cbAll);
 
         List<String> labels = new ArrayList<>();
@@ -2461,7 +2461,7 @@ public class HkPageActivity extends BaseActivity {
         TextView tv = new TextView(this);
         tv.setText(full);
         tv.setTextIsSelectable(true);
-        tv.setTextColor(0xFFF2F4F8);
+        tv.setTextColor(DialogThemeHelper.primaryText(this));
         tv.setPadding(dp(8), dp(8), dp(8), dp(8));
         new HkDialogs(this)
                 .setTitle("「" + title + "」的云口令")
@@ -2485,7 +2485,7 @@ public class HkPageActivity extends BaseActivity {
         root.setPadding(dp(20), dp(16), dp(20), dp(16));
         TextView title = new TextView(this);
         title.setText("选择导出格式");
-        title.setTextColor(0xFFF2F4F8);
+        title.setTextColor(DialogThemeHelper.primaryText(this));
         title.setTextSize(16);
         title.setTypeface(null, android.graphics.Typeface.BOLD);
         title.setGravity(Gravity.CENTER);
@@ -2496,7 +2496,7 @@ public class HkPageActivity extends BaseActivity {
         for (int i = 0; i < labels.length; i++) {
             TextView tv = new TextView(this);
             tv.setText(labels[i]);
-            tv.setTextColor(0xFF1A1D24);
+            tv.setTextColor(DialogThemeHelper.primaryText(this));
             tv.setTextSize(15);
             tv.setGravity(Gravity.CENTER);
             tv.setBackgroundResource(R.drawable.dialog_option_card_light);
@@ -2866,7 +2866,7 @@ public class HkPageActivity extends BaseActivity {
         root.setPadding(dp(20), dp(16), dp(20), dp(16));
         TextView title = new TextView(this);
         title.setText(rule.getTitle());
-        title.setTextColor(0xFFF2F4F8);
+        title.setTextColor(DialogThemeHelper.primaryText(this));
         title.setTextSize(16);
         title.setTypeface(null, android.graphics.Typeface.BOLD);
         title.setGravity(Gravity.CENTER);
@@ -2877,7 +2877,7 @@ public class HkPageActivity extends BaseActivity {
         for (int i = 0; i < labels.length; i++) {
             TextView tv = new TextView(this);
             tv.setText(labels[i]);
-            tv.setTextColor(0xFF1A1D24);
+            tv.setTextColor(DialogThemeHelper.primaryText(this));
             tv.setTextSize(16);
             tv.setGravity(Gravity.CENTER);
             tv.setBackgroundResource(R.drawable.dialog_option_card_light);
@@ -2908,7 +2908,7 @@ public class HkPageActivity extends BaseActivity {
         for (int i = 0; i < labels.length; i++) {
             TextView tv = new TextView(this);
             tv.setText(labels[i]);
-            tv.setTextColor(0xFF1A1D24);
+            tv.setTextColor(DialogThemeHelper.primaryText(this));
             tv.setTextSize(16);
             tv.setGravity(Gravity.CENTER);
             tv.setBackgroundResource(R.drawable.dialog_option_card_light);
@@ -2934,7 +2934,7 @@ public class HkPageActivity extends BaseActivity {
         root.setPadding(dp(20), dp(16), dp(20), dp(16));
         TextView title = new TextView(this);
         title.setText("选择云口令通道");
-        title.setTextColor(0xFFA8B0C0);
+        title.setTextColor(DialogThemeHelper.secondaryText(this));
         title.setTextSize(13);
         title.setGravity(Gravity.CENTER);
         title.setPadding(0, 0, 0, dp(10));
@@ -2948,7 +2948,7 @@ public class HkPageActivity extends BaseActivity {
         for (int i = 0; i < labels.length; i++) {
             TextView tv = new TextView(this);
             tv.setText(labels[i]);
-            tv.setTextColor(0xFF1A1D24);
+            tv.setTextColor(DialogThemeHelper.primaryText(this));
             tv.setTextSize(16);
             tv.setGravity(Gravity.CENTER);
             tv.setBackgroundResource(R.drawable.dialog_option_card_light);
@@ -3034,13 +3034,13 @@ public class HkPageActivity extends BaseActivity {
         btnCancel.setPadding(dp(14), dp(10), dp(14), dp(10));
         TextView tvTitle = new TextView(this);
         tvTitle.setText("编辑小程序");
-        tvTitle.setTextColor(0xFFF2F4F8);
+        tvTitle.setTextColor(DialogThemeHelper.primaryText(this));
         tvTitle.setTextSize(17);
         tvTitle.setTypeface(null, android.graphics.Typeface.BOLD);
         tvTitle.setGravity(Gravity.CENTER);
         TextView btnSave = new TextView(this);
         btnSave.setText("保存");
-        btnSave.setTextColor(0xFFB8890F);
+        btnSave.setTextColor(DialogThemeHelper.accent(this));
         btnSave.setTextSize(16);
         btnSave.setTypeface(null, android.graphics.Typeface.BOLD);
         btnSave.setPadding(dp(14), dp(10), dp(14), dp(10));
@@ -3128,7 +3128,7 @@ public class HkPageActivity extends BaseActivity {
     /** 表单分区（8.83 风格）：灰色标题可折叠 + 白色圆角卡片。 */
     private LinearLayout addFormSection(LinearLayout parent, String title) {
         final TextView header = new TextView(this);
-        header.setTextColor(0xFFA8B0C0);
+        header.setTextColor(DialogThemeHelper.secondaryText(this));
         header.setTextSize(14);
         header.setPadding(dp(16), dp(14), dp(16), dp(6));
         parent.addView(header, new LinearLayout.LayoutParams(
@@ -3167,7 +3167,7 @@ public class HkPageActivity extends BaseActivity {
         et.setBackgroundResource(R.drawable.bg_input_light);
         et.setPadding(dp(12), dp(10), dp(12), dp(10));
         et.setTextSize(14);
-        et.setTextColor(0xFFF2F4F8);
+        et.setTextColor(DialogThemeHelper.primaryText(this));
         et.setHint(hint);
         et.setHintTextColor(0xFFB0B6BE);
         et.setInputType(inputType);
@@ -3198,7 +3198,7 @@ public class HkPageActivity extends BaseActivity {
             root.setPadding(dp(20), dp(16), dp(20), dp(16));
             TextView tvTitle = new TextView(this);
             tvTitle.setText(label);
-            tvTitle.setTextColor(0xFFF2F4F8);
+            tvTitle.setTextColor(DialogThemeHelper.primaryText(this));
             tvTitle.setTextSize(16);
             tvTitle.setTypeface(null, android.graphics.Typeface.BOLD);
             tvTitle.setGravity(Gravity.CENTER);
@@ -3219,7 +3219,7 @@ public class HkPageActivity extends BaseActivity {
                 TextView tv = new TextView(this);
                 tv.setText(op);
                 boolean sel = op.equals(cur);
-                tv.setTextColor(sel ? 0xFFB8890F : 0xFF1A1D24);
+                tv.setTextColor(sel ? DialogThemeHelper.accent(this) : DialogThemeHelper.primaryText(this));
                 tv.setTypeface(null, sel ? android.graphics.Typeface.BOLD : android.graphics.Typeface.NORMAL);
                 tv.setTextSize(15);
                 tv.setGravity(Gravity.CENTER);
@@ -3501,7 +3501,7 @@ public class HkPageActivity extends BaseActivity {
 
         TextView title = new TextView(this);
         title.setText("选择小程序");
-        title.setTextColor(0xFF1A1D24);
+        title.setTextColor(DialogThemeHelper.primaryText(this));
         title.setTextSize(16);
         title.setTypeface(null, android.graphics.Typeface.BOLD);
         title.setGravity(Gravity.CENTER);
@@ -3592,7 +3592,7 @@ public class HkPageActivity extends BaseActivity {
             HkRule r = rules.get(position);
             h.name.setText(r.getTitle());
             boolean sel = curTitle != null && curTitle.equals(r.getTitle());
-            h.name.setTextColor(sel ? 0xFFD9A420 : 0xFF1A1D24);
+            h.name.setTextColor(sel ? DialogThemeHelper.accent(this) : DialogThemeHelper.primaryText(this));
             h.name.setTypeface(null, sel ? android.graphics.Typeface.BOLD : android.graphics.Typeface.NORMAL);
             h.name.setOnClickListener(v -> {
                 if (listener != null) listener.onPick(r);
@@ -3733,7 +3733,7 @@ public class HkPageActivity extends BaseActivity {
 
         TextView title = new TextView(this);
         title.setText("请选择分类");
-        title.setTextColor(0xFFF2F4F8);
+        title.setTextColor(DialogThemeHelper.primaryText(this));
         title.setTextSize(20);
         title.setMaxLines(1);
         title.setGravity(android.view.Gravity.CENTER);
@@ -5663,7 +5663,7 @@ public class HkPageActivity extends BaseActivity {
         final EditText et = new EditText(this);
         et.setHint(TextUtils.isEmpty(hint) ? "请输入" : hint);
         if (!TextUtils.isEmpty(def)) et.setText(def);
-        et.setTextColor(0xFFF2F4F8);
+        et.setTextColor(DialogThemeHelper.primaryText(this));
         int pad = dp(16);
         et.setPadding(pad, pad, pad, pad);
         // 弹窗标题也走标题颜色标记逻辑（弯引号/ASCII三引号 → 红色）
@@ -6521,7 +6521,7 @@ public class HkPageActivity extends BaseActivity {
             } else {
                 boolean longText = "long_text".equals(ct);
                 h.title.setGravity(Gravity.START);
-                h.title.setTextColor(0xFF1A1D24);
+                h.title.setTextColor(DialogThemeHelper.primaryText(this));
                 h.title.setTextSize(14);
                 h.title.setMaxLines(longText ? 30 : 3);
                 h.title.setText(titleSpan(item.getTitle()));
@@ -6559,7 +6559,7 @@ public class HkPageActivity extends BaseActivity {
         /** 富文本行：Html.fromHtml 显示，失败回退去标签；标题颜色标记（弯引号 ""红/''橙）同样生效。 */
         private void bindRich(Holder h, HkItem item) {
             h.title.setGravity(Gravity.START);
-            h.title.setTextColor(0xFF1A1D24);
+            h.title.setTextColor(DialogThemeHelper.primaryText(this));
             h.title.setTextSize(14);
             h.title.setMaxLines(30);
             String rawTitle = item.getTitle() == null ? "" : item.getTitle();
@@ -6593,7 +6593,7 @@ public class HkPageActivity extends BaseActivity {
             Context ctx = h.itemView.getContext();
             TextView tv = new TextView(ctx);
             tv.setText(titleSpan(item.getTitle()));
-            tv.setTextColor(0xFF1A1D24);
+            tv.setTextColor(DialogThemeHelper.primaryText(this));
             tv.setTextSize(15);
             tv.setGravity(Gravity.CENTER);
             tv.setMaxLines(1);
@@ -6633,7 +6633,7 @@ public class HkPageActivity extends BaseActivity {
             for (HkItem sub : subs) {
                 TextView tv = new TextView(ctx);
                 tv.setText(titleSpan(sub.getTitle()));
-                tv.setTextColor(0xFF1A1D24);
+                tv.setTextColor(DialogThemeHelper.primaryText(this));
                 tv.setTextSize(13);
                 tv.setGravity(Gravity.CENTER);
                 tv.setMaxLines(1);
@@ -6650,7 +6650,7 @@ public class HkPageActivity extends BaseActivity {
                     bg.setColor(0xC2FFFFFF);
                     bg.setStroke(dp(1), 0xFFE2E5EA);
                     bg.setCornerRadius(dp(14));
-                    tv.setTextColor(0xFF1A1D24);
+                    tv.setTextColor(DialogThemeHelper.primaryText(this));
                 }
                 tv.setBackground(bg);
                 LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
@@ -6702,7 +6702,7 @@ public class HkPageActivity extends BaseActivity {
             for (HkItem sub : subs) {
                 TextView tv = new TextView(ctx);
                 tv.setText(titleSpan(sub.getTitle()));
-                tv.setTextColor(0xFF1A1D24);
+                tv.setTextColor(DialogThemeHelper.primaryText(this));
                 tv.setTextSize(13);
                 tv.setGravity(Gravity.CENTER);
                 tv.setMaxLines(1);
@@ -6719,7 +6719,7 @@ public class HkPageActivity extends BaseActivity {
                     bg.setColor(0xC2FFFFFF);
                     bg.setStroke(dp(1), 0xFFE2E5EA);
                     bg.setCornerRadius(dp(14));
-                    tv.setTextColor(0xFF1A1D24);
+                    tv.setTextColor(DialogThemeHelper.primaryText(this));
                 }
                 tv.setBackground(bg);
                 LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
@@ -6748,7 +6748,7 @@ public class HkPageActivity extends BaseActivity {
             for (HkItem sub : subs) {
                 TextView tv = new TextView(ctx);
                 tv.setText(titleSpan(sub.getTitle()));
-                tv.setTextColor(0xFF1A1D24);
+                tv.setTextColor(DialogThemeHelper.primaryText(this));
                 tv.setTextSize(13);
                 tv.setGravity(Gravity.CENTER);
                 tv.setMaxLines(1);
@@ -6765,7 +6765,7 @@ public class HkPageActivity extends BaseActivity {
                     bg.setColor(0xC2FFFFFF);
                     bg.setStroke(dp(1), 0xFFE2E5EA);
                     bg.setCornerRadius(dp(14));
-                    tv.setTextColor(0xFF1A1D24);
+                    tv.setTextColor(DialogThemeHelper.primaryText(this));
                 }
                 tv.setBackground(bg);
                 com.google.android.flexbox.FlexboxLayout.LayoutParams lp =
@@ -6813,7 +6813,7 @@ public class HkPageActivity extends BaseActivity {
                 // 8.83 选中态：rule.url 含 tabUrl 且 firstHeader == desc → tab_item_selected
                 boolean selected = !tabUrl.isEmpty() && ruleUrl.contains(tabUrl) && firstHeader.equals(desc);
                 if (isTabSelected(names[i])) selected = true;
-                tv.setTextColor(selected ? 0xFFE8590C : 0xFF1A1D24);
+                tv.setTextColor(selected ? 0xFFE8590C : DialogThemeHelper.primaryText(this));
                 try {
                     tv.setBackgroundResource(selected ? R.drawable.tab_item_selected : R.drawable.tab_item_default);
                 } catch (Throwable ignored) {}
@@ -7192,7 +7192,7 @@ public class HkPageActivity extends BaseActivity {
                     h.card.setStrokeWidth((int) (1 * d2 + 0.5f));
                     h.card.setStrokeColor(android.content.res.ColorStateList.valueOf(0xFFE1E5EB));
                 }
-                h.chip.setTextColor(0xFFB8890F);
+                h.chip.setTextColor(DialogThemeHelper.accent(this));
                 h.chip.setTypeface(null, android.graphics.Typeface.BOLD);
                 h.chip.setBackgroundResource(R.drawable.hk_ripple_glass_selected);
             } else {

@@ -90,7 +90,7 @@ public class SettingAppearanceFragment extends BaseFragment implements ThemeDial
 
     private void setWallDefault(View view) {
         WallPickerDialog.show(requireActivity(), wall ->
-                mBinding.wallDefaultText.setText(getString(R.string.wall_builtin, wall)));
+                mBinding.wallDefaultText.setText(wall == 0 ? getString(R.string.wall_random) : getString(R.string.wall_builtin, wall)));
     }
 
     private void setWallLocal(View view) {

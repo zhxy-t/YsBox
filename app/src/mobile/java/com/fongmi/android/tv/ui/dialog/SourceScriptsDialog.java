@@ -18,7 +18,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.fongmi.android.tv.R;
 import com.fongmi.android.tv.ui.adapter.ScriptAdapter;
-import com.github.catvod.utils.Path;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -178,8 +177,8 @@ public class SourceScriptsDialog extends Dialog {
 
     private List<File> loadScripts(boolean py) {
         Map<String, File> map = new LinkedHashMap<>();
+        // 只读用户脚本目录；cache/py|js 是运行时缓存，不当作可选脚本
         addDir(map, new File(getContext().getFilesDir(), py ? "plugins/py" : "plugins/js"), py);
-        addDir(map, py ? Path.py() : Path.js(), py);
         List<File> list = new ArrayList<>(map.values());
         list.sort((a, b) -> a.getName().compareToIgnoreCase(b.getName()));
         return list;

@@ -87,6 +87,49 @@ public final class WallPickerDialog {
             }
             root.addView(line);
         }
+
+        // 随机：每次冷启动换一张内置壁纸
+        FrameLayout randCell = new FrameLayout(activity);
+        GradientDrawable randBg = new GradientDrawable();
+        randBg.setShape(GradientDrawable.RECTANGLE);
+        randBg.setCornerRadius(dp(activity, 12));
+        randBg.setColor(0x33FFFFFF);
+        randCell.setBackground(randBg);
+        TextView randText = new TextView(activity);
+        randText.setText(R.string.wall_random);
+        randText.setGravity(Gravity.CENTER);
+        randText.setTextSize(15);
+        randText.setTextColor(DialogThemeHelper.primaryText(activity));
+        randCell.addView(randText, new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT));
+        GradientDrawable randRing = new GradientDrawable();
+        randRing.setShape(GradientDrawable.RECTANGLE);
+        randRing.setColor(Color.TRANSPARENT);
+        randRing.setCornerRadius(dp(activity, 12));
+        randRing.setStroke(dp(activity, 2), Color.WHITE);
+        View randBorder = new View(activity);
+        randBorder.setBackground(randRing);
+        randBorder.setVisibility(current == 0 ? View.VISIBLE : View.GONE);
+        randCell.addView(randBorder, new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT));
+        TextView randCheck = new TextView(activity);
+        randCheck.setText("\u2713");
+        randCheck.setTextSize(20);
+        randCheck.setTextColor(Color.WHITE);
+        randCheck.setGravity(Gravity.CENTER);
+        randCheck.setVisibility(current == 0 ? View.VISIBLE : View.GONE);
+        randCell.addView(randCheck, new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT));
+        LinearLayout.LayoutParams randLp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, dp(activity, 48));
+        randLp.topMargin = gap * 2;
+        randCell.setLayoutParams(randLp);
+        randCell.setClickable(true);
+        randCell.setOnClickListener(view -> {
+            Setting.putWall(0);
+            Setting.putWallType(0);
+            Setting.resetWallRandom();
+            ConfigEvent.wall();
+            if (listener != null) listener.onPick(0);
+            if (ref[0] != null) ref[0].dismiss();
+        });
+        root.addView(randCell);
         ref[0] = DialogThemeHelper.builder(activity)
                 .setTitle(R.string.wall_default)
                 .setView(root)

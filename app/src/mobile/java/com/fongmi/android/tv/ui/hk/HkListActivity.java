@@ -1912,7 +1912,7 @@ public class HkListActivity extends AppCompatActivity
 
         TextView title = new TextView(this);
         title.setText("选择小程序");
-        title.setTextColor(0xFF1A1D24);
+        title.setTextColor(DialogThemeHelper.primaryText(this));
         title.setTextSize(16);
         title.setTypeface(null, android.graphics.Typeface.BOLD);
         title.setGravity(Gravity.CENTER);

@@ -33,6 +33,9 @@
         <item name="dialogTextSecondary">#A8B0C0</item>
         <item name="dialogTextHint">#7A8290</item>
         <item name="dialogAccent">#D9A420</item>
+        <item name="colorControlActivated">#D9A420</item>
+        <item name="colorAccent">#D9A420</item>
+        <item name="android:colorAccent">#D9A420</item>
         <item name="dialogInputSurface">@drawable/bg_dialog_input_neon</item>
         <item name="dialogDivider">#33FFFFFF</item>
         <item name="dialogCardSurface">@drawable/dialog_option_card_dark</item>
@@ -50,6 +53,9 @@
         <item name="dialogTextSecondary">#5F6368</item>
         <item name="dialogTextHint">#9AA0A6</item>
         <item name="dialogAccent">#6750A4</item>
+        <item name="colorControlActivated">#6750A4</item>
+        <item name="colorAccent">#6750A4</item>
+        <item name="android:colorAccent">#6750A4</item>
         <item name="dialogInputSurface">@drawable/bg_dialog_input_white</item>
         <item name="dialogDivider">#1F000000</item>
         <item name="dialogCardSurface">@drawable/dialog_option_card_light</item>
@@ -67,6 +73,9 @@
         <item name="dialogTextSecondary">#888888</item>
         <item name="dialogTextHint">#666666</item>
         <item name="dialogAccent">#4A9EFF</item>
+        <item name="colorControlActivated">#4A9EFF</item>
+        <item name="colorAccent">#4A9EFF</item>
+        <item name="android:colorAccent">#4A9EFF</item>
         <item name="dialogInputSurface">@drawable/bg_dialog_input_amoled</item>
         <item name="dialogDivider">#33FFFFFF</item>
         <item name="dialogCardSurface">@drawable/dialog_option_card_dark</item>
@@ -84,6 +93,9 @@
         <item name="dialogTextSecondary">#8E8E93</item>
         <item name="dialogTextHint">#B0B0B5</item>
         <item name="dialogAccent">#007AFF</item>
+        <item name="colorControlActivated">#007AFF</item>
+        <item name="colorAccent">#007AFF</item>
+        <item name="android:colorAccent">#007AFF</item>
         <item name="dialogInputSurface">@drawable/bg_dialog_input_ios</item>
         <item name="dialogDivider">#1F000000</item>
         <item name="dialogCardSurface">@drawable/dialog_option_card_light</item>
@@ -101,6 +113,9 @@
         <item name="dialogTextSecondary">#AAAAFF</item>
         <item name="dialogTextHint">#7777AA</item>
         <item name="dialogAccent">#FF006E</item>
+        <item name="colorControlActivated">#FF006E</item>
+        <item name="colorAccent">#FF006E</item>
+        <item name="android:colorAccent">#FF006E</item>
         <item name="dialogInputSurface">@drawable/bg_dialog_input_neon</item>
         <item name="dialogDivider">#33FFFFFF</item>
         <item name="dialogCardSurface">@drawable/dialog_option_card_dark</item>
@@ -115,6 +130,9 @@
         <item name="dialogTextSecondary">#49454F</item>
         <item name="dialogTextHint">#79747E</item>
         <item name="dialogAccent">#6750A4</item>
+        <item name="colorControlActivated">#6750A4</item>
+        <item name="colorAccent">#6750A4</item>
+        <item name="android:colorAccent">#6750A4</item>
         <item name="dialogInputSurface">@drawable/bg_dialog_input_white</item>
         <item name="dialogDivider">#1F000000</item>
         <item name="dialogCardSurface">@drawable/dialog_option_card_light</item>
@@ -132,6 +150,9 @@
         <item name="dialogTextSecondary">#CAC4D0</item>
         <item name="dialogTextHint">#938F99</item>
         <item name="dialogAccent">#D0BCFF</item>
+        <item name="colorControlActivated">#D0BCFF</item>
+        <item name="colorAccent">#D0BCFF</item>
+        <item name="android:colorAccent">#D0BCFF</item>
         <item name="dialogInputSurface">@drawable/bg_dialog_input_amoled</item>
         <item name="dialogDivider">#33FFFFFF</item>
         <item name="dialogCardSurface">@drawable/dialog_option_card_dark</item>
@@ -149,6 +170,9 @@
         <item name="dialogTextSecondary">#AEB9C9</item>
         <item name="dialogTextHint">#7D8899</item>
         <item name="dialogAccent">#8AB4F8</item>
+        <item name="colorControlActivated">#8AB4F8</item>
+        <item name="colorAccent">#8AB4F8</item>
+        <item name="android:colorAccent">#8AB4F8</item>
         <item name="dialogInputSurface">@drawable/bg_dialog_input_amoled</item>
         <item name="dialogDivider">#33FFFFFF</item>
         <item name="dialogCardSurface">@drawable/dialog_option_card_dark</item>
@@ -166,6 +190,9 @@
         <item name="dialogTextSecondary">#BDADD9</item>
         <item name="dialogTextHint">#8A7AA8</item>
         <item name="dialogAccent">#B79CFF</item>
+        <item name="colorControlActivated">#B79CFF</item>
+        <item name="colorAccent">#B79CFF</item>
+        <item name="android:colorAccent">#B79CFF</item>
         <item name="dialogInputSurface">@drawable/bg_dialog_input_amoled</item>
         <item name="dialogDivider">#33FFFFFF</item>
         <item name="dialogCardSurface">@drawable/dialog_option_card_dark</item>
@@ -392,6 +419,9 @@
         <item name="dialogTextSecondary">#A8B0C0</item>
         <item name="dialogTextHint">#7A8290</item>
         <item name="dialogAccent">#D9A420</item>
+        <item name="colorControlActivated">#D9A420</item>
+        <item name="colorAccent">#D9A420</item>
+        <item name="android:colorAccent">#D9A420</item>
         <item name="dialogInputSurface">@drawable/bg_dialog_input_neon</item>
         <item name="dialogDivider">#33FFFFFF</item>
         <item name="dialogCardSurface">@drawable/dialog_option_card_dark</item>
@@ -465,6 +495,9 @@
         <item name="dialogTextSecondary">#5F6368</item>
         <item name="dialogTextHint">#9AA0A6</item>
         <item name="dialogAccent">#6750A4</item>
+        <item name="colorControlActivated">#6750A4</item>
+        <item name="colorAccent">#6750A4</item>
+        <item name="android:colorAccent">#6750A4</item>
         <item name="dialogInputSurface">@drawable/bg_dialog_input_white</item>
         <item name="dialogDivider">#1F000000</item>
         <item name="dialogCardSurface">@drawable/dialog_option_card_light</item>
@@ -511,6 +544,9 @@
         <item name="dialogTextSecondary">#888888</item>
         <item name="dialogTextHint">#666666</item>
         <item name="dialogAccent">#4A9EFF</item>
+        <item name="colorControlActivated">#4A9EFF</item>
+        <item name="colorAccent">#4A9EFF</item>
+        <item name="android:colorAccent">#4A9EFF</item>
         <item name="dialogInputSurface">@drawable/bg_dialog_input_amoled</item>
         <item name="dialogDivider">#33FFFFFF</item>
         <item name="dialogCardSurface">@drawable/dialog_option_card_dark</item>
@@ -571,6 +607,9 @@
         <item name="dialogTextSecondary">#8E8E93</item>
         <item name="dialogTextHint">#B0B0B5</item>
         <item name="dialogAccent">#007AFF</item>
+        <item name="colorControlActivated">#007AFF</item>
+        <item name="colorAccent">#007AFF</item>
+        <item name="android:colorAccent">#007AFF</item>
         <item name="dialogInputSurface">@drawable/bg_dialog_input_ios</item>
         <item name="dialogDivider">#1F000000</item>
         <item name="dialogCardSurface">@drawable/dialog_option_card_light</item>
@@ -617,6 +656,9 @@
         <item name="dialogTextSecondary">#AAAAFF</item>
         <item name="dialogTextHint">#7777AA</item>
         <item name="dialogAccent">#FF006E</item>
+        <item name="colorControlActivated">#FF006E</item>
+        <item name="colorAccent">#FF006E</item>
+        <item name="android:colorAccent">#FF006E</item>
         <item name="dialogInputSurface">@drawable/bg_dialog_input_neon</item>
         <item name="dialogDivider">#33FFFFFF</item>
         <item name="dialogCardSurface">@drawable/dialog_option_card_dark</item>
@@ -644,6 +686,9 @@
         <item name="dialogTextSecondary">#49454F</item>
         <item name="dialogTextHint">#79747E</item>
         <item name="dialogAccent">#6750A4</item>
+        <item name="colorControlActivated">#6750A4</item>
+        <item name="colorAccent">#6750A4</item>
+        <item name="android:colorAccent">#6750A4</item>
         <item name="dialogInputSurface">@drawable/bg_dialog_input_white</item>
         <item name="dialogDivider">#1F000000</item>
         <item name="dialogCardSurface">@drawable/dialog_option_card_light</item>
@@ -664,6 +709,9 @@
         <item name="dialogTextSecondary">#CAC4D0</item>
         <item name="dialogTextHint">#938F99</item>
         <item name="dialogAccent">#D0BCFF</item>
+        <item name="colorControlActivated">#D0BCFF</item>
+        <item name="colorAccent">#D0BCFF</item>
+        <item name="android:colorAccent">#D0BCFF</item>
         <item name="dialogInputSurface">@drawable/bg_dialog_input_amoled</item>
         <item name="dialogDivider">#33FFFFFF</item>
         <item name="dialogCardSurface">@drawable/dialog_option_card_dark</item>
@@ -706,6 +754,9 @@
         <item name="dialogTextSecondary">#AEB9C9</item>
         <item name="dialogTextHint">#7D8899</item>
         <item name="dialogAccent">#8AB4F8</item>
+        <item name="colorControlActivated">#8AB4F8</item>
+        <item name="colorAccent">#8AB4F8</item>
+        <item name="android:colorAccent">#8AB4F8</item>
         <item name="dialogInputSurface">@drawable/bg_dialog_input_amoled</item>
         <item name="dialogDivider">#33FFFFFF</item>
         <item name="dialogCardSurface">@drawable/dialog_option_card_dark</item>
@@ -748,6 +799,9 @@
         <item name="dialogTextSecondary">#BDADD9</item>
         <item name="dialogTextHint">#8A7AA8</item>
         <item name="dialogAccent">#B79CFF</item>
+        <item name="colorControlActivated">#B79CFF</item>
+        <item name="colorAccent">#B79CFF</item>
+        <item name="android:colorAccent">#B79CFF</item>
         <item name="dialogInputSurface">@drawable/bg_dialog_input_amoled</item>
         <item name="dialogDivider">#33FFFFFF</item>
         <item name="dialogCardSurface">@drawable/dialog_option_card_dark</item>

@@ -30,6 +30,7 @@ import androidx.viewbinding.ViewBinding;
 
 import com.fongmi.android.tv.App;
 import com.fongmi.android.tv.R;
+import com.fongmi.android.tv.ui.dialog.DialogThemeHelper;
 import com.fongmi.android.tv.ui.hk.HkDynamicBgView;
 import com.fongmi.android.tv.ui.hk.HkGlassDrawable;
 import com.fongmi.android.tv.ui.hk.HkPressFeedback;
@@ -350,7 +351,7 @@ public class HkRuleSearchActivity extends BaseActivity {
         @Override
         public Holder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             TextView tv = new TextView(parent.getContext());
-            tv.setTextColor(0xFF1A1D24);
+            tv.setTextColor(DialogThemeHelper.primaryText(parent.getContext()));
             tv.setTextSize(13);
             tv.setBackgroundResource(R.drawable.dialog_option_card_light);
             int p = (int) (12 * parent.getContext().getResources().getDisplayMetrics().density);

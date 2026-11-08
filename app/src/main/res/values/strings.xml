@@ -576,6 +576,7 @@
     <string name="script_source_py">PY</string>
     <string name="script_source_js">JS</string>
     <string name="script_preview_copy">Copy</string>
+    <string name="script_preview_open">Open</string>
     <string name="script_source_empty">No scripts. Import them in plugin management first.</string>
     <string name="setting_group_tools">Common features</string>
     <string name="lab_python_version">Python 3.10 · built-in</string>

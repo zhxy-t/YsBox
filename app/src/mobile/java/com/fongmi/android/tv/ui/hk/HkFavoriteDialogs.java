@@ -11,6 +11,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AlertDialog;
 
 import com.fongmi.android.tv.R;
+import com.fongmi.android.tv.ui.dialog.DialogThemeHelper;
 import com.fongmi.android.tv.api.hk.HkFavoriteStore;
 
 import java.util.ArrayList;
@@ -54,7 +55,7 @@ public class HkFavoriteDialogs {
         for (int i = 0; i < labels.length; i++) {
             TextView item = new TextView(ctx);
             item.setText(labels[i]);
-            item.setTextColor(0xFF1A1D24);
+            item.setTextColor(DialogThemeHelper.primaryText(ctx));
             item.setTextSize(16);
             item.setGravity(Gravity.CENTER);
             item.setBackgroundResource(R.drawable.dialog_option_card_light);
@@ -102,7 +103,7 @@ public class HkFavoriteDialogs {
         EditText et = new EditText(ctx);
         et.setText(initTitle == null ? "" : initTitle);
         et.setSelection(et.getText().length());
-        et.setTextColor(0xFF1A1D24);
+        et.setTextColor(DialogThemeHelper.primaryText(ctx));
         et.setHintTextColor(0xFF8A8F98);
         et.setTextSize(15);
         et.setHint("请输入标题，不能为空");
