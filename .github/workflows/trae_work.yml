@@ -35,10 +35,13 @@ jobs:
         with:
           distribution: temurin
           java-version: 21
-      - name: 配置 Python 3.10
-        uses: actions/setup-python@v6
-        with:
-          python-version: '3.10'
+      - name: 使用构建机自带 Python
+        run: |
+          # 不再走 actions/setup-python：它要从 GitHub Releases 下载 Python，
+          # 近期该下载源频繁 504，导致构建在准备阶段就失败。
+          # Chaquopy 17 允许任意 3.9+ 的构建 Python，直接用镜像自带的即可。
+          python3 --version
+          echo "PYTHON=$(command -v python3)" >> "$GITHUB_ENV"
       - name: 配置 Android SDK
         uses: android-actions/setup-android@v4
         with:
