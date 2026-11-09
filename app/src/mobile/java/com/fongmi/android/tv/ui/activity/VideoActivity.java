@@ -1840,10 +1840,8 @@ public class VideoActivity extends PlaybackActivity implements Clock.Callback, C
         mBinding.control.back.setVisibility(isLock() ? View.GONE : View.VISIBLE);
         mBinding.control.top.setVisibility(isLock() ? View.GONE : View.VISIBLE);
         mBinding.control.getRoot().setVisibility(View.VISIBLE);
-        // 控制层顶栏已带标题+分辨率，屏显同名信息让位，避免同一行字出现两遍
-        mBinding.osdTitle.setVisibility(View.GONE);
-        mBinding.osdInfo.setVisibility(View.GONE);
         setR1Callback();
+        updateOsd();
     }
 
     private void hideControl() {
@@ -2122,6 +2120,8 @@ public class VideoActivity extends PlaybackActivity implements Clock.Callback, C
         }
         if (!PlayerSetting.isOsdEnabled()) {
             mBinding.osd.setVisibility(View.GONE);
+            // 屏显关闭时分辨率归控制层顶栏负责
+            mBinding.control.size.setVisibility(View.VISIBLE);
             return;
         }
         long position = Math.max(0, player().getPosition());
@@ -2155,7 +2155,11 @@ public class VideoActivity extends PlaybackActivity implements Clock.Callback, C
         mBinding.osdTime.setVisibility(PlayerSetting.isOsdTime() ? View.VISIBLE : View.GONE);
         mBinding.osdSpeed.setText(mOsdSpeed);
         mBinding.osdSpeed.setVisibility(PlayerSetting.isOsdTraffic() ? View.VISIBLE : View.GONE);
-        boolean showProgress = PlayerSetting.isOsdProgress() && duration > 0 && mBinding.osdProgressRow != null;
+        // 控制层弹起（暂停/点按）时的分工：屏显保留标题+分辨率，控制层顶栏不再重复分辨率；
+        // 屏显细进度条让位给控制层可拖动的进度条，控制层收起后恢复
+        boolean controlUp = mBinding.control.getRoot().getVisibility() == View.VISIBLE;
+        mBinding.control.size.setVisibility(!controlUp || !PlayerSetting.isOsdEnabled() || !PlayerSetting.isOsdResolution() || videoWidth <= 0 ? View.VISIBLE : View.GONE);
+        boolean showProgress = PlayerSetting.isOsdProgress() && duration > 0 && mBinding.osdProgressRow != null && !controlUp;
         mBinding.osdProgressRow.setVisibility(showProgress ? View.VISIBLE : View.GONE);
         if (showProgress) {
             mBinding.osdPosition.setText(Util.timeMs(position));
