@@ -499,6 +499,9 @@ public class VideoActivity extends PlaybackActivity implements Clock.Callback, C
         mBinding.content.setOnLongClickListener(view -> onCopy());
         mBinding.control.back.setOnClickListener(view -> onBack());
         mBinding.cast.setOnClickListener(view -> onCast());
+        mBinding.funcAudio.setTag("1");
+        mBinding.funcAudio.setOnClickListener(this::onTrack);
+        mBinding.funcRotate.setOnClickListener(view -> onRotate());
         mBinding.info.setOnClickListener(view -> onInfo());
         mBinding.keep.setOnClickListener(view -> onKeep());
         mBinding.control.play.setOnClickListener(view -> checkPlay());
@@ -1376,9 +1379,10 @@ public class VideoActivity extends PlaybackActivity implements Clock.Callback, C
 
     private void setText(Vod item) {
         setText(mBinding.site, 0, getSite().getName());
+        setText(mBinding.year, R.string.detail_year, item.getYear());
         setText(mBinding.director, R.string.detail_director, item.getDirector());
         setText(mBinding.actor, R.string.detail_actor, item.getActor());
-        setText(mBinding.content, 0, item.getContent());
+        setText(mBinding.content, R.string.detail_content, item.getContent());
         setText(mBinding.remark, 0, item.getRemarks());
         setOther(mBinding.other, item);
     }
@@ -1920,7 +1924,7 @@ public class VideoActivity extends PlaybackActivity implements Clock.Callback, C
 
     private void checkKeepImg() {
         // funcBar（浅色底）用深色版图标；短剧 mSdKeep（深色底）用原白色图标
-        int icon = Keep.find(getHistoryKey()) == null ? R.drawable.ic_func_keep_off : R.drawable.ic_func_keep_on;
+        int icon = Keep.find(getHistoryKey()) == null ? R.drawable.ic_func_keep_off_w : R.drawable.ic_func_keep_on_w;
         mBinding.keepImg.setImageResource(icon);
         if (mSdKeep != null) mSdKeep.setImageResource(Keep.find(getHistoryKey()) == null ? R.drawable.ic_control_keep_off : R.drawable.ic_control_keep_on);
     }
@@ -1930,7 +1934,7 @@ public class VideoActivity extends PlaybackActivity implements Clock.Callback, C
     }
 
     private void checkDanmakuImg() {
-        mBinding.danmakuToggleImg.setImageResource(DanmakuSetting.isShow() ? R.drawable.ic_func_danmaku_on : R.drawable.ic_func_danmaku_off);
+        mBinding.danmakuToggleImg.setImageResource(DanmakuSetting.isShow() ? R.drawable.ic_func_danmaku_on_w : R.drawable.ic_func_danmaku_off_w);
     }
 
     private void createKeep() {

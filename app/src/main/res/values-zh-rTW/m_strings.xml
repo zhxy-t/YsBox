@@ -25,6 +25,10 @@
     <string name="func_cast">投屏</string>
     <string name="func_info">詳情</string>
     <string name="func_setting">設定</string>
+    <string name="func_audio">音訊</string>
+    <string name="func_rotate">旋轉</string>
+    <string name="func_danmaku">彈幕</string>
+    <string name="func_keep">收藏</string>
     <!-- Detail -->
     <string name="detail_flag">線路</string>
     <string name="detail_episode">選集</string>

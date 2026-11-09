@@ -25,6 +25,10 @@
     <string name="func_cast">Cast</string>
     <string name="func_info">Info</string>
     <string name="func_setting">Settings</string>
+    <string name="func_audio">Audio</string>
+    <string name="func_rotate">Rotate</string>
+    <string name="func_danmaku">Danmaku</string>
+    <string name="func_keep">Keep</string>
     <!-- Detail -->
     <string name="detail_flag">Flag</string>
     <string name="detail_episode">Episode</string>
