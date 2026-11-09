@@ -337,6 +337,39 @@
                 android:src="@drawable/ic_control_setting" />
         </androidx.appcompat.widget.LinearLayoutCompat>
 
+        <!-- 占位：与手机布局保持 ViewBinding 字段一致（平板沿用旧扁平详情视觉，不渲染此卡片） -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/hero"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:visibility="gone"
+            app:cardElevation="0dp">
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/poster"
+                    android:layout_width="96dp"
+                    android:layout_height="136dp"
+                    android:scaleType="centerCrop"
+                    app:shapeAppearanceOverlay="@style/ShapeDetailPoster" />
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/siteChip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingStart="10dp"
+                    android:paddingTop="5dp"
+                    android:paddingEnd="10dp"
+                    android:paddingBottom="5dp" />
+            </androidx.appcompat.widget.LinearLayoutCompat>
+        </com.google.android.material.card.MaterialCardView>
+
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/swipeLayout"
             android:layout_width="match_parent"
@@ -419,6 +452,17 @@
                             android:text="@string/detail_episode"
                             android:textColor="@color/white"
                             android:textSize="16sp" />
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/playing"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:textColor="#B3FFFFFF"
+                            android:textSize="13sp"
+                            android:visibility="gone"
+                            tools:text="正在播放：1"
+                            tools:visibility="visible" />
 
                         <androidx.appcompat.widget.AppCompatImageView
                             android:id="@+id/reverse"
