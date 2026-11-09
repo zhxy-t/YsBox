@@ -218,4 +218,5 @@
 
 
 
+    <string name="detail_playing">正在播放：%1$d</string>
 </resources>

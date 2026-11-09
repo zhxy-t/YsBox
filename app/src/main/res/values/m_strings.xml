@@ -883,4 +883,5 @@
 
 
 
+    <string name="detail_playing">Now playing: %1$d</string>
 </resources>

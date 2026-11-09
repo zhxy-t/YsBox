@@ -551,7 +551,7 @@ public class VideoActivity extends PlaybackActivity implements Clock.Callback, C
         mBinding.episode.setHasFixedSize(true);
         mBinding.episode.setItemAnimator(null);
         mBinding.episode.addItemDecoration(new SpaceItemDecoration(8));
-        mBinding.episode.setAdapter(mEpisodeAdapter = new EpisodeAdapter(this, ViewType.HORI));
+        mBinding.episode.setAdapter(mEpisodeAdapter = new EpisodeAdapter(this, ViewType.GRID));
         mBinding.quality.setHasFixedSize(true);
         mBinding.quality.setItemAnimator(null);
         mBinding.quality.addItemDecoration(new SpaceItemDecoration(8));
@@ -1031,6 +1031,8 @@ public class VideoActivity extends PlaybackActivity implements Clock.Callback, C
         mBinding.swipeLayout.setRefreshing(false);
         mBinding.progressLayout.showContent();
         mBinding.name.setText(item.getName());
+        ImgUtil.load(item.getName(), item.getPic(), mBinding.poster);
+        refreshPlaying();
         App.removeCallbacks(mR4);
         setArtwork(item.getPic());
         checkKeepImg();
@@ -1085,6 +1087,7 @@ public class VideoActivity extends PlaybackActivity implements Clock.Callback, C
         notifyItemChanged(mBinding.episode, mEpisodeAdapter);
         scrollToPosition(mBinding.episode, mEpisodeAdapter.getPosition());
         refreshShortDramaInfo();
+        refreshPlaying();
     }
 
     @Override
@@ -1444,8 +1447,18 @@ public class VideoActivity extends PlaybackActivity implements Clock.Callback, C
         mBinding.more.setVisibility(items.size() < 10 ? View.GONE : View.VISIBLE);
         mEpisodeAdapter.addAll(items);
         refreshShortDramaInfo();
+        refreshPlaying();
         // 选集到位后补一次短剧判定（onSizeChanged 可能先于详情到达，时长/集数当时还取不到）
         maybePromoteShortDrama();
+    }
+
+    private void refreshPlaying() {
+        if (mEpisodeAdapter == null || mEpisodeAdapter.isEmpty()) {
+            mBinding.playing.setVisibility(View.GONE);
+            return;
+        }
+        mBinding.playing.setVisibility(View.VISIBLE);
+        mBinding.playing.setText(getString(R.string.detail_playing, mEpisodeAdapter.getPosition() + 1));
     }
 
     private void setQualityVisible(boolean visible) {
