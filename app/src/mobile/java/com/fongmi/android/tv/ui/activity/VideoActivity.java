@@ -2028,6 +2028,9 @@ public class VideoActivity extends PlaybackActivity implements Clock.Callback, C
     @Override
     protected void onPlayingChanged(boolean isPlaying) {
         if (isPlaying || isPaused()) updatePlayControl(isPlaying);
+        // 暂停/恢复瞬间屏显立即重算：控制层已弹时点暂停（不经过 showControl/hideControl），
+        // 否则屏显进度行/标题保持播放中状态直到下一次秒级刷新
+        updateOsd();
     }
 
     private void updatePlayControl(boolean isPlaying) {
@@ -2159,8 +2162,8 @@ public class VideoActivity extends PlaybackActivity implements Clock.Callback, C
         mBinding.osdSpeed.setVisibility(PlayerSetting.isOsdTraffic() ? View.VISIBLE : View.GONE);
         // 控制层弹起（暂停/点按）时的分工：屏显保留标题+分辨率，控制层顶栏不再重复分辨率；
         // 屏显细进度条让位给控制层可拖动的进度条，控制层收起后恢复
-        // 分辨率由屏显固定位置负责，控制层顶栏不再显示；屏显细进度条在控制层弹起时让位
-        mBinding.control.size.setVisibility(View.GONE);
+        // 分辨率由屏显固定位置负责，顶栏 size 显式置 INVISIBLE（屏显关闭时才由顶栏接管）
+        mBinding.control.size.setVisibility(View.INVISIBLE);
         boolean showProgress = PlayerSetting.isOsdProgress() && duration > 0 && mBinding.osdProgressRow != null && !controlUp;
         mBinding.osdProgressRow.setVisibility(showProgress ? View.VISIBLE : View.GONE);
         if (showProgress) {
@@ -2177,6 +2180,8 @@ public class VideoActivity extends PlaybackActivity implements Clock.Callback, C
         String title = getOsdTitle();
         mBinding.control.title.setText(title);
         mBinding.control.title.setSelected(!TextUtils.isEmpty(title));
+        // XML 默认 invisible，此处补可见性：有标题才显示，空时保持占位不跳动
+        mBinding.control.title.setVisibility(TextUtils.isEmpty(title) ? View.INVISIBLE : View.VISIBLE);
     }
     private void updateTraffic() {
         long now = SystemClock.elapsedRealtime();
