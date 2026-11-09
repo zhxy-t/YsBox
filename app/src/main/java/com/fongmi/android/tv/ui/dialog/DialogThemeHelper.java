@@ -366,7 +366,9 @@ public final class DialogThemeHelper {
 
     /** 给自绘弹窗 inflate 布局用：返回带弹窗主题、且 ?attr 可解析的 Context */
     public static Context wrap(Context ctx) {
-        return themed(ctx);
+        // 弹窗主题只带 dialogXxx 语义色，colorOnSurface / colorSurface 等 Material 属性
+        // 需要叠加 overlay 才能解析；否则布局里的 ?attr 会回退成浅色主题的深字，深色弹窗上看不见。
+        return new android.view.ContextThemeWrapper(themed(ctx), getOverlay());
     }
 
     /**
@@ -380,6 +382,7 @@ public final class DialogThemeHelper {
     }
 
     @ColorInt public static int primaryText(Context c)   { return resolveColor(c, R.attr.dialogTextPrimary); }
+    @ColorInt public static int surfaceColor(Context c)  { return resolveColor(c, R.attr.dialogSurfaceColor); }
     @ColorInt public static int secondaryText(Context c) { return resolveColor(c, R.attr.dialogTextSecondary); }
     @ColorInt public static int hintText(Context c)      { return resolveColor(c, R.attr.dialogTextHint); }
     @ColorInt public static int accent(Context c)        { return resolveColor(c, R.attr.dialogAccent); }

@@ -306,9 +306,10 @@ public final class ChoiceDialog extends DialogFragment {
         }
         boolean on = itemSelected(position);
         boolean focused = button.isFocused();
-        int text = focused ? DialogThemeHelper.accent(requireContext()) : on ? DialogThemeHelper.accent(requireContext()) : DialogThemeHelper.primaryText(requireContext());
-        int bg = focused ? DialogThemeHelper.accent(requireContext()) : DialogThemeHelper.cardSurfaceRes(requireContext()) != 0 ? DialogThemeHelper.accent(requireContext()) : DialogThemeHelper.primaryText(requireContext());
-        int stroke = focused ? DialogThemeHelper.accent(requireContext()) : DialogThemeHelper.divider(requireContext());
+        int accent = DialogThemeHelper.accent(requireContext());
+        int text = focused ? android.graphics.Color.WHITE : on ? accent : DialogThemeHelper.primaryText(requireContext());
+        int bg = focused ? accent : DialogThemeHelper.surfaceColor(requireContext());
+        int stroke = focused || on ? accent : DialogThemeHelper.divider(requireContext());
         button.setTextColor(ColorStateList.valueOf(text));
         button.setBackgroundTintList(ColorStateList.valueOf(bg));
         button.setStrokeColor(ColorStateList.valueOf(stroke));
