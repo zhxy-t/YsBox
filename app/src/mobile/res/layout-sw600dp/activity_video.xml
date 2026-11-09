@@ -103,52 +103,6 @@
                         android:textSize="12sp"
                         tools:text="1920 × 1080 · 参数 EXO · 32000 ms" />
 
-                    <androidx.appcompat.widget.LinearLayoutCompat
-                        android:id="@+id/osdProgressRow"
-                        android:layout_width="220dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="6dp"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal"
-                        android:visibility="gone"
-                        tools:visibility="visible">
-
-                        <com.google.android.material.textview.MaterialTextView
-                            android:id="@+id/osdPosition"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFeatureSettings="tnum"
-                            android:shadowColor="#99000000"
-                            android:shadowDy="1"
-                            android:shadowRadius="8"
-                            android:textColor="#E6FFFFFF"
-                            android:textSize="10sp"
-                            tools:text="00:12:34" />
-
-                        <ProgressBar
-                            android:id="@+id/osdMini"
-                            style="?android:attr/progressBarStyleHorizontal"
-                            android:layout_width="0dp"
-                            android:layout_height="3dp"
-                            android:layout_marginStart="6dp"
-                            android:layout_marginEnd="6dp"
-                            android:layout_weight="1"
-                            android:max="100"
-                            android:progressTint="@color/white" />
-
-                        <com.google.android.material.textview.MaterialTextView
-                            android:id="@+id/osdDuration"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFeatureSettings="tnum"
-                            android:shadowColor="#99000000"
-                            android:shadowDy="1"
-                            android:shadowRadius="8"
-                            android:textColor="#E6FFFFFF"
-                            android:textSize="10sp"
-                            tools:text="00:45:00" />
-
-                    </androidx.appcompat.widget.LinearLayoutCompat>
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -189,6 +143,57 @@
                         tools:visibility="visible" />
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
+            </androidx.appcompat.widget.LinearLayoutCompat>
+            <!-- 屏显进度行：与播放进度条同宽（16dp 边距）、2dp 极细、紫色进度，位置贴播放器底边 -->
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/osdProgressRow"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="4dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:visibility="gone"
+                tools:visibility="visible">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/osdPosition"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFeatureSettings="tnum"
+                    android:shadowColor="#99000000"
+                    android:shadowDy="1"
+                    android:shadowRadius="8"
+                    android:textColor="#E6FFFFFF"
+                    android:textSize="10sp"
+                    tools:text="00:12:34" />
+
+                <ProgressBar
+                    android:id="@+id/osdMini"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="0dp"
+                    android:layout_height="2dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_weight="1"
+                    android:max="100"
+                    android:progressBackgroundTint="#33FFFFFF"
+                    android:progressTint="#7B61FF" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/osdDuration"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFeatureSettings="tnum"
+                    android:shadowColor="#99000000"
+                    android:shadowDy="1"
+                    android:shadowRadius="8"
+                    android:textColor="#E6FFFFFF"
+                    android:textSize="10sp"
+                    tools:text="00:45:00" />
+
             </androidx.appcompat.widget.LinearLayoutCompat>
 
         </FrameLayout>

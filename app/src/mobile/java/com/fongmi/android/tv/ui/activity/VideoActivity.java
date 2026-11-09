@@ -566,6 +566,7 @@ public class VideoActivity extends PlaybackActivity implements Clock.Callback, C
 
     private void setVideoView(boolean isInPictureInPictureMode) {
         if (isInPictureInPictureMode) {
+            mBinding.osd.setVisibility(View.GONE);
             mBinding.video.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT));
         } else {
             mBinding.video.setLayoutParams(mFrameParams);
@@ -1839,12 +1840,16 @@ public class VideoActivity extends PlaybackActivity implements Clock.Callback, C
         mBinding.control.back.setVisibility(isLock() ? View.GONE : View.VISIBLE);
         mBinding.control.top.setVisibility(isLock() ? View.GONE : View.VISIBLE);
         mBinding.control.getRoot().setVisibility(View.VISIBLE);
+        // 控制层顶栏已带标题+分辨率，屏显同名信息让位，避免同一行字出现两遍
+        mBinding.osdTitle.setVisibility(View.GONE);
+        mBinding.osdInfo.setVisibility(View.GONE);
         setR1Callback();
     }
 
     private void hideControl() {
         mBinding.control.getRoot().setVisibility(View.GONE);
         App.removeCallbacks(mR1);
+        updateOsd();
     }
 
     private void dismissDialogs() {
@@ -2091,7 +2096,25 @@ public class VideoActivity extends PlaybackActivity implements Clock.Callback, C
         updateOsd();
     }
 
+    /** 屏显标题：标题 + 当前集数；集数名与标题相同（含集名即片名）时不再追加。 */
+    private String getOsdTitle() {
+        String title = mBinding.name.getText() == null ? "" : mBinding.name.getText().toString();
+        String result = title;
+        if (mEpisodeAdapter != null && mEpisodeAdapter.getItemCount() > 0) {
+            Episode ep = mEpisodeAdapter.getActivated();
+            String epName = ep == null ? "" : ep.getName();
+            if (!TextUtils.isEmpty(epName) && !epName.equalsIgnoreCase(title)) {
+                result = title + " · " + epName;
+            }
+        }
+        return result;
+    }
+
     private void updateOsd() {
+        if (isInPictureInPictureMode()) {
+            mBinding.osd.setVisibility(View.GONE);
+            return;
+        }
         // 短剧模式完全隐藏 OSD（时间/分辨率/网速/进度/标题等），纯沉浸刷剧
         if (mShortDramaMode) {
             mBinding.osd.setVisibility(View.GONE);
@@ -2103,7 +2126,7 @@ public class VideoActivity extends PlaybackActivity implements Clock.Callback, C
         }
         long position = Math.max(0, player().getPosition());
         long duration = player().getDuration();
-        String title = mBinding.name.getText().toString();
+        String title = getOsdTitle();
         if (TextUtils.isEmpty(title) && duration <= 0) {
             mBinding.osd.setVisibility(View.GONE);
             return;
@@ -2122,8 +2145,9 @@ public class VideoActivity extends PlaybackActivity implements Clock.Callback, C
             if (info.length() > 0) info.append(" · ");
             info.append(getString(R.string.osd_diagnostics, engine + " · " + PlayerSetting.getBuffer() + " ms"));
         }
-        mBinding.osdTitle.setText(title);
-        mBinding.osdTitle.setVisibility(PlayerSetting.isOsdTitle() && !TextUtils.isEmpty(title) ? View.VISIBLE : View.GONE);
+        String osdTitle = getOsdTitle();
+        mBinding.osdTitle.setText(osdTitle);
+        mBinding.osdTitle.setVisibility(PlayerSetting.isOsdTitle() && !TextUtils.isEmpty(osdTitle) ? View.VISIBLE : View.GONE);
         mBinding.osdInfo.setText(info);
         mBinding.osdInfo.setVisibility(info.length() == 0 ? View.GONE : View.VISIBLE);
         // 右列：时钟/网速各自独立开关，互不拼行
@@ -2137,9 +2161,6 @@ public class VideoActivity extends PlaybackActivity implements Clock.Callback, C
             mBinding.osdPosition.setText(Util.timeMs(position));
             mBinding.osdDuration.setText(Util.timeMs(duration));
             mBinding.osdMini.setProgress(percent);
-            ViewGroup.LayoutParams params = mBinding.osdProgressRow.getLayoutParams();
-            params.width = ResUtil.dp2px(PlayerSetting.isOsdMini() ? 140 : 220);
-            mBinding.osdProgressRow.setLayoutParams(params);
         }
         mBinding.osd.setVisibility(View.VISIBLE);
     }
