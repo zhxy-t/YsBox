@@ -1375,7 +1375,7 @@ public class VideoActivity extends PlaybackActivity implements Clock.Callback, C
     }
 
     private void setText(Vod item) {
-        setText(mBinding.site, R.string.detail_site, getSite().getName());
+        setText(mBinding.site, 0, getSite().getName());
         setText(mBinding.director, R.string.detail_director, item.getDirector());
         setText(mBinding.actor, R.string.detail_actor, item.getActor());
         setText(mBinding.content, 0, item.getContent());
@@ -1409,11 +1409,13 @@ public class VideoActivity extends PlaybackActivity implements Clock.Callback, C
 
     private void setOther(TextView view, Vod item) {
         StringBuilder sb = new StringBuilder();
-        if (!item.getYear().isEmpty()) sb.append(getString(R.string.detail_year, item.getYear())).append("  ");
-        if (!item.getArea().isEmpty()) sb.append(getString(R.string.detail_area, item.getArea())).append("  ");
-        if (!item.getTypeName().isEmpty()) sb.append(getString(R.string.detail_type, item.getTypeName())).append("  ");
+        java.util.List<String> parts = new java.util.ArrayList<>();
+        if (!item.getYear().isEmpty()) parts.add(item.getYear());
+        if (!item.getArea().isEmpty()) parts.add(item.getArea());
+        if (!item.getTypeName().isEmpty()) parts.add(item.getTypeName());
+        sb.append(android.text.TextUtils.join(" · ", parts));
         view.setVisibility(sb.length() == 0 ? View.GONE : View.VISIBLE);
-        view.setText(Util.substring(sb.toString(), 2));
+        view.setText(sb.toString());
     }
 
     @Override
