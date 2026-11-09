@@ -1,31 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:gravity="center_vertical"
-    android:orientation="horizontal"
-    android:paddingStart="8dp"
-    android:paddingTop="10dp"
-    android:paddingEnd="8dp"
-    android:paddingBottom="10dp">
-
-    <RadioButton
-        android:id="@+id/radio"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:buttonTint="?attr/dialogAccent"
-        android:clickable="false"
-        android:focusable="false" />
+    android:paddingStart="6dp"
+    android:paddingTop="8dp"
+    android:paddingEnd="6dp"
+    android:paddingBottom="8dp">
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/text"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_weight="1"
+        android:layout_gravity="center"
+        android:background="@drawable/shape_accent"
         android:ellipsize="end"
-        android:singleLine="true"
-        android:textColor="?attr/dialogTextPrimary"
-        android:textSize="16sp" />
-
-</androidx.appcompat.widget.LinearLayoutCompat>
+        android:maxLines="1"
+        android:textColor="@color/selector_control"
+        android:textSize="14sp"
+        android:textStyle="bold" />
+</FrameLayout>

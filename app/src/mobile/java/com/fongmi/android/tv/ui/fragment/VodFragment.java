@@ -265,7 +265,7 @@ public class VodFragment extends BaseFragment implements ConfigListener, SiteLis
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
                 View item = super.getView(position, convertView, parent);
-                ((android.widget.RadioButton) item.findViewById(R.id.radio)).setChecked(position == selected[0]);
+                item.findViewById(R.id.text).setSelected(position == selected[0]);
                 return item;
             }
         };

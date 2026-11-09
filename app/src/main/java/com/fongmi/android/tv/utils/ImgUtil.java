@@ -79,11 +79,16 @@ public class ImgUtil {
     }
 
     public static void load(String text, String url, ImageView view, boolean vod) {
+        load(text, url, view, vod, text);
+    }
+
+    /** 占位色按分类哈希：同类型影片缺图时占位底色一致（category 为空回退片名哈希）。 */
+    public static void load(String text, String url, ImageView view, boolean vod, String category) {
         view.setScaleType(vod ? CENTER_CROP : FIT_CENTER);
         if (!vod) view.setVisibility(TextUtils.isEmpty(url) ? View.GONE : View.VISIBLE);
-        if (TextUtils.isEmpty(url) || failed.contains(url)) view.setImageDrawable(getTextDrawable(text, vod));
+        if (TextUtils.isEmpty(url) || failed.contains(url)) view.setImageDrawable(getTextDrawable(text, vod, category));
         else try {
-            RequestBuilder<Drawable> builder = Glide.with(view).load(getUrl(url)).listener(getListener(text, url, view, vod));
+            RequestBuilder<Drawable> builder = Glide.with(view).load(getUrl(url)).listener(getListener(text, url, view, vod, category));
             if (vod) builder.centerCrop().into(view);
             else builder.fitCenter().into(view);
         } catch (Throwable e) {
@@ -123,7 +128,7 @@ public class ImgUtil {
         if (!vod) view.setVisibility(TextUtils.isEmpty(url) ? View.GONE : View.VISIBLE);
         if (TextUtils.isEmpty(url) || failed.contains(url)) view.setImageDrawable(getTextDrawable(text, vod));
         else try {
-            RequestBuilder<Drawable> builder = Glide.with(view).load(getUrl(url)).listener(getListener(text, url, view, vod));
+            RequestBuilder<Drawable> builder = Glide.with(view).load(getUrl(url)).listener(getListener(text, url, view, vod, text));
             if (width > 0 && height > 0) builder = builder.override(width, height);
             if (vod) builder.centerCrop().into(view);
             else builder.fitCenter().into(view);
@@ -264,17 +269,22 @@ public class ImgUtil {
     }
 
     private static Drawable getTextDrawable(String text, boolean vod) {
-        TextDrawable.Builder builder = new TextDrawable.Builder();
-        text = TextUtils.isEmpty(text) ? "！" : text.substring(0, 1);
-        if (vod) builder.buildRect(text, ColorGenerator.get400(text));
-        return builder.buildRoundRect(text, ColorGenerator.get400(text), ResUtil.dp2px(4));
+        return getTextDrawable(text, vod, null);
     }
 
-    private static RequestListener<Drawable> getListener(String text, String url, ImageView view, boolean vod) {
+    private static Drawable getTextDrawable(String text, boolean vod, String category) {
+        TextDrawable.Builder builder = new TextDrawable.Builder();
+        text = TextUtils.isEmpty(text) ? "！" : text.substring(0, 1);
+        String key = TextUtils.isEmpty(category) ? text : category;
+        if (vod) builder.buildRect(text, ColorGenerator.get400(key));
+        return builder.buildRoundRect(text, ColorGenerator.get400(key), ResUtil.dp2px(4));
+    }
+
+    private static RequestListener<Drawable> getListener(String text, String url, ImageView view, boolean vod, String category) {
         return new RequestListener<>() {
             @Override
             public boolean onLoadFailed(@Nullable GlideException e, Object model, @NonNull Target<Drawable> target, boolean isFirstResource) {
-                view.setImageDrawable(getTextDrawable(text, vod));
+                view.setImageDrawable(getTextDrawable(text, vod, category));
                 failed.add(url);
                 return true;
             }

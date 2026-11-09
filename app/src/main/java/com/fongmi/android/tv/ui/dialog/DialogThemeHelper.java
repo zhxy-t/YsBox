@@ -45,9 +45,23 @@ public final class DialogThemeHelper {
     /** BottomSheet 弹窗专用 overlay：parent=ThemeOverlay.Material3.BottomSheetDialog，
         携带 bottomSheetStyle 白底；BaseBottomSheetDialog.getTheme() 应该用它 */
     @StyleRes public static int getSheetOverlay() {
-        // BottomSheet 窗口白底与 9 种弹窗风格的卡片底色解耦：sheet 统一白底（与普通弹窗 White 风格一致），
-        // 布局内文字色走 ?attr/colorOnSurface（在 White sheet 主题里=深色），保证任何风格下可读。
-        return R.style.ThemeOverlay_FongMi_Sheet_White;
+        // BottomSheet 底色跟随 9 种弹窗风格的深浅：暗色风格（星尘/AMOLED/霓虹/雾/紫/深黑）用暗 sheet，
+        // 浅色风格（White/iOS/Original）用白 sheet；文字色走 ?attr/colorOnSurface 保证可读，
+        // 避免「渐变暗色主题弹白窗」的割裂感。
+        switch (Setting.getDialogStyle()) {
+            case 1:
+            case 3:
+            case 5:
+                return R.style.ThemeOverlay_FongMi_Sheet_White;
+            case 0:
+            case 2:
+            case 4:
+            case 6:
+            case 7:
+            case 8:
+            default:
+                return R.style.ThemeOverlay_FongMi_Sheet_Dark;
+        }
     }
     /** 纯语义色 overlay：给 BottomSheet / SideSheet 用 ContextThemeWrapper 叠加 */
     @StyleRes public static int getOverlay() {

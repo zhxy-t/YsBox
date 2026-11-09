@@ -234,27 +234,15 @@
             android:layout_marginEnd="16dp"
             android:singleLine="true"
             android:textColor="@color/white"
-            android:textSize="14sp"
+            android:textSize="12sp"
             tools:text="站源：泥巴" />
 
-                <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/year"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/site"
-            android:layout_alignStart="@+id/name"
-            android:layout_marginTop="4dp"
-            android:layout_marginEnd="16dp"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:textColor="@color/white"
-            android:textSize="14sp"
-            tools:text="年份：2026" />
+                
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/other"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/year"
+            android:layout_below="@+id/site"
             android:layout_alignStart="@+id/name"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
@@ -296,7 +284,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/video"
-            android:background="@android:color/transparent"
+            android:background="@drawable/shape_glass_bar"
             android:gravity="center_vertical"
             android:orientation="horizontal"
             android:paddingStart="12dp"

@@ -487,6 +487,22 @@
         <item name="backgroundTint">#FFFFFF</item>
         <item name="shapeAppearanceOverlay">@style/ShapeCorner.Top20</item>
     </style>
+    <style name="ThemeOverlay.FongMi.Sheet.Dark" parent="ThemeOverlay.Material3.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/Widget.FongMi.BottomSheet.Dark</item>
+        <item name="android:textColorPrimary">#F2F4F8</item>
+        <item name="android:textColorSecondary">#A8B0C0</item>
+        <item name="colorSurface">#1A1D24</item>
+        <item name="colorOnSurface">#F2F4F8</item>
+        <item name="colorOnSurfaceVariant">#A8B0C0</item>
+        <item name="colorPrimary">#6750A4</item>
+        <item name="colorControlActivated">#6750A4</item>
+        <item name="colorAccent">#6750A4</item>
+        <item name="dialogCornerRadius">20dp</item>
+    </style>
+    <style name="Widget.FongMi.BottomSheet.Dark" parent="Widget.Material3.BottomSheet.Modal">
+        <item name="backgroundTint">#1A1D24</item>
+        <item name="shapeAppearanceOverlay">@style/ShapeCorner.Top20</item>
+    </style>
     <style name="ShapeCorner.Top20" parent="">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSizeTopLeft">20dp</item>

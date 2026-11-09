@@ -1034,7 +1034,7 @@ public class VideoActivity extends PlaybackActivity implements Clock.Callback, C
         mBinding.swipeLayout.setRefreshing(false);
         mBinding.progressLayout.showContent();
         mBinding.name.setText(item.getName());
-        ImgUtil.load(item.getName(), item.getPic(), mBinding.poster);
+        ImgUtil.load(item.getName(), item.getPic(), mBinding.poster, true, item.getTypeName());
         refreshPlaying();
         App.removeCallbacks(mR4);
         setArtwork(item.getPic());
@@ -1379,7 +1379,6 @@ public class VideoActivity extends PlaybackActivity implements Clock.Callback, C
 
     private void setText(Vod item) {
         setText(mBinding.site, 0, getSite().getName());
-        setText(mBinding.year, R.string.detail_year, item.getYear());
         setText(mBinding.director, R.string.detail_director, item.getDirector());
         setText(mBinding.actor, R.string.detail_actor, item.getActor());
         setText(mBinding.content, R.string.detail_content, item.getContent());
@@ -1414,7 +1413,7 @@ public class VideoActivity extends PlaybackActivity implements Clock.Callback, C
     private void setOther(TextView view, Vod item) {
         StringBuilder sb = new StringBuilder();
         java.util.List<String> parts = new java.util.ArrayList<>();
-        if (!item.getYear().isEmpty()) parts.add(item.getYear());
+        if (!item.getYear().isEmpty()) parts.add(getString(R.string.detail_year, item.getYear()));
         if (!item.getArea().isEmpty()) parts.add(item.getArea());
         if (!item.getTypeName().isEmpty()) parts.add(item.getTypeName());
         sb.append(android.text.TextUtils.join(" · ", parts));

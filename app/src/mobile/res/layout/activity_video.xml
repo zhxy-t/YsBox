@@ -202,7 +202,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/video"
-        android:background="@android:color/transparent"
+        android:background="@drawable/shape_glass_bar"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:paddingStart="12dp"
@@ -454,7 +454,8 @@
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="4dp"
                         android:layout_marginEnd="8dp"
-                        app:cardBackgroundColor="?attr/colorSurfaceContainerHigh"
+                        android:background="@drawable/shape_glass_bar"
+                        app:cardBackgroundColor="@android:color/transparent"
                         app:cardCornerRadius="16dp"
                         app:cardElevation="0dp">
 
@@ -505,12 +506,7 @@
                                     android:paddingEnd="10dp"
                                     android:paddingBottom="5dp">
 
-                                    <androidx.appcompat.widget.AppCompatImageView
-                                        android:layout_width="14dp"
-                                        android:layout_height="14dp"
-                                        android:layout_marginEnd="4dp"
-                                        android:src="@drawable/ic_folder"
-                                        app:tint="?attr/colorPrimary" />
+                                    
 
                                     <com.google.android.material.textview.MaterialTextView
                                         android:id="@+id/site"
@@ -519,7 +515,7 @@
                                         android:ellipsize="end"
                                         android:maxLines="1"
                                         android:textColor="?attr/colorPrimary"
-                                        android:textSize="13sp"
+                                        android:textSize="12sp"
                                         android:textStyle="bold"
                                         tools:text="追剧v7 | APP" />
                                 </androidx.appcompat.widget.LinearLayoutCompat>
@@ -535,16 +531,7 @@
                                     android:textSize="13sp"
                                     tools:text="备注：更新至第04集" />
 
-                                                                <com.google.android.material.textview.MaterialTextView
-                                    android:id="@+id/year"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="4dp"
-                                    android:ellipsize="end"
-                                    android:maxLines="1"
-                                    android:textColor="?attr/colorOnSurfaceVariant"
-                                    android:textSize="13sp"
-                                    tools:text="年份：2026" />
+                                                                
                                 <com.google.android.material.textview.MaterialTextView
                                     android:id="@+id/other"
                                     android:layout_width="match_parent"
@@ -573,7 +560,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="2dp"
                                     android:ellipsize="end"
-                                    android:maxLines="2"
+                                    android:maxLines="1"
                                     android:textColor="?attr/colorOnSurfaceVariant"
                                     android:textSize="13sp"
                                     tools:text="演员：xxx" />
