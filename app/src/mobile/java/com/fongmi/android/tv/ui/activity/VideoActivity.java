@@ -1142,7 +1142,6 @@ public class VideoActivity extends PlaybackActivity implements Clock.Callback, C
     public void renderPlaybackMetadata(MediaMetadata metadata) {
         if (service() != null && isOwner()) player().setMetadata(metadata);
         // 顶栏标题/分辨率统一由 updateOsd 同步（与屏显同源），元数据回调不再写入
-        mBinding.control.size.setVisibility(View.GONE);
     }
 
     @Override
@@ -2117,8 +2116,10 @@ public class VideoActivity extends PlaybackActivity implements Clock.Callback, C
         }
         if (!PlayerSetting.isOsdEnabled()) {
             mBinding.osd.setVisibility(View.GONE);
-            // 分辨率始终由屏显负责，控制层顶栏不再显示
-            mBinding.control.size.setVisibility(View.GONE);
+            // 屏显关闭：分辨率由控制层顶栏接管（顶栏与屏显同在视频区顶部，位置就近）
+            String size = player().getSizeText();
+            mBinding.control.size.setText(size);
+            mBinding.control.size.setVisibility(TextUtils.isEmpty(size) ? View.GONE : View.VISIBLE);
             syncControlTitle();
             return;
         }
