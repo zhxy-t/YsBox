@@ -212,6 +212,7 @@ public class VideoActivity extends PlaybackActivity implements Clock.Callback, C
     private int mSdSpeedIndex;
     private boolean useParse;
     private boolean rotate;
+    private final java.text.SimpleDateFormat mOsdClock = new java.text.SimpleDateFormat("HH:mm:ss", java.util.Locale.getDefault());
     private long mOsdRxBytes;
     private long mOsdRxTime;
     private String mOsdSpeed = "0 B/s";
@@ -2111,25 +2112,26 @@ public class VideoActivity extends PlaybackActivity implements Clock.Callback, C
         int videoHeight = player().getVideoHeight();
         int percent = duration > 0 ? (int) Math.min(100, position * 100 / duration) : 0;
         updateTraffic();
+        // 屏显分区：左列=标题/静态信息（分辨率·参数）/进度；右列=时钟/网速（随秒变化）
         StringBuilder info = new StringBuilder();
         if (PlayerSetting.isOsdResolution() && videoWidth > 0 && videoHeight > 0) {
             info.append(getString(R.string.osd_resolution, videoWidth, videoHeight));
         }
-        if (PlayerSetting.isOsdTime()) {
-            appendLine(info, getString(R.string.osd_time, new SimpleDateFormat("HH:mm:ss").format(new Date())));
-        }
-        if (PlayerSetting.isOsdTraffic()) {
-            appendLine(info, getString(R.string.osd_traffic, mOsdSpeed));
-        }
         if (PlayerSetting.isOsdDiagnostics()) {
             String engine = PlayerSetting.isExo() ? "EXO" : "IJK";
-            appendLine(info, getString(R.string.osd_diagnostics, engine + " · " + PlayerSetting.getBuffer() + " ms"));
+            if (info.length() > 0) info.append(" · ");
+            info.append(getString(R.string.osd_diagnostics, engine + " · " + PlayerSetting.getBuffer() + " ms"));
         }
         mBinding.osdTitle.setText(title);
         mBinding.osdTitle.setVisibility(PlayerSetting.isOsdTitle() && !TextUtils.isEmpty(title) ? View.VISIBLE : View.GONE);
         mBinding.osdInfo.setText(info);
         mBinding.osdInfo.setVisibility(info.length() == 0 ? View.GONE : View.VISIBLE);
-        boolean showProgress = PlayerSetting.isOsdProgress() && duration > 0;
+        // 右列：时钟/网速各自独立开关，互不拼行
+        mBinding.osdTime.setText(mOsdClock.format(new Date()));
+        mBinding.osdTime.setVisibility(PlayerSetting.isOsdTime() ? View.VISIBLE : View.GONE);
+        mBinding.osdSpeed.setText(mOsdSpeed);
+        mBinding.osdSpeed.setVisibility(PlayerSetting.isOsdTraffic() ? View.VISIBLE : View.GONE);
+        boolean showProgress = PlayerSetting.isOsdProgress() && duration > 0 && mBinding.osdProgressRow != null;
         mBinding.osdProgressRow.setVisibility(showProgress ? View.VISIBLE : View.GONE);
         if (showProgress) {
             mBinding.osdPosition.setText(Util.timeMs(position));
@@ -2142,10 +2144,6 @@ public class VideoActivity extends PlaybackActivity implements Clock.Callback, C
         mBinding.osd.setVisibility(View.VISIBLE);
     }
 
-    private void appendLine(StringBuilder builder, String text) {
-        if (builder.length() > 0) builder.append('\n');
-        builder.append(text);
-    }
 
     private void updateTraffic() {
         long now = SystemClock.elapsedRealtime();

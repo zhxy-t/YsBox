@@ -47,79 +47,141 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
+        <!-- 屏显 OSD：去底卡，文字投影保证可读。左列=标题/静态信息/进度，右列=时钟/网速 -->
         <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/osd"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="top|start"
-            android:layout_margin="10dp"
-            android:background="@drawable/shape_item"
+            android:layout_gravity="top"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="16dp"
             android:clickable="false"
             android:focusable="false"
-            android:orientation="vertical"
-            android:padding="8dp"
+            android:orientation="horizontal"
             android:visibility="gone"
             tools:visibility="visible">
 
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/osdTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:textColor="@color/white"
-                android:textSize="12sp"
-                tools:text="慶餘年第二季" />
-
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/osdInfo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
-                android:lineSpacingExtra="2dp"
-                android:textColor="@color/white_60"
-                android:textSize="11sp"
-                tools:text="1920 × 1080 · 屏显 1080 × 2400\n00:12:34 / 00:45:00 · 28%" />
-
             <androidx.appcompat.widget.LinearLayoutCompat
-                android:id="@+id/osdProgressRow"
-                android:layout_width="220dp"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:visibility="gone"
-                tools:visibility="visible">
+                android:layout_weight="1"
+                android:orientation="vertical">
 
                 <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/osdPosition"
+                    android:id="@+id/osdTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/white_60"
-                    android:textSize="10sp"
-                    tools:text="00:12:34" />
-
-                <ProgressBar
-                    android:id="@+id/osdMini"
-                    style="?android:attr/progressBarStyleHorizontal"
-                    android:layout_width="0dp"
-                    android:layout_height="3dp"
-                    android:layout_marginStart="6dp"
-                    android:layout_marginEnd="6dp"
-                    android:layout_weight="1"
-                    android:max="100"
-                    android:progressTint="@color/white" />
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:shadowColor="#99000000"
+                    android:shadowDy="1"
+                    android:shadowRadius="8"
+                    android:textColor="@color/white"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    tools:text="慶餘年第二季" />
 
                 <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/osdDuration"
+                    android:id="@+id/osdInfo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/white_60"
-                    android:textSize="10sp"
-                    tools:text="00:45:00" />
+                    android:layout_marginTop="2dp"
+                    android:ellipsize="end"
+                    android:maxLines="2"
+                    android:shadowColor="#99000000"
+                    android:shadowDy="1"
+                    android:shadowRadius="8"
+                    android:textColor="#E6FFFFFF"
+                    android:textSize="12sp"
+                    tools:text="1920 × 1080 · 参数 EXO · 32000 ms" />
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/osdProgressRow"
+                    android:layout_width="220dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:visibility="gone"
+                    tools:visibility="visible">
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/osdPosition"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFeatureSettings="tnum"
+                        android:shadowColor="#99000000"
+                        android:shadowDy="1"
+                        android:shadowRadius="8"
+                        android:textColor="#E6FFFFFF"
+                        android:textSize="10sp"
+                        tools:text="00:12:34" />
+
+                    <ProgressBar
+                        android:id="@+id/osdMini"
+                        style="?android:attr/progressBarStyleHorizontal"
+                        android:layout_width="0dp"
+                        android:layout_height="3dp"
+                        android:layout_marginStart="6dp"
+                        android:layout_marginEnd="6dp"
+                        android:layout_weight="1"
+                        android:max="100"
+                        android:progressTint="@color/white" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/osdDuration"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFeatureSettings="tnum"
+                        android:shadowColor="#99000000"
+                        android:shadowDy="1"
+                        android:shadowRadius="8"
+                        android:textColor="#E6FFFFFF"
+                        android:textSize="10sp"
+                        tools:text="00:45:00" />
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:gravity="end"
+                android:orientation="vertical">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/osdTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFeatureSettings="tnum"
+                    android:shadowColor="#99000000"
+                    android:shadowDy="1"
+                    android:shadowRadius="8"
+                    android:textColor="@color/white"
+                    android:textSize="13sp"
+                    android:visibility="gone"
+                    tools:text="22:31:05"
+                    tools:visibility="visible" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/osdSpeed"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:fontFeatureSettings="tnum"
+                    android:shadowColor="#99000000"
+                    android:shadowDy="1"
+                    android:shadowRadius="8"
+                    android:textColor="#CCFFFFFF"
+                    android:textSize="11sp"
+                    android:visibility="gone"
+                    tools:text="2.4 MB/s"
+                    tools:visibility="visible" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
         </androidx.appcompat.widget.LinearLayoutCompat>
 
     </FrameLayout>
