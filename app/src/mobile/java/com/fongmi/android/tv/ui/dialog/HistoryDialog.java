@@ -68,7 +68,8 @@ public class HistoryDialog extends BaseAlertDialog implements ConfigAdapter.OnCl
 
     @Override
     protected ViewBinding getBinding() {
-        return binding = DialogHistoryBinding.inflate(getLayoutInflater());
+        // 用弹窗 overlay 主题的 inflater，保证 ?attr 语义色按当前弹窗风格解析
+        return binding = DialogHistoryBinding.inflate(android.view.LayoutInflater.from(DialogThemeHelper.wrapOverlay(requireContext())));
     }
 
     @Override

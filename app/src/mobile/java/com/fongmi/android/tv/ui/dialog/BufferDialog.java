@@ -23,7 +23,8 @@ public class BufferDialog extends BaseAlertDialog {
 
     @Override
     protected ViewBinding getBinding() {
-        return binding = DialogBufferBinding.inflate(getLayoutInflater());
+        // 用弹窗 overlay 主题的 inflater，保证 ?attr 语义色按当前弹窗风格解析
+        return binding = DialogBufferBinding.inflate(android.view.LayoutInflater.from(DialogThemeHelper.wrapOverlay(requireContext())));
     }
 
     @Override

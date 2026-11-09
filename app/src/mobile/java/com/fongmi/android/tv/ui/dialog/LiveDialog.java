@@ -42,7 +42,8 @@ public class LiveDialog extends BaseAlertDialog implements LiveAdapter.OnClickLi
 
     @Override
     protected ViewBinding getBinding() {
-        return binding = DialogLiveBinding.inflate(getLayoutInflater());
+        // 用弹窗 overlay 主题的 inflater，保证 ?attr 语义色按当前弹窗风格解析
+        return binding = DialogLiveBinding.inflate(android.view.LayoutInflater.from(DialogThemeHelper.wrapOverlay(requireContext())));
     }
 
     @Override
