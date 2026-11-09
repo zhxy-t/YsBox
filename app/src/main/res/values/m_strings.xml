@@ -21,6 +21,10 @@
     <!-- Vod -->
     
 
+    <!-- FuncBar -->
+    <string name="func_cast">Cast</string>
+    <string name="func_info">Info</string>
+    <string name="func_setting">Settings</string>
     <!-- Detail -->
     <string name="detail_flag">Flag</string>
     <string name="detail_episode">Episode</string>

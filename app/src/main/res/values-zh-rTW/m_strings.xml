@@ -21,6 +21,10 @@
     <!-- Vod -->
     
 
+    <!-- FuncBar -->
+    <string name="func_cast">投屏</string>
+    <string name="func_info">詳情</string>
+    <string name="func_setting">設定</string>
     <!-- Detail -->
     <string name="detail_flag">線路</string>
     <string name="detail_episode">選集</string>

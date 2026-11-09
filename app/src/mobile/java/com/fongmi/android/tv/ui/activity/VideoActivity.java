@@ -1464,7 +1464,7 @@ public class VideoActivity extends PlaybackActivity implements Clock.Callback, C
     }
 
     private void setQualityVisible(boolean visible) {
-        mBinding.qualityText.setVisibility(visible ? View.VISIBLE : View.GONE);
+        mBinding.qualityTitle.setVisibility(visible ? View.VISIBLE : View.GONE);
         mBinding.quality.setVisibility(visible ? View.VISIBLE : View.GONE);
     }
 
@@ -1921,7 +1921,7 @@ public class VideoActivity extends PlaybackActivity implements Clock.Callback, C
     private void checkKeepImg() {
         // funcBar（浅色底）用深色版图标；短剧 mSdKeep（深色底）用原白色图标
         int icon = Keep.find(getHistoryKey()) == null ? R.drawable.ic_func_keep_off : R.drawable.ic_func_keep_on;
-        mBinding.keep.setImageResource(icon);
+        mBinding.keepImg.setImageResource(icon);
         if (mSdKeep != null) mSdKeep.setImageResource(Keep.find(getHistoryKey()) == null ? R.drawable.ic_control_keep_off : R.drawable.ic_control_keep_on);
     }
 
@@ -1930,7 +1930,7 @@ public class VideoActivity extends PlaybackActivity implements Clock.Callback, C
     }
 
     private void checkDanmakuImg() {
-        mBinding.danmakuToggle.setImageResource(DanmakuSetting.isShow() ? R.drawable.ic_func_danmaku_on : R.drawable.ic_func_danmaku_off);
+        mBinding.danmakuToggleImg.setImageResource(DanmakuSetting.isShow() ? R.drawable.ic_func_danmaku_on : R.drawable.ic_func_danmaku_off);
     }
 
     private void createKeep() {
