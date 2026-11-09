@@ -1141,11 +1141,8 @@ public class VideoActivity extends PlaybackActivity implements Clock.Callback, C
     @Override
     public void renderPlaybackMetadata(MediaMetadata metadata) {
         if (service() != null && isOwner()) player().setMetadata(metadata);
-        CharSequence title = TextUtils.isEmpty(metadata.displayTitle) ? mBinding.name.getText() : metadata.displayTitle;
-        mBinding.control.title.setText(title);
-        mBinding.control.title.setSelected(true);
-        mBinding.control.size.setText(player().getSizeText());
-        mBinding.control.size.setVisibility(View.VISIBLE);
+        // 顶栏标题/分辨率统一由 updateOsd 同步（与屏显同源），元数据回调不再写入
+        mBinding.control.size.setVisibility(View.GONE);
     }
 
     @Override
@@ -1751,7 +1748,7 @@ public class VideoActivity extends PlaybackActivity implements Clock.Callback, C
         mBinding.video.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT));
         setRequestedOrientation(PlaybackOrientation.getEnterFullscreenOrientation(portrait));
         mBinding.control.title.setVisibility(View.VISIBLE);
-        mBinding.control.size.setVisibility(View.VISIBLE);
+        mBinding.control.size.setVisibility(View.GONE);
         setRotate(portrait);
         mKeyDown.resetScale();
         App.post(mR3, 2000);
@@ -1765,7 +1762,7 @@ public class VideoActivity extends PlaybackActivity implements Clock.Callback, C
         setRequestedOrientation(PlaybackOrientation.getExitFullscreenOrientation(isPort()));
         mBinding.episode.postDelayed(() -> mBinding.episode.scrollToPosition(mEpisodeAdapter.getPosition()), 100);
         mBinding.control.title.setVisibility(View.INVISIBLE);
-        mBinding.control.size.setVisibility(View.INVISIBLE);
+        mBinding.control.size.setVisibility(View.GONE);
         mBinding.video.setLayoutParams(mFrameParams);
         mKeyDown.resetScale();
         App.post(mR3, 2000);
@@ -2043,7 +2040,6 @@ public class VideoActivity extends PlaybackActivity implements Clock.Callback, C
         changeHeight();
         checkOrientation();
         maybePromoteShortDrama();
-        mBinding.control.size.setText(player().getSizeText());
         updateOsd();
     }
 
@@ -2120,8 +2116,9 @@ public class VideoActivity extends PlaybackActivity implements Clock.Callback, C
         }
         if (!PlayerSetting.isOsdEnabled()) {
             mBinding.osd.setVisibility(View.GONE);
-            // 屏显关闭时分辨率归控制层顶栏负责
-            mBinding.control.size.setVisibility(View.VISIBLE);
+            // 分辨率始终由屏显负责，控制层顶栏不再显示
+            mBinding.control.size.setVisibility(View.GONE);
+            syncControlTitle();
             return;
         }
         long position = Math.max(0, player().getPosition());
@@ -2131,6 +2128,7 @@ public class VideoActivity extends PlaybackActivity implements Clock.Callback, C
             mBinding.osd.setVisibility(View.GONE);
             return;
         }
+        syncControlTitle();
         int videoWidth = player().getVideoWidth();
         int videoHeight = player().getVideoHeight();
         int percent = duration > 0 ? (int) Math.min(100, position * 100 / duration) : 0;
@@ -2158,7 +2156,8 @@ public class VideoActivity extends PlaybackActivity implements Clock.Callback, C
         // 控制层弹起（暂停/点按）时的分工：屏显保留标题+分辨率，控制层顶栏不再重复分辨率；
         // 屏显细进度条让位给控制层可拖动的进度条，控制层收起后恢复
         boolean controlUp = mBinding.control.getRoot().getVisibility() == View.VISIBLE;
-        mBinding.control.size.setVisibility(!controlUp || !PlayerSetting.isOsdEnabled() || !PlayerSetting.isOsdResolution() || videoWidth <= 0 ? View.VISIBLE : View.GONE);
+        // 分辨率由屏显固定位置负责，控制层顶栏不再显示
+        mBinding.control.size.setVisibility(View.GONE);
         boolean showProgress = PlayerSetting.isOsdProgress() && duration > 0 && mBinding.osdProgressRow != null && !controlUp;
         mBinding.osdProgressRow.setVisibility(showProgress ? View.VISIBLE : View.GONE);
         if (showProgress) {
@@ -2170,6 +2169,12 @@ public class VideoActivity extends PlaybackActivity implements Clock.Callback, C
     }
 
 
+    /** 控制层顶栏标题：与屏显同源（标题 · 集数），超长时 marquee 滚动。 */
+    private void syncControlTitle() {
+        String title = getOsdTitle();
+        mBinding.control.title.setText(title);
+        mBinding.control.title.setSelected(!TextUtils.isEmpty(title));
+    }
     private void updateTraffic() {
         long now = SystemClock.elapsedRealtime();
         long rx = TrafficStats.getTotalRxBytes();
