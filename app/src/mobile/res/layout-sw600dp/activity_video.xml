@@ -297,36 +297,32 @@
                 android:layout_height="40dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:scaleType="center"
-                android:src="@drawable/ic_control_danmaku_on" />
-                app:tint="?attr/colorOnSurface"
-
+                android:src="@drawable/ic_func_danmaku_on" />
+    
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/cast"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:scaleType="center"
-                android:src="@drawable/ic_control_cast" />
-                app:tint="?attr/colorOnSurface"
-
+                android:src="@drawable/ic_func_cast" />
+    
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/info"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:scaleType="center"
-                android:src="@drawable/ic_control_info" />
-                app:tint="?attr/colorOnSurface"
-
+                android:src="@drawable/ic_func_info" />
+    
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/keep"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:scaleType="center"
-                android:src="@drawable/ic_control_keep_off" />
-                app:tint="?attr/colorOnSurface"
-
+                android:src="@drawable/ic_func_keep_off" />
+    
             <View
                 android:layout_width="0dp"
                 android:layout_height="0dp"
@@ -338,9 +334,8 @@
                 android:layout_height="40dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:scaleType="center"
-                android:src="@drawable/ic_control_setting" />
-                app:tint="?attr/colorOnSurface"
-        </androidx.appcompat.widget.LinearLayoutCompat>
+                android:src="@drawable/ic_func_setting" />
+            </androidx.appcompat.widget.LinearLayoutCompat>
 
         <!-- 占位：与手机布局保持 ViewBinding 字段一致（平板沿用旧扁平详情视觉，不渲染此卡片） -->
         <com.google.android.material.card.MaterialCardView

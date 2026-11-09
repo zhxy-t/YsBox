@@ -1919,9 +1919,10 @@ public class VideoActivity extends PlaybackActivity implements Clock.Callback, C
     }
 
     private void checkKeepImg() {
-        int icon = Keep.find(getHistoryKey()) == null ? R.drawable.ic_control_keep_off : R.drawable.ic_control_keep_on;
+        // funcBar（浅色底）用深色版图标；短剧 mSdKeep（深色底）用原白色图标
+        int icon = Keep.find(getHistoryKey()) == null ? R.drawable.ic_func_keep_off : R.drawable.ic_func_keep_on;
         mBinding.keep.setImageResource(icon);
-        if (mSdKeep != null) mSdKeep.setImageResource(icon);
+        if (mSdKeep != null) mSdKeep.setImageResource(Keep.find(getHistoryKey()) == null ? R.drawable.ic_control_keep_off : R.drawable.ic_control_keep_on);
     }
 
     private void checkLockImg() {
@@ -1929,7 +1930,7 @@ public class VideoActivity extends PlaybackActivity implements Clock.Callback, C
     }
 
     private void checkDanmakuImg() {
-        mBinding.danmakuToggle.setImageResource(DanmakuSetting.isShow() ? R.drawable.ic_control_danmaku_on : R.drawable.ic_control_danmaku_off);
+        mBinding.danmakuToggle.setImageResource(DanmakuSetting.isShow() ? R.drawable.ic_func_danmaku_on : R.drawable.ic_func_danmaku_off);
     }
 
     private void createKeep() {

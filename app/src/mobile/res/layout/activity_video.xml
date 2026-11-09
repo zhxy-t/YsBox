@@ -216,8 +216,7 @@
             android:layout_height="40dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:scaleType="center"
-            android:src="@drawable/ic_control_danmaku_on" />
-            app:tint="?attr/colorOnSurface"
+            android:src="@drawable/ic_func_danmaku_on" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/cast"
@@ -225,8 +224,7 @@
             android:layout_height="40dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:scaleType="center"
-            android:src="@drawable/ic_control_cast" />
-            app:tint="?attr/colorOnSurface"
+            android:src="@drawable/ic_func_cast" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/info"
@@ -234,8 +232,7 @@
             android:layout_height="40dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:scaleType="center"
-            android:src="@drawable/ic_control_info" />
-            app:tint="?attr/colorOnSurface"
+            android:src="@drawable/ic_func_info" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/keep"
@@ -243,8 +240,7 @@
             android:layout_height="40dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:scaleType="center"
-            android:src="@drawable/ic_control_keep_off" />
-            app:tint="?attr/colorOnSurface"
+            android:src="@drawable/ic_func_keep_off" />
 
         <View
             android:layout_width="0dp"
@@ -257,8 +253,7 @@
             android:layout_height="40dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:scaleType="center"
-            android:src="@drawable/ic_control_setting" />
-            app:tint="?attr/colorOnSurface"
+            android:src="@drawable/ic_func_setting" />
     </androidx.appcompat.widget.LinearLayoutCompat>
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
