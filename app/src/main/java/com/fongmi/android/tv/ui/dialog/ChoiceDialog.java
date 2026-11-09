@@ -226,7 +226,10 @@ public final class ChoiceDialog extends DialogFragment {
 
         if (message != null) addMessage(root);
         if (items != null && items.length > 0) addItems(root);
-        if (positive != null || negative != null) addActions(root);
+        // 「只有取消」时不再渲染按钮行：单选列表只需点选即回，遮罩点击/返回键均可关闭，
+        // 一个孤零零的「取消」没有意义（按需求：只有取消的时候删除取消按钮）。
+        // 判定口径：没有 positive/neutral，且仅剩自动补的 negative 一颗按钮时跳过。
+        if (positive != null || neutral != null || actionCount() > 1) addActions(root);
         return root;
     }
 
