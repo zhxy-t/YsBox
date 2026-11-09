@@ -130,8 +130,7 @@ public interface PlayerEngine {
     }
 
     enum Type {
-        EXO,
-        MPV
+        EXO
     }
 
     record SecondarySubtitleState(@Nullable TrackSelectionOverride primarySelection,

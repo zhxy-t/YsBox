@@ -40,10 +40,6 @@ public final class PlayerEngineDialog extends BaseBottomSheetDialog {
         dialog.show(activity.getSupportFragmentManager(), null);
     }
 
-    private static int getCurrentEngine(PlayerManager player) {
-        return PlaybackAction.getEngine(player);
-    }
-
     @Override
     protected ViewBinding getBinding(@NonNull LayoutInflater inflater, @Nullable ViewGroup container) {
         return binding = DialogPlayerEngineBinding.inflate(inflater, container, false);
@@ -60,7 +56,6 @@ public final class PlayerEngineDialog extends BaseBottomSheetDialog {
         binding.debug.setOnClickListener(this::selectDebug);
         binding.other.setOnClickListener(this::selectOther);
         binding.exo.setOnClickListener(view -> selectEngine(PlayerSetting.ENGINE_EXO));
-        binding.mpv.setOnClickListener(view -> selectEngine(PlayerSetting.ENGINE_MPV));
     }
 
     private void selectDebug(View view) {
@@ -77,20 +72,17 @@ public final class PlayerEngineDialog extends BaseBottomSheetDialog {
     }
 
     private void selectEngine(int engine) {
-        if (player == null) PlayerSetting.putEngine(engine);
-        else player.setEngine(engine);
+        PlayerSetting.putEngine(engine);
         setText(target, player);
         dismiss();
     }
 
     private void setSelected() {
-        int engine = getCurrentEngine(player);
-        binding.exo.setSelected(engine == PlayerSetting.ENGINE_EXO);
-        binding.mpv.setSelected(engine == PlayerSetting.ENGINE_MPV);
+        binding.exo.setSelected(true);
     }
 
     private View getSelectedView() {
-        return getCurrentEngine(player) == PlayerSetting.ENGINE_MPV ? binding.mpv : binding.exo;
+        return binding.exo;
     }
 
     private PlaybackActivity getPlaybackActivity() {

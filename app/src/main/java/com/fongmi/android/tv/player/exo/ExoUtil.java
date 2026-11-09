@@ -106,11 +106,11 @@ public class ExoUtil {
             @Override
             protected void buildTextRenderers(Context context, androidx.media3.exoplayer.text.TextOutput output,
                                               android.os.Looper looper, int mode, java.util.ArrayList<androidx.media3.exoplayer.Renderer> out) {
-                var primary = new androidx.media3.exoplayer.text.TextRenderer(output, looper, com.fongmi.android.tv.player.subtitle.AssSubtitleDecoder.FACTORY);
+                var primary = new androidx.media3.exoplayer.text.TextRenderer(output, looper);
                 primary.experimentalSetLegacyDecodingEnabled(true);
                 out.add(primary);
                 if (secondary != null) {
-                    var second = new androidx.media3.exoplayer.text.TextRenderer(secondary, looper, com.fongmi.android.tv.player.subtitle.AssSubtitleDecoder.FACTORY);
+                    var second = new androidx.media3.exoplayer.text.TextRenderer(secondary, looper);
                     second.experimentalSetLegacyDecodingEnabled(true);
                     out.add(second);
                 }

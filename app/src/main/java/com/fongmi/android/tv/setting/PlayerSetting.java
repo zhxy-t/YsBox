@@ -38,25 +38,15 @@ public class PlayerSetting {
     public static final int RADIUS_CIRCLE = 5;
 
     public static int getEngine() {
-        int engine = Prefers.getInt("player_engine", ENGINE_EXO);
-        if (engine != ENGINE_EXO && engine != ENGINE_MPV) {
-            engine = ENGINE_EXO;
-            Prefers.put("player_engine", ENGINE_EXO);
-        }
-        return engine;
+        return ENGINE_EXO;
     }
 
     public static void putEngine(int engine) {
-        Prefers.put("player_engine", engine == ENGINE_MPV ? ENGINE_MPV : ENGINE_EXO);
         if (isExo() && DecodeSetting.isTunnel()) putRender(RENDER_SURFACE);
     }
 
     public static boolean isExo() {
-        return getEngine() == ENGINE_EXO;
-    }
-
-    public static boolean isMpv() {
-        return getEngine() == ENGINE_MPV;
+        return true;
     }
 
     public static boolean isDebug() {

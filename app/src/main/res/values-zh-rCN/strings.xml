@@ -425,7 +425,6 @@
 
     <string-array name="select_engine">
         <item>EXO</item>
-        <item>MPV</item>
     </string-array>
 
     <string-array name="select_dolby_vision_output">

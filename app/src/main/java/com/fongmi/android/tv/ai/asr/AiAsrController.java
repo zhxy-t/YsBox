@@ -39,41 +39,7 @@ public class AiAsrController {
     /** 全局单例 AudioProcessor（ExoUtil 注入到音频链） */
     private final AiAsrAudioProcessor audioProcessor = new AiAsrAudioProcessor();
 
-    /** MPV 信息提供者（VideoActivity 设置，用于判断内核与取播放地址） */
-    private MpvInfoProvider mpvInfoProvider;
-    /** MPV 影子音频采集器（MPV 内核时使用） */
-    private MpvAsrAudioCapture mpvCapture;
-    /** 当前是否走 MPV 影子采集路径 */
-    private volatile boolean mpvMode = false;
     private Context appContext;
-
-    /** MPV 播放信息：VideoActivity 实现并注入 */
-    public interface MpvInfoProvider {
-        /** 当前是否为 MPV 内核且正在播放 */
-        boolean isMpvActive();
-        /** MPV 播放地址 */
-        String getMediaUrl();
-        /** MPV 请求头 */
-        Map<String, String> getMediaHeaders();
-        /** MPV 当前位置（毫秒） */
-        long getPositionMs();
-        /** MPV 是否正在播放 */
-        boolean isPlaying();
-    }
-
-    public void setMpvInfoProvider(MpvInfoProvider provider) {
-        this.mpvInfoProvider = provider;
-    }
-
-    /** MPV 影子采集是否运行中 */
-    public boolean isMpvCaptureActive() {
-        return mpvCapture != null && mpvCapture.isStarted();
-    }
-
-    /** 当前是否处于 MPV 模式 */
-    public boolean isMpvMode() {
-        return mpvMode;
-    }
 
     private final Handler mainHandler = new Handler(Looper.getMainLooper());
     private SubtitleView subtitleView;
@@ -150,22 +116,8 @@ public class AiAsrController {
                 setEnabled(context, true);
                 appContext = context.getApplicationContext();
                 AiAsrEngine.get().setListener(engineListener);
-                // MPV 内核：libmpv 在 native 层自己输出音频，Java 层无钩子，
-                // 走影子播放器采集；Exo 内核：走注入音频链的单例 AudioProcessor
-                if (isMpvActive()) {
-                    mpvMode = true;
-                    if (!startMpvCapture()) {
-                        mpvMode = false;
-                        // 回滚已落盘的开启标志（中-09）：不回滚的话设置页/开关显示「已开」
-                        // 而引擎根本没在跑，成了假状态。
-                        setEnabled(context, false);
-                        mainHandler.post(() -> callback.onError("无法获取 MPV 播放地址，AI 字幕不可用"));
-                        return;
-                    }
-                } else {
-                    mpvMode = false;
-                    audioProcessor.setCaptureEnabled(true);
-                }
+                mpvMode = false;
+                audioProcessor.setCaptureEnabled(true);
                 if (AiAsrEngine.get().start()) {
                     mainHandler.post(callback::onEnabled);
                 } else {
@@ -190,8 +142,6 @@ public class AiAsrController {
     public void disable(Context context) {
         setEnabled(context, false);
         audioProcessor.setCaptureEnabled(false);
-        stopMpvCapture();
-        mpvMode = false;
         AiAsrEngine.get().stop();
         mainHandler.removeCallbacks(hideRunnable);
         setSubtitleText("");
@@ -206,68 +156,6 @@ public class AiAsrController {
         }
     }
 
-    /** 启动 MPV 影子采集 */
-    private boolean startMpvCapture() {
-        try {
-            if (mpvInfoProvider == null) return false;
-            String url = mpvInfoProvider.getMediaUrl();
-            if (url == null || url.isEmpty()) return false;
-            stopMpvCapture();
-            mpvCapture = new MpvAsrAudioCapture();
-            return mpvCapture.start(appContext != null ? appContext : null,
-                    url, mpvInfoProvider.getMediaHeaders(), mpvInfoProvider.getPositionMs());
-        } catch (Exception e) {
-            return false;
-        }
-    }
-
-    /** 停止 MPV 影子采集 */
-    private void stopMpvCapture() {
-        try {
-            if (mpvCapture != null) mpvCapture.stop();
-        } catch (Exception ignored) {}
-        mpvCapture = null;
-    }
-
-    /**
-     * MPV 同步（VideoActivity 每秒 onTimeChanged 调用）。
-     * - 负责影子播放器的漂移校正与播放状态镜像；
-     * - 自愈：AI 字幕开着但内核切到 MPV 而影子未启动时，自动补启动；
-     *         内核切回 Exo 时，停掉影子并恢复 Exo 单例采集。
-     */
-    public void syncMpvShadow() {
-        try {
-            if (appContext == null || !isEnabled(appContext)) {
-                if (mpvCapture != null) {
-                    stopMpvCapture();
-                    mpvMode = false;
-                }
-                return;
-            }
-            boolean mpv = isMpvActive();
-            if (mpv && mpvCapture == null) {
-                // 切到 MPV 或之前启动失败：补启动影子采集
-                mpvMode = true;
-                audioProcessor.setCaptureEnabled(false);
-                startMpvCapture();
-            } else if (!mpv && mpvCapture != null) {
-                // 切回 Exo：停影子，恢复 Exo 单例采集
-                stopMpvCapture();
-                mpvMode = false;
-                audioProcessor.setCaptureEnabled(true);
-            }
-            if (mpvCapture != null && mpvInfoProvider != null) {
-                mpvCapture.sync(mpvInfoProvider.getPositionMs(), mpvInfoProvider.isPlaying());
-            }
-        } catch (Exception ignored) {
-            // 同步失败不影响主播放
-        }
-    }
-
-    /**
-     * 播放器准备好后调用：如果开关是开的，自动恢复识别。
-     * VideoActivity 在开始播放时调用。
-     */
     public void onPlayerReady(Context context) {
         if (isEnabled(context) && !AiAsrEngine.get().isRunning() && !preparing) {
             enable(context, new ToggleCallback() {
@@ -284,10 +172,9 @@ public class AiAsrController {
     /** 播放器释放时调用 */
     public void onPlayerRelease(Context context) {
         audioProcessor.setCaptureEnabled(false);
-        stopMpvCapture();
-        mpvMode = false;
         AiAsrEngine.get().stop();
         mainHandler.removeCallbacks(hideRunnable);
+        setSubtitleText("");
     }
 
     /** 识别结果监听 */

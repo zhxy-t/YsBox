@@ -3,13 +3,6 @@
 -keep class com.fongmi.quickjs.method.** { *; }
 -keep class com.fongmi.android.tv.bean.** { *; }
 
-# MPV JNI bridge
--keep class is.xyz.mpv.MPVLib { *; }
--keep class is.xyz.mpv.MPVLib$* { *; }
--keep,allowobfuscation class androidx.media3.mpvplayer.MpvPlayer { *; }
--keep,allowobfuscation class androidx.media3.mpvplayer.MpvPlayer$* { *; }
--keep,allowobfuscation class com.fongmi.android.tv.player.engine.MpvPlayerEngine { *; }
-
 # Gson
 -keep class com.google.gson.** { *; }
 

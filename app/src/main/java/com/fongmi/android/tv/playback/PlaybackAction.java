@@ -75,12 +75,11 @@ public final class PlaybackAction {
     }
 
     public static String getEngineText(PlayerManager player) {
-        return ResUtil.getStringArray(R.array.select_engine)[getEngine(player)];
+        return ResUtil.getStringArray(R.array.select_engine)[PlayerSetting.ENGINE_EXO];
     }
 
     public static int getEngine(PlayerManager player) {
-        if (player == null || player.isReleased()) return PlayerSetting.getEngine();
-        return player.getEngine();
+        return PlayerSetting.ENGINE_EXO;
     }
 
     private static String getDecodeText(PlayerManager player) {

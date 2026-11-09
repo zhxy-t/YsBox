@@ -80,10 +80,6 @@ public class SettingPlayerFragment extends BaseFragment implements UaListener, B
 
     private void setEngine(View view) {
         DialogThemeHelper.builder(requireActivity()).setTitle(R.string.player_engine).setSingleChoiceItems(engine, PlayerSetting.getEngine(), (dialog, which) -> {
-            if (which == PlayerSetting.ENGINE_MPV && !com.fongmi.android.tv.player.engine.MpvPlayerEngine.isAvailable()) {
-                com.fongmi.android.tv.utils.Notify.show(R.string.error_play_mpv_load_failed);
-                return;
-            }
             PlayerSetting.putEngine(which);
             setPlaybackModeText();
             setVisible();
@@ -100,14 +96,13 @@ public class SettingPlayerFragment extends BaseFragment implements UaListener, B
     private void setPlaybackModeText() {
         engine = engineNames();
         render = ResUtil.getStringArray(R.array.select_render);
-        mBinding.engineText.setText(engine[Math.min(PlayerSetting.getEngine(), engine.length - 1)]);
+        mBinding.engineText.setText(engine[0]);
         mBinding.renderText.setText(render[PlayerSetting.getRender()]);
     }
 
-    /** 资源数组兜底：老包里 select_engine 可能只有 EXO，这里保证 MPV 一定出现在列表里。 */
+    /** 只保留 EXO。 */
     private static String[] engineNames() {
-        String[] names = ResUtil.getStringArray(R.array.select_engine);
-        return names != null && names.length >= 2 ? names : new String[]{"EXO", "MPV"};
+        return new String[]{"EXO"};
     }
 
     private void onScale(View view) {

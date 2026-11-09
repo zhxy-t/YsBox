@@ -329,16 +329,12 @@ public class PlayerManager implements ParseCallback {
     }
 
     public int getEngine() {
-        return engine != null && engine.getType() == PlayerEngine.Type.MPV ? PlayerSetting.ENGINE_MPV : PlayerSetting.ENGINE_EXO;
+        return PlayerSetting.ENGINE_EXO;
     }
 
     public void setEngine(int targetEngine) {
-        if (targetEngine == PlayerSetting.ENGINE_MPV && !com.fongmi.android.tv.player.engine.MpvPlayerEngine.isAvailable()) {
-            Notify.show(com.fongmi.android.tv.R.string.error_play_mpv_load_failed);
-            return;
-        }
         PlayerSetting.putEngine(targetEngine);
-        if (isEmpty() || PlayerEngineFactory.matches(engine, spec)) return;
+        if (isEmpty() || engine != null && engine.getType() == PlayerEngine.Type.EXO) return;
         PlaybackSnapshot snapshot = PlaybackSnapshot.capture(player);
         startCurrent(snapshot.positionMs());
         snapshot.restore(player);

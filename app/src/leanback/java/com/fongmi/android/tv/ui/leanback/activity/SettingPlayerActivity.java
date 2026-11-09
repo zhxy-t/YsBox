@@ -75,10 +75,6 @@ public class SettingPlayerActivity extends BaseActivity implements UaListener, B
 
     private void setEngine(View view) {
         DialogThemeHelper.builder(this).setTitle(R.string.player_engine).setSingleChoiceItems(engine, PlayerSetting.getEngine(), (dialog, which) -> {
-            if (which == PlayerSetting.ENGINE_MPV && !com.fongmi.android.tv.player.engine.MpvPlayerEngine.isAvailable()) {
-                com.fongmi.android.tv.utils.Notify.show(R.string.error_play_mpv_load_failed);
-                return;
-            }
             PlayerSetting.putEngine(which);
             setPlaybackModeText();
             setVisible();
@@ -95,7 +91,7 @@ public class SettingPlayerActivity extends BaseActivity implements UaListener, B
     private void setPlaybackModeText() {
         engine = ResUtil.getStringArray(R.array.select_engine);
         render = ResUtil.getStringArray(R.array.select_render);
-        mBinding.engineText.setText(engine[PlayerSetting.getEngine()]);
+        mBinding.engineText.setText(engine[0]);
         mBinding.renderText.setText(render[PlayerSetting.getRender()]);
     }
 
