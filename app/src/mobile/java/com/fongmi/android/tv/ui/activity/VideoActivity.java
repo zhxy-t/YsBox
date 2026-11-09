@@ -1834,7 +1834,8 @@ public class VideoActivity extends PlaybackActivity implements Clock.Callback, C
         mBinding.control.cast.setVisibility(player().isEmpty() ? View.GONE : View.VISIBLE);
         mBinding.control.center.setVisibility(isLock() ? View.GONE : View.VISIBLE);
         mBinding.control.bottom.setVisibility(isLock() ? View.GONE : View.VISIBLE);
-        mBinding.control.back.setVisibility(isLock() ? View.GONE : View.VISIBLE);
+        // 返回箭头取消：详情页用左滑/系统返回，控制层不再显示
+        mBinding.control.back.setVisibility(View.GONE);
         mBinding.control.top.setVisibility(isLock() ? View.GONE : View.VISIBLE);
         mBinding.control.getRoot().setVisibility(View.VISIBLE);
         setR1Callback();
@@ -2129,6 +2130,7 @@ public class VideoActivity extends PlaybackActivity implements Clock.Callback, C
             return;
         }
         syncControlTitle();
+        boolean controlUp = mBinding.control.getRoot().getVisibility() == View.VISIBLE;
         int videoWidth = player().getVideoWidth();
         int videoHeight = player().getVideoHeight();
         int percent = duration > 0 ? (int) Math.min(100, position * 100 / duration) : 0;
@@ -2145,7 +2147,8 @@ public class VideoActivity extends PlaybackActivity implements Clock.Callback, C
         }
         String osdTitle = getOsdTitle();
         mBinding.osdTitle.setText(osdTitle);
-        mBinding.osdTitle.setVisibility(PlayerSetting.isOsdTitle() && !TextUtils.isEmpty(osdTitle) ? View.VISIBLE : View.GONE);
+        // 控制层弹起时屏显标题隐藏（顶栏已有同源标题），避免同一行标题出现两处
+        mBinding.osdTitle.setVisibility(PlayerSetting.isOsdTitle() && !TextUtils.isEmpty(osdTitle) && !controlUp ? View.VISIBLE : View.GONE);
         mBinding.osdInfo.setText(info);
         mBinding.osdInfo.setVisibility(info.length() == 0 ? View.GONE : View.VISIBLE);
         // 右列：时钟/网速各自独立开关，互不拼行
@@ -2155,8 +2158,7 @@ public class VideoActivity extends PlaybackActivity implements Clock.Callback, C
         mBinding.osdSpeed.setVisibility(PlayerSetting.isOsdTraffic() ? View.VISIBLE : View.GONE);
         // 控制层弹起（暂停/点按）时的分工：屏显保留标题+分辨率，控制层顶栏不再重复分辨率；
         // 屏显细进度条让位给控制层可拖动的进度条，控制层收起后恢复
-        boolean controlUp = mBinding.control.getRoot().getVisibility() == View.VISIBLE;
-        // 分辨率由屏显固定位置负责，控制层顶栏不再显示
+        // 分辨率由屏显固定位置负责，控制层顶栏不再显示；屏显细进度条在控制层弹起时让位
         mBinding.control.size.setVisibility(View.GONE);
         boolean showProgress = PlayerSetting.isOsdProgress() && duration > 0 && mBinding.osdProgressRow != null && !controlUp;
         mBinding.osdProgressRow.setVisibility(showProgress ? View.VISIBLE : View.GONE);
