@@ -1531,7 +1531,7 @@ public class VideoActivity extends PlaybackActivity implements Clock.Callback, C
     }
 
     private void onContent() {
-        mBinding.content.setMaxLines(mBinding.content.getMaxLines() == 3 ? Integer.MAX_VALUE : 3);
+        mBinding.content.setMaxLines(mBinding.content.getMaxLines() == 1 ? Integer.MAX_VALUE : 1);
     }
 
     private void onReverse() {
