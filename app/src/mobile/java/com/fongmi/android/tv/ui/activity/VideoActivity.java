@@ -1746,7 +1746,7 @@ public class VideoActivity extends PlaybackActivity implements Clock.Callback, C
         if (isLand() && !player().isPortrait()) setTransition();
         mBinding.video.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT));
         setRequestedOrientation(PlaybackOrientation.getEnterFullscreenOrientation(portrait));
-        mBinding.control.title.setVisibility(View.VISIBLE);
+        mBinding.control.title.setVisibility(View.INVISIBLE);
         mBinding.control.size.setVisibility(View.GONE);
         setRotate(portrait);
         mKeyDown.resetScale();
@@ -2096,92 +2096,64 @@ public class VideoActivity extends PlaybackActivity implements Clock.Callback, C
     /** 屏显标题：标题 + 当前集数；集数名与标题相同（含集名即片名）时不再追加。 */
     private String getOsdTitle() {
         String title = mBinding.name.getText() == null ? "" : mBinding.name.getText().toString();
-        String result = title;
-        if (mEpisodeAdapter != null && mEpisodeAdapter.getItemCount() > 0) {
-            Episode ep = mEpisodeAdapter.getActivated();
-            String epName = ep == null ? "" : ep.getName();
-            if (!TextUtils.isEmpty(epName) && !epName.equalsIgnoreCase(title)) {
-                result = title + " · " + epName;
-            }
+        if (mEpisodeAdapter == null || mEpisodeAdapter.getItemCount() <= 0) return title;
+        Episode ep = mEpisodeAdapter.getActivated();
+        String epName = ep == null ? "" : ep.getName();
+        if (TextUtils.isEmpty(epName)) return title;
+        // 集名与标题相同或互相包含时只显示一个，避免「标题 · 标题-4K」
+        if (TextUtils.isEmpty(title) || epName.equalsIgnoreCase(title) || epName.contains(title) || title.contains(epName)) {
+            return TextUtils.isEmpty(title) ? epName : title;
         }
-        return result;
+        return title + " · " + epName;
     }
 
     private void updateOsd() {
-        if (isInPictureInPictureMode()) {
+        if (isInPictureInPictureMode() || mShortDramaMode) {
             mBinding.osd.setVisibility(View.GONE);
             return;
         }
-        // 短剧模式完全隐藏 OSD（时间/分辨率/网速/进度/标题等），纯沉浸刷剧
-        if (mShortDramaMode) {
+        boolean controlUp = mBinding.control.getRoot().getVisibility() == View.VISIBLE;
+        boolean masterOn = PlayerSetting.isOsdEnabled();
+        if (!controlUp && !masterOn) {
             mBinding.osd.setVisibility(View.GONE);
-            return;
-        }
-        if (!PlayerSetting.isOsdEnabled()) {
-            mBinding.osd.setVisibility(View.GONE);
-            // 屏显关闭：分辨率由控制层顶栏接管（顶栏与屏显同在视频区顶部，位置就近）
-            String size = player().getSizeText();
-            mBinding.control.size.setText(size);
-            mBinding.control.size.setVisibility(TextUtils.isEmpty(size) ? View.GONE : View.VISIBLE);
-            syncControlTitle();
             return;
         }
         long position = Math.max(0, player().getPosition());
         long duration = player().getDuration();
-        String title = getOsdTitle();
-        if (TextUtils.isEmpty(title) && duration <= 0) {
-            mBinding.osd.setVisibility(View.GONE);
-            return;
-        }
-        syncControlTitle();
-        boolean controlUp = mBinding.control.getRoot().getVisibility() == View.VISIBLE;
+        String osdTitle = getOsdTitle();
         int videoWidth = player().getVideoWidth();
         int videoHeight = player().getVideoHeight();
         int percent = duration > 0 ? (int) Math.min(100, position * 100 / duration) : 0;
         updateTraffic();
-        // 屏显分区：左列=标题/静态信息（分辨率·参数）/进度；右列=时钟/网速（随秒变化）
+        // 控制层弹起：标题+分辨率固定显示在屏显位置（无视开关，避免顶栏叠影）；
+        // 控制层收起：按各开关显示
         StringBuilder info = new StringBuilder();
-        if (PlayerSetting.isOsdResolution() && videoWidth > 0 && videoHeight > 0) {
-            info.append(getString(R.string.osd_resolution, videoWidth, videoHeight));
-        }
-        if (PlayerSetting.isOsdDiagnostics()) {
+        boolean showRes = videoWidth > 0 && videoHeight > 0 && (controlUp || (masterOn && PlayerSetting.isOsdResolution()));
+        if (showRes) info.append(getString(R.string.osd_resolution, videoWidth, videoHeight));
+        if (masterOn && PlayerSetting.isOsdDiagnostics()) {
             String engine = PlayerSetting.isExo() ? "EXO" : "IJK";
             if (info.length() > 0) info.append(" · ");
             info.append(getString(R.string.osd_diagnostics, engine + " · " + PlayerSetting.getBuffer() + " ms"));
         }
-        String osdTitle = getOsdTitle();
+        boolean showTitle = !TextUtils.isEmpty(osdTitle) && (controlUp || (masterOn && PlayerSetting.isOsdTitle()));
         mBinding.osdTitle.setText(osdTitle);
-        // 控制层弹起时屏显标题隐藏（顶栏已有同源标题），避免同一行标题出现两处
-        mBinding.osdTitle.setVisibility(PlayerSetting.isOsdTitle() && !TextUtils.isEmpty(osdTitle) && !controlUp ? View.VISIBLE : View.GONE);
+        mBinding.osdTitle.setVisibility(showTitle ? View.VISIBLE : View.GONE);
         mBinding.osdInfo.setText(info);
         mBinding.osdInfo.setVisibility(info.length() == 0 ? View.GONE : View.VISIBLE);
-        // 右列：时钟/网速各自独立开关，互不拼行
         mBinding.osdTime.setText(mOsdClock.format(new Date()));
-        mBinding.osdTime.setVisibility(PlayerSetting.isOsdTime() ? View.VISIBLE : View.GONE);
+        mBinding.osdTime.setVisibility(masterOn && PlayerSetting.isOsdTime() ? View.VISIBLE : View.GONE);
         mBinding.osdSpeed.setText(mOsdSpeed);
-        mBinding.osdSpeed.setVisibility(PlayerSetting.isOsdTraffic() ? View.VISIBLE : View.GONE);
-        // 控制层弹起（暂停/点按）时的分工：屏显保留标题+分辨率，控制层顶栏不再重复分辨率；
-        // 屏显细进度条让位给控制层可拖动的进度条，控制层收起后恢复
-        // 分辨率由屏显固定位置负责，顶栏 size 显式置 INVISIBLE（屏显关闭时才由顶栏接管）
-        mBinding.control.size.setVisibility(View.INVISIBLE);
-        boolean showProgress = PlayerSetting.isOsdProgress() && duration > 0 && mBinding.osdProgressRow != null && !controlUp;
+        mBinding.osdSpeed.setVisibility(masterOn && PlayerSetting.isOsdTraffic() ? View.VISIBLE : View.GONE);
+        // 控制层弹起时屏显细进度行让位给可拖动的控制条
+        boolean showProgress = masterOn && !controlUp && PlayerSetting.isOsdProgress() && duration > 0 && mBinding.osdProgressRow != null;
         mBinding.osdProgressRow.setVisibility(showProgress ? View.VISIBLE : View.GONE);
         if (showProgress) {
             mBinding.osdPosition.setText(Util.timeMs(position));
             mBinding.osdDuration.setText(Util.timeMs(duration));
             mBinding.osdMini.setProgress(percent);
         }
-        mBinding.osd.setVisibility(View.VISIBLE);
-    }
-
-
-    /** 控制层顶栏标题：与屏显同源（标题 · 集数），超长时 marquee 滚动。 */
-    private void syncControlTitle() {
-        String title = getOsdTitle();
-        mBinding.control.title.setText(title);
-        mBinding.control.title.setSelected(!TextUtils.isEmpty(title));
-        // XML 默认 invisible，此处补可见性：有标题才显示，空时保持占位不跳动
-        mBinding.control.title.setVisibility(TextUtils.isEmpty(title) ? View.INVISIBLE : View.VISIBLE);
+        boolean anyVisible = showTitle || info.length() > 0 || (masterOn && (PlayerSetting.isOsdTime() || PlayerSetting.isOsdTraffic())) || showProgress;
+        mBinding.osd.setVisibility(anyVisible ? View.VISIBLE : View.GONE);
     }
     private void updateTraffic() {
         long now = SystemClock.elapsedRealtime();

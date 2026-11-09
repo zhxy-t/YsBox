@@ -48,7 +48,9 @@ public class PlayerSeekView extends FrameLayout implements Player.Listener {
     }
     public PlayerSeekView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        timeBar = new DefaultTimeBar(context, null, 0, attrs, R.style.ExoStyledControls_TimeBar);
+        // 默认构造（bar_gravity=center）：条画在自身触摸区垂直中心，与两端时间标签对齐；
+        // styled 样式是 bar_gravity=bottom，条贴底、文字悬空在条上方
+        timeBar = new DefaultTimeBar(context, null, 0, null, 0);
         timeBar.setId(R.id.exo_progress);
         timeBar.addListener(new TimeBar.OnScrubListener() {
             @Override
