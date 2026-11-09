@@ -217,6 +217,7 @@
             android:background="?attr/selectableItemBackgroundBorderless"
             android:scaleType="center"
             android:src="@drawable/ic_control_danmaku_on" />
+            app:tint="?attr/colorOnSurface"
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/cast"
@@ -225,6 +226,7 @@
             android:background="?attr/selectableItemBackgroundBorderless"
             android:scaleType="center"
             android:src="@drawable/ic_control_cast" />
+            app:tint="?attr/colorOnSurface"
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/info"
@@ -233,6 +235,7 @@
             android:background="?attr/selectableItemBackgroundBorderless"
             android:scaleType="center"
             android:src="@drawable/ic_control_info" />
+            app:tint="?attr/colorOnSurface"
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/keep"
@@ -241,6 +244,7 @@
             android:background="?attr/selectableItemBackgroundBorderless"
             android:scaleType="center"
             android:src="@drawable/ic_control_keep_off" />
+            app:tint="?attr/colorOnSurface"
 
         <View
             android:layout_width="0dp"
@@ -254,6 +258,7 @@
             android:background="?attr/selectableItemBackgroundBorderless"
             android:scaleType="center"
             android:src="@drawable/ic_control_setting" />
+            app:tint="?attr/colorOnSurface"
     </androidx.appcompat.widget.LinearLayoutCompat>
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout

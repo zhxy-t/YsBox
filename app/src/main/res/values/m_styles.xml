@@ -470,6 +470,29 @@
         <item name="android:padding">12dp</item>
     </style>
 
+    <style name="ThemeOverlay.FongMi.Sheet.White" parent="ThemeOverlay.Material3.BottomSheetDialog">
+        <!-- BottomSheet 专用：窗口由 BaseBottomSheetDialog 透明化，白底画在 sheet 上（dialogBackgroundRes 同值） -->
+        <item name="bottomSheetStyle">@style/Widget.FongMi.BottomSheet.White</item>
+        <item name="android:textColorPrimary">#101216</item>
+        <item name="android:textColorSecondary">#5F6368</item>
+        <item name="colorSurface">#FFFFFF</item>
+        <item name="colorOnSurface">#101216</item>
+        <item name="colorOnSurfaceVariant">#101216</item>
+        <item name="colorPrimary">#6750A4</item>
+        <item name="colorControlActivated">#6750A4</item>
+        <item name="colorAccent">#6750A4</item>
+        <item name="dialogCornerRadius">20dp</item>
+    </style>
+    <style name="Widget.FongMi.BottomSheet.White" parent="Widget.Material3.BottomSheet.Modal">
+        <item name="backgroundTint">#FFFFFF</item>
+        <item name="shapeAppearanceOverlay">@style/ShapeCorner.Top20</item>
+    </style>
+    <style name="ShapeCorner.Top20" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeTopLeft">20dp</item>
+        
+        <item name="cornerSizeTopRight">20dp</item>
+    </style>
     <style name="ThemeOverlay.FongMi.Dialog.White" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
         <item name="dialogCornerRadius">20dp</item>
         <item name="android:windowBackground">@drawable/bg_dialog_white</item>

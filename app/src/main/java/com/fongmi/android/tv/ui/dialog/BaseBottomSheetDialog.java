@@ -103,7 +103,9 @@ public abstract class BaseBottomSheetDialog extends BottomSheetDialogFragment {
 
     @Override
     public int getTheme() {
-        return com.fongmi.android.tv.ui.dialog.DialogThemeHelper.getOverlay();
+        // BottomSheetDialogFragment 的主题必须携带 bottomSheetStyle（白底/圆角），
+        // MaterialAlertDialog 系 overlay 缺少该属性，会导致 sheet 无背景（弹窗透明）。
+        return com.fongmi.android.tv.ui.dialog.DialogThemeHelper.getSheetOverlay();
     }
 
     protected void setBehavior(BottomSheetDialog dialog) {
@@ -117,11 +119,10 @@ public abstract class BaseBottomSheetDialog extends BottomSheetDialogFragment {
             if (sheet.getParent() instanceof View) ((View) sheet.getParent()).setBackgroundColor(color);
             Window window = dialog.getWindow();
             if (window != null) window.setBackgroundDrawableResource(android.R.color.transparent);
-        } else {
-            // 卡片背景画在 sheet 上（高度=内容高度），而不是铺满全屏窗口；0=原始风格，保留系统默认背景
-            int bg = DialogThemeHelper.dialogBackgroundRes();
-            if (bg != 0) sheet.setBackgroundResource(bg);
         }
+        // else：sheet 背景统一由 getTheme() 的 BottomSheet 主题（bottomSheetStyle 白底）提供。
+        // 不再用 dialogBackgroundRes() 逐风格画卡片背景——9 种风格各异曾导致依赖主题 attr 的场景
+        // 出现 sheet 无背景（弹窗透明）；统一白底 + 布局内语义色，保证任何风格下可读。
     }
 
     private void setHeight(FrameLayout sheet, int maxHeight) {
