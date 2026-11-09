@@ -116,15 +116,12 @@ public class AiAsrController {
                 setEnabled(context, true);
                 appContext = context.getApplicationContext();
                 AiAsrEngine.get().setListener(engineListener);
-                mpvMode = false;
                 audioProcessor.setCaptureEnabled(true);
                 if (AiAsrEngine.get().start()) {
                     mainHandler.post(callback::onEnabled);
                 } else {
                     // 同上回滚：采集与标志一并撤掉，与 disable() 的收尾口径一致。
                     audioProcessor.setCaptureEnabled(false);
-                    stopMpvCapture();
-                    mpvMode = false;
                     setEnabled(context, false);
                     mainHandler.post(() -> callback.onError("识别启动失败"));
                 }
@@ -145,15 +142,6 @@ public class AiAsrController {
         AiAsrEngine.get().stop();
         mainHandler.removeCallbacks(hideRunnable);
         setSubtitleText("");
-    }
-
-    /** 当前是否为 MPV 模式（需要采集 MPV 音频） */
-    private boolean isMpvActive() {
-        try {
-            return mpvInfoProvider != null && mpvInfoProvider.isMpvActive();
-        } catch (Exception e) {
-            return false;
-        }
     }
 
     public void onPlayerReady(Context context) {

@@ -192,7 +192,7 @@ public class PlayerManager implements ParseCallback {
     public boolean canPreloadNext() {
         return PreloadSetting.isEnabled() && PreloadSetting.isNextEpisodeEnabled()
                 && engine != null
-                && (engine.getType() == PlayerEngine.Type.EXO || engine.getType() == PlayerEngine.Type.MPV);
+                && engine.getType() == PlayerEngine.Type.EXO;
     }
 
     public boolean isPortrait() {

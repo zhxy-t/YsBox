@@ -21,7 +21,7 @@ public final class MpvVulkanBackendPolicy {
     }
 
     public static String configuredBackend() {
-        return resolveConfigured("", MpvConfigStore.getOptionValue(OPTION), false);
+        return resolveConfigured("", "", false);
     }
 
     public static String appOverride() {
