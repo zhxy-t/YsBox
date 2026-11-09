@@ -36,7 +36,8 @@ public class InfoDialog extends BaseAlertDialog {
 
     @Override
     protected ViewBinding getBinding() {
-        return binding = DialogInfoBinding.inflate(getLayoutInflater());
+        // 用弹窗 overlay 主题的 inflater，保证 ?attr/dialog* 语义色按当前弹窗风格解析（含链接色）
+        return binding = DialogInfoBinding.inflate(android.view.LayoutInflater.from(DialogThemeHelper.wrapOverlay(requireContext())));
     }
 
     @Override
