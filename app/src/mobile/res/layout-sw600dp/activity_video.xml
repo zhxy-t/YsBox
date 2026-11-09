@@ -292,7 +292,7 @@
             android:paddingBottom="2dp">
 
             <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/danmaku"
+                android:id="@+id/danmakuToggle"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:background="?attr/selectableItemBackgroundBorderless"

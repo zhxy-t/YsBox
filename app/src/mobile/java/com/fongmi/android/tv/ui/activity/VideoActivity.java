@@ -508,7 +508,7 @@ public class VideoActivity extends PlaybackActivity implements Clock.Callback, C
         mBinding.control.title.setOnLongClickListener(view -> onChange());
         mBinding.control.right.lock.setOnClickListener(view -> onLock());
         mBinding.control.right.rotate.setOnClickListener(view -> onRotate());
-        mBinding.danmaku.setOnClickListener(view -> onDanmakuShow());
+        mBinding.danmakuToggle.setOnClickListener(view -> onDanmakuShow());
         mBinding.control.action.text.setOnClickListener(this::onTrack);
         mBinding.control.action.audio.setOnClickListener(this::onTrack);
         mBinding.control.action.video.setOnClickListener(this::onTrack);
@@ -1835,7 +1835,7 @@ public class VideoActivity extends PlaybackActivity implements Clock.Callback, C
         // 短剧模式用专用 UI，横屏控制层永不出现
         if (mShortUi != null) return;
         if (service() == null || isInPictureInPictureMode()) return;
-        mBinding.danmaku.setVisibility(isLock() || !player().haveDanmaku() ? View.GONE : View.VISIBLE);
+        mBinding.danmakuToggle.setVisibility(isLock() || !player().haveDanmaku() ? View.GONE : View.VISIBLE);
         mBinding.setting.setVisibility(mHistory == null || isFullscreen() ? View.GONE : View.VISIBLE);
         mBinding.control.right.rotate.setVisibility(isFullscreen() && !isLock() ? View.VISIBLE : View.GONE);
         mBinding.keep.setVisibility(mHistory == null || isFullscreen() ? View.GONE : View.VISIBLE);
@@ -1927,7 +1927,7 @@ public class VideoActivity extends PlaybackActivity implements Clock.Callback, C
     }
 
     private void checkDanmakuImg() {
-        mBinding.danmaku.setImageResource(DanmakuSetting.isShow() ? R.drawable.ic_control_danmaku_on : R.drawable.ic_control_danmaku_off);
+        mBinding.danmakuToggle.setImageResource(DanmakuSetting.isShow() ? R.drawable.ic_control_danmaku_on : R.drawable.ic_control_danmaku_off);
     }
 
     private void createKeep() {
