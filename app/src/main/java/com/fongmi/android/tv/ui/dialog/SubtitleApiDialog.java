@@ -23,7 +23,8 @@ public class SubtitleApiDialog extends BaseAlertDialog {
 
     @Override
     protected ViewBinding getBinding() {
-        return binding = DialogSubtitleApiBinding.inflate(getLayoutInflater());
+        // 用弹窗 overlay 主题的 inflater，保证 TextInputLayout/提示字等跟随当前弹窗风格语义色
+        return binding = DialogSubtitleApiBinding.inflate(android.view.LayoutInflater.from(DialogThemeHelper.wrapOverlay(requireContext())));
     }
 
     @Override

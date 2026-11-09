@@ -31,7 +31,8 @@ public class LinkDialog extends BaseAlertDialog {
 
     @Override
     protected ViewBinding getBinding() {
-        return binding = DialogLinkBinding.inflate(getLayoutInflater());
+        // 用弹窗 overlay 主题的 inflater，保证 TextInputLayout/提示字等跟随当前弹窗风格语义色
+        return binding = DialogLinkBinding.inflate(android.view.LayoutInflater.from(DialogThemeHelper.wrapOverlay(requireContext())));
     }
 
     @Override
