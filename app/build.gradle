@@ -119,12 +119,6 @@ android {
         disable 'ExpiredTargetSdkVersion'
     }
 
-    externalNativeBuild {
-        ndkBuild {
-            path file('src/main/cpp/Android.mk')
-        }
-    }
-
     compileOptions {
         coreLibraryDesugaringEnabled = true
         sourceCompatibility JavaVersion.VERSION_21
