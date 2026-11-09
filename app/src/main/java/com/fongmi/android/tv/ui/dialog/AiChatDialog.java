@@ -237,16 +237,23 @@ public class AiChatDialog extends BaseBottomSheetDialog {
         row.setLayoutParams(rp);
         row.setGravity(user ? Gravity.END : Gravity.START);
 
-        TextView tv = new TextView(requireContext());
+        // 气泡用「弹窗主题 + overlay」上下文：cardSurface/surface 这类 drawable 内部
+        // 引用了 ?attr/dialogSurfaceColor 等属性，拿 Activity 主题会解析不到而变透明/纯黑。
+        android.content.Context tagCtx = DialogThemeHelper.wrap(requireContext());
+        TextView tv = new TextView(tagCtx);
         tv.setText(text);
         tv.setTextSize(15);
         tv.setPadding(dp(12), dp(10), dp(12), dp(10));
         if (user) {
-            tv.setTextColor(0xFFFFFFFF);
-            tv.setBackgroundResource(com.fongmi.android.tv.R.drawable.xc_ai_bubble_user);
+            // 用户气泡：弹窗强调色填充，字色按亮度自动取反，任何风格下都不会深底深字
+            int accent = DialogThemeHelper.accent(requireContext());
+            tv.setTextColor(isLightColor(accent) ? 0xFF171310 : 0xFFFFFFFF);
+            tv.setBackground(bubbleBg(accent));
         } else {
-            tv.setTextColor(0xFF0C0E12);
-            tv.setBackgroundResource(com.fongmi.android.tv.R.drawable.xc_setcard_v2);
+            // AI 气泡：卡片色 + 主字色（霓虹=深蓝底白字，纯白=白底深字），跟随弹窗风格
+            tv.setTextColor(DialogThemeHelper.primaryText(requireContext()));
+            int card = DialogThemeHelper.cardSurfaceRes(requireContext());
+            tv.setBackgroundResource(card != 0 ? card : DialogThemeHelper.surfaceRes(requireContext()));
         }
         LinearLayout.LayoutParams tp = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -256,6 +263,23 @@ public class AiChatDialog extends BaseBottomSheetDialog {
         binding.containerMessages.addView(row);
         binding.svMessages.post(() -> binding.svMessages.fullScroll(View.FOCUS_DOWN));
         return tv;
+    }
+
+    /** 气泡圆角背景：16dp 圆角，与弹窗体系同一套圆角语言 */
+    private android.graphics.drawable.Drawable bubbleBg(int color) {
+        android.graphics.drawable.GradientDrawable d = new android.graphics.drawable.GradientDrawable();
+        d.setShape(android.graphics.drawable.GradientDrawable.RECTANGLE);
+        d.setColor(color);
+        d.setCornerRadius(dp(16));
+        return d;
+    }
+
+    /** 亮底配深字、暗底配白字：避免任何弹窗风格下出现「深底深字」 */
+    private boolean isLightColor(int color) {
+        double lum = 0.299 * android.graphics.Color.red(color)
+                + 0.587 * android.graphics.Color.green(color)
+                + 0.114 * android.graphics.Color.blue(color);
+        return lum > 160;
     }
 
     private int dp(int v) {
