@@ -47,6 +47,8 @@ public final class ChoiceDialog extends DialogFragment {
     private boolean multi;
     private boolean showCancel = true;
     private boolean dismissOnChoice = true;
+    /** 窗口层是否已成功画上卡背景；false 时由内容 View 兜底自绘一张，避免整体透明 */
+    private boolean windowHasCardBg;
     private OnChoice choice;
     private OnApply apply;
     private OnItemEnabled itemEnabled;
@@ -183,6 +185,12 @@ public final class ChoiceDialog extends DialogFragment {
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         Dialog dialog = new Dialog(requireContext(), DialogThemeHelper.getTheme());
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        // 卡片背景画在【窗口层】而不是内容 View 上，与 MaterialAlertDialog 的
+        // applyWindowBackground() 完全同源。原因：内容 View 的宽度会被 Dialog 内建的
+        // decor inset 缩掉一圈（实测窗口 972px、卡片只有 855px），卡片画在 View 上时
+        // 四周会露出窗口背景（Material3 light 下是近白 #F9F8FE），看上去就是
+        // 「霓虹卡片外面套了个白色方角底板」。画在窗口层后卡片永远等于窗口，不可能错位。
+        applyCardBackground(dialog);
         dialog.setContentView(createView(LayoutInflater.from(com.fongmi.android.tv.ui.dialog.DialogThemeHelper.wrap(requireContext()))));
         dialog.setCanceledOnTouchOutside(true);
         return dialog;
@@ -199,7 +207,8 @@ public final class ChoiceDialog extends DialogFragment {
         params.width = (int) (ResUtil.getScreenWidth(requireContext()) * (land ? 0.52f : 0.9f));
         params.height = WindowManager.LayoutParams.WRAP_CONTENT;
         params.dimAmount = 0.58f;
-        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        // 窗口背景 = 当前风格的卡边框（渐变/描边/圆角），不要刷透明
+        applyCardBackground(dialog);
         window.getDecorView().setPadding(0, 0, 0, 0);
         window.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
         window.setAttributes(params);
@@ -207,11 +216,42 @@ public final class ChoiceDialog extends DialogFragment {
         window.getDecorView().post(this::focusSelectedItem);
     }
 
+    /**
+     * 把「当前风格的卡边框」设到窗口背景上：渐变描边 + 圆角 + 深色底一体。
+     * 与 DialogThemeHelper.applyWindowBackground(MaterialAlertDialog) 同一张 drawable、
+     * 同一个层级，保证自绘弹窗与 Material 弹窗在任何风格下轮廓完全一致。
+     * 「原始」风格 dialogBackgroundRes() 返回 0，此时才退回透明 + 内容自绘。
+     */
+    private void applyCardBackground(Dialog dialog) {
+        Window window = dialog == null ? null : dialog.getWindow();
+        if (window == null) {
+            windowHasCardBg = false;
+            return;
+        }
+        int bg = DialogThemeHelper.dialogBackgroundRes();
+        if (bg != 0) {
+            window.setBackgroundDrawableResource(bg);
+            windowHasCardBg = true;
+        } else {
+            // 「原始」风格：沿用系统 Material 观感，窗口刷透明，卡背景交给内容 View 兜底
+            window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            windowHasCardBg = false;
+        }
+    }
+
     private View createView(LayoutInflater inflater) {
         if (showCancel && !multi && items != null && items.length > 0 && negative == null) negative = getString(R.string.dialog_negative);
         LinearLayout root = new LinearLayout(requireContext());
         root.setOrientation(LinearLayout.VERTICAL);
-        root.setBackgroundResource(DialogThemeHelper.surfaceRes(requireContext()));
+        // 卡背景由窗口负责（见 applyCardBackground），这里不再画第二层，
+        // 否则两层尺寸不一致又会出现白边/方角。
+        // 例外：「原始」风格（style=5）dialogBackgroundRes() 返回 0，窗口是透明的，
+        // 必须由内容 View 兜底画一张卡，否则整个弹窗透明看不见。
+        if (!windowHasCardBg) {
+            int card = DialogThemeHelper.surfaceRes(requireContext());
+            if (card != 0) root.setBackgroundResource(card);
+            else root.setBackgroundColor(DialogThemeHelper.surfaceColor(requireContext()));
+        }
         int vertical = dp(24);
         int horizontal = dp(actionCount() >= 3 ? 18 : 24);
         root.setPadding(horizontal, vertical, horizontal, vertical);
