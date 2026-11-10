@@ -1917,8 +1917,6 @@ public class VideoActivity extends PlaybackActivity implements Clock.Callback, C
             int sh = Math.max(8, sw * src.getHeight() / src.getWidth());
             Bitmap small = Bitmap.createScaledBitmap(src, sw, sh, true);
             Bitmap blur = Bitmap.createScaledBitmap(small, 720, 720 * src.getHeight() / src.getWidth(), true);
-            android.graphics.Canvas c = new android.graphics.Canvas(blur);
-            c.drawColor(0x73000000);
             mBinding.artBg.setImageBitmap(blur);
             mBinding.artBg.setVisibility(android.view.View.VISIBLE);
         } catch (Throwable e) {
