@@ -1936,12 +1936,12 @@ public class VideoActivity extends PlaybackActivity implements Clock.Callback, C
             ViewGroup group = (ViewGroup) child;
             for (int j = 0; j < group.getChildCount(); j++) {
                 View g = group.getChildAt(j);
-                if (g instanceof TextView) g.setTextColor(dark ? 0xE6212126 : 0xB3FFFFFF);
+                if (g instanceof TextView) ((TextView) g).setTextColor(dark ? 0xE6212126 : 0xB3FFFFFF);
                 else if (g instanceof ViewGroup) {
                     ViewGroup inner = (ViewGroup) g;
                     for (int k = 0; k < inner.getChildCount(); k++) {
                         View t = inner.getChildAt(k);
-                        if (t instanceof TextView) t.setTextColor(dark ? 0xE6212126 : 0xB3FFFFFF);
+                        if (t instanceof TextView) ((TextView) t).setTextColor(dark ? 0xE6212126 : 0xB3FFFFFF);
                     }
                 }
             }
