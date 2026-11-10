@@ -287,7 +287,8 @@
             android:layout_below="@+id/video"
             android:background="@drawable/shape_glass_dark_50"
             android:overScrollMode="never"
-            android:scrollbars="none">
+            android:scrollbars="none"
+            android:fillViewport="true">
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
