@@ -577,7 +577,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/detail_flag"
-                            android:textColor="?attr/colorOnSurface"
+                            android:textColor="#FFFFFF"
                             android:textSize="17sp"
                             android:textStyle="bold" />
                     </LinearLayout>
@@ -614,7 +614,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/detail_quality"
-                            android:textColor="?attr/colorOnSurface"
+                            android:textColor="#FFFFFF"
                             android:textSize="17sp"
                             android:textStyle="bold" />
                     </LinearLayout>
@@ -650,7 +650,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/detail_episode"
-                            android:textColor="?attr/colorOnSurface"
+                            android:textColor="#FFFFFF"
                             android:textSize="17sp"
                             android:textStyle="bold" />
 

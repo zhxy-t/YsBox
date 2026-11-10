@@ -511,6 +511,7 @@ public class VideoActivity extends PlaybackActivity implements Clock.Callback, C
         mBinding.control.prev.setOnClickListener(view -> checkPrev());
         mBinding.setting.setOnClickListener(view -> onSetting());
         mBinding.control.title.setOnLongClickListener(view -> onChange());
+        mBinding.control.title.setSelected(true);
         mBinding.control.right.lock.setOnClickListener(view -> onLock());
         mBinding.control.right.rotate.setOnClickListener(view -> onRotate());
         mBinding.danmakuToggle.setOnClickListener(view -> onDanmakuShow());
@@ -1613,8 +1614,15 @@ public class VideoActivity extends PlaybackActivity implements Clock.Callback, C
 
     private void onRotate() {
         setR1Callback();
-        setRequestedOrientation(isLand() ? ActivityInfo.SCREEN_ORIENTATION_PORTRAIT : ActivityInfo.SCREEN_ORIENTATION_FULL_USER);
-        if (isLand()) hideControl();
+        // 功能栏旋转 = 进入短剧式竖屏播放器（复用短剧整套竖屏 UI/预下集/竖屏锁定）
+        if (mShortDramaMode) {
+            setRequestedOrientation(PlaybackOrientation.getEnterFullscreenOrientation(true));
+            return;
+        }
+        mShortDramaMode = true;
+        getIntent().putExtra("short_drama", true);
+        setupShortDramaOverlay();
+        setRequestedOrientation(PlaybackOrientation.getEnterFullscreenOrientation(true));
     }
 
     private void onTrack(View view) {
@@ -1910,7 +1918,7 @@ public class VideoActivity extends PlaybackActivity implements Clock.Callback, C
             Bitmap small = Bitmap.createScaledBitmap(src, sw, sh, true);
             Bitmap blur = Bitmap.createScaledBitmap(small, 720, 720 * src.getHeight() / src.getWidth(), true);
             android.graphics.Canvas c = new android.graphics.Canvas(blur);
-            c.drawColor(0xB3000000);
+            c.drawColor(0x73000000);
             mBinding.artBg.setImageBitmap(blur);
             mBinding.artBg.setVisibility(android.view.View.VISIBLE);
         } catch (Throwable e) {

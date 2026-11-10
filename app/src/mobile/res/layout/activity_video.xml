@@ -502,7 +502,7 @@
                                     android:ellipsize="end"
                                     android:lineSpacingExtra="2dp"
                                     android:maxLines="2"
-                                    android:textColor="?attr/colorOnSurface"
+                                    android:textColor="#FFFFFF"
                                     android:textSize="20sp"
                                     android:textStyle="bold"
                                     tools:text="折月亮" />
@@ -541,7 +541,7 @@
                                     android:layout_marginTop="10dp"
                                     android:ellipsize="end"
                                     android:maxLines="1"
-                                    android:textColor="?attr/colorOnSurfaceVariant"
+                                    android:textColor="#B3FFFFFF"
                                     android:textSize="13sp"
                                     tools:text="备注：更新至第04集" />
 
@@ -553,7 +553,7 @@
                                     android:layout_marginTop="4dp"
                                     android:ellipsize="end"
                                     android:maxLines="1"
-                                    android:textColor="?attr/colorOnSurfaceVariant"
+                                    android:textColor="#B3FFFFFF"
                                     android:textSize="13sp"
                                     tools:text="中国大陆 · 2026" />
 
@@ -564,7 +564,7 @@
                                     android:layout_marginTop="4dp"
                                     android:ellipsize="end"
                                     android:maxLines="1"
-                                    android:textColor="?attr/colorOnSurfaceVariant"
+                                    android:textColor="#B3FFFFFF"
                                     android:textSize="13sp"
                                     tools:text="导演：xxx" />
 
@@ -575,7 +575,7 @@
                                     android:layout_marginTop="2dp"
                                     android:ellipsize="end"
                                     android:maxLines="1"
-                                    android:textColor="?attr/colorOnSurfaceVariant"
+                                    android:textColor="#B3FFFFFF"
                                     android:textSize="13sp"
                                     tools:text="演员：xxx" />
                             <androidx.appcompat.widget.LinearLayoutCompat
@@ -592,7 +592,7 @@
                                     android:ellipsize="end"
                                     android:lineSpacingExtra="4dp"
                                     android:maxLines="1"
-                                    android:textColor="?attr/colorOnSurfaceVariant"
+                                    android:textColor="#B3FFFFFF"
                                     android:textSize="14sp"
                                     tools:text="简介内容" />
                             </androidx.appcompat.widget.LinearLayoutCompat>
@@ -617,7 +617,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/detail_flag"
-                            android:textColor="?attr/colorOnSurface"
+                            android:textColor="#FFFFFF"
                             android:textSize="17sp"
                             android:textStyle="bold" />
                     </LinearLayout>
@@ -654,7 +654,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/detail_quality"
-                            android:textColor="?attr/colorOnSurface"
+                            android:textColor="#FFFFFF"
                             android:textSize="17sp"
                             android:textStyle="bold" />
                     </LinearLayout>
@@ -690,7 +690,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/detail_episode"
-                            android:textColor="?attr/colorOnSurface"
+                            android:textColor="#FFFFFF"
                             android:textSize="17sp"
                             android:textStyle="bold" />
 
@@ -699,7 +699,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
-                            android:textColor="?attr/colorOnSurfaceVariant"
+                            android:textColor="#B3FFFFFF"
                             android:textSize="13sp"
                             tools:text="正在播放：1" />
 
@@ -710,7 +710,7 @@
                             android:layout_marginStart="8dp"
                             android:background="?attr/selectableItemBackgroundBorderless"
                             android:src="@drawable/ic_action_reverse"
-                            android:tint="?attr/colorOnSurface"
+                            android:tint="#FFFFFF"
                             android:visibility="gone"
                             tools:visibility="visible" />
 
@@ -726,7 +726,7 @@
                             android:background="?attr/selectableItemBackgroundBorderless"
                             android:padding="8dp"
                             android:text="@string/detail_download"
-                            android:textColor="?attr/colorOnSurface"
+                            android:textColor="#FFFFFF"
                             android:textSize="14sp"
                             android:visibility="gone"
                             tools:visibility="visible" />
@@ -738,7 +738,7 @@
                             android:layout_marginStart="8dp"
                             android:background="?attr/selectableItemBackgroundBorderless"
                             android:src="@drawable/ic_action_more"
-                            android:tint="?attr/colorOnSurface"
+                            android:tint="#FFFFFF"
                             android:visibility="gone"
                             tools:visibility="visible" />
                     </androidx.appcompat.widget.LinearLayoutCompat>

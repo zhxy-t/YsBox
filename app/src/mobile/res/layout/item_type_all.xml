@@ -16,6 +16,5 @@
         android:ellipsize="end"
         android:maxLines="1"
         android:textColor="@color/selector_control"
-        android:textSize="13sp"
-        android:textStyle="bold" />
+        android:textSize="14sp" />
 </FrameLayout>
