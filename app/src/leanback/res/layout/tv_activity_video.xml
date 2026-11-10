@@ -6,6 +6,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/shape_text_scrim" />
+
     <FrameLayout
         android:id="@+id/video"
         android:layout_width="400dp"

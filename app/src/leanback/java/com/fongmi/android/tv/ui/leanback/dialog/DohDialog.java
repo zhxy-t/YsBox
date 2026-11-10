@@ -58,7 +58,7 @@ public class DohDialog extends BaseAlertDialog implements DohAdapter.OnClickList
     @Override
     public void onStart() {
         super.onStart();
-        setWidth(0.4f);
+        setWidth(getResources().getConfiguration().orientation == android.content.res.Configuration.ORIENTATION_PORTRAIT ? 0.9f : 0.4f);
     }
 
     public interface Listener {

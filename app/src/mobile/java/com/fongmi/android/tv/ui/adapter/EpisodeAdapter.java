@@ -2,6 +2,7 @@ package com.fongmi.android.tv.ui.adapter;
 
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import com.fongmi.android.tv.R;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -26,6 +27,12 @@ public class EpisodeAdapter extends RecyclerView.Adapter<BaseEpisodeHolder> {
 
     public EpisodeAdapter(OnClickListener listener, int viewType) {
         this(listener, viewType, new ArrayList<>());
+    }
+    private boolean detailMode;
+    /** 详情页宿主打开：chip 用深色 scrim 底 + 白字，保证浅色壁纸下可读 */
+    public EpisodeAdapter detailMode() {
+        this.detailMode = true;
+        return this;
     }
 
     public EpisodeAdapter(OnClickListener listener, int viewType, ArrayList<Episode> items) {
@@ -99,9 +106,19 @@ public class EpisodeAdapter extends RecyclerView.Adapter<BaseEpisodeHolder> {
     @Override
     public BaseEpisodeHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         if (viewType == ViewType.HORI) {
-            return new EpisodeHoriHolder(AdapterEpisodeHoriBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false), listener);
+            AdapterEpisodeHoriBinding binding = AdapterEpisodeHoriBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+            if (detailMode) {
+                binding.text.setBackgroundResource(R.drawable.selector_item_dark);
+                binding.text.setTextColor(androidx.appcompat.content.res.AppCompatResources.getColorStateList(parent.getContext(), R.color.selector_detail_episode_dark));
+            }
+            return new EpisodeHoriHolder(binding, listener);
         } else {
-            return new EpisodeGridHolder(AdapterEpisodeGridBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false), listener);
+            AdapterEpisodeGridBinding binding = AdapterEpisodeGridBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+            if (detailMode) {
+                binding.text.setBackgroundResource(R.drawable.selector_item_dark);
+                binding.text.setTextColor(androidx.appcompat.content.res.AppCompatResources.getColorStateList(parent.getContext(), R.color.selector_detail_episode_dark));
+            }
+            return new EpisodeGridHolder(binding, listener);
         }
     }
 }

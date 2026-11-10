@@ -89,7 +89,7 @@ public class DanmakuApiDialog extends BaseAlertDialog {
     @Override
     public void onStart() {
         super.onStart();
-        setWidth(0.55f);
+        setWidth(getResources().getConfiguration().orientation == android.content.res.Configuration.ORIENTATION_PORTRAIT ? 0.9f : 0.55f);
         EventBus.getDefault().register(this);
     }
 

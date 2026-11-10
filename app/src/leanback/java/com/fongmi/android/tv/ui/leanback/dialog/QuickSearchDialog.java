@@ -97,7 +97,7 @@ public class QuickSearchDialog extends BaseAlertDialog implements QuickAdapter.O
 
     @Override
     protected void initView() {
-        panelWidth = Math.round(ResUtil.getScreenWidth() * 0.42f);
+        panelWidth = Math.round(ResUtil.getScreenWidth() * (getResources().getConfiguration().orientation == android.content.res.Configuration.ORIENTATION_PORTRAIT ? 0.9f : 0.42f));
         binding.recycler.setHasFixedSize(true);
         binding.recycler.setItemAnimator(null);
         binding.recycler.addItemDecoration(new SpaceItemDecoration(1, 8));

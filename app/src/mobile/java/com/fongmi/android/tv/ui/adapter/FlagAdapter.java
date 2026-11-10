@@ -2,6 +2,7 @@ package com.fongmi.android.tv.ui.adapter;
 
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import com.fongmi.android.tv.R;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -22,6 +23,12 @@ public class FlagAdapter extends RecyclerView.Adapter<FlagAdapter.ViewHolder> {
     public FlagAdapter(OnClickListener listener) {
         this.listener = listener;
         this.mItems = new ArrayList<>();
+    }
+    private boolean detailMode;
+    /** 详情页宿主打开：chip 用深色 scrim 底，保证浅色壁纸下白字可读 */
+    public FlagAdapter detailMode() {
+        this.detailMode = true;
+        return this;
     }
 
     public interface OnClickListener {
@@ -83,7 +90,12 @@ public class FlagAdapter extends RecyclerView.Adapter<FlagAdapter.ViewHolder> {
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new ViewHolder(AdapterFlagBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
+        ViewHolder holder = new ViewHolder(AdapterFlagBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
+        if (detailMode) {
+            holder.binding.text.setBackgroundResource(R.drawable.selector_item_dark);
+            holder.binding.text.setTextColor(androidx.appcompat.content.res.AppCompatResources.getColorStateList(parent.getContext(), R.color.selector_detail_text_dark));
+        }
+        return holder;
     }
 
     @Override

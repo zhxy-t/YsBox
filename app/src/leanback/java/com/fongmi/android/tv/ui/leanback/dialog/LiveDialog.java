@@ -90,6 +90,6 @@ public class LiveDialog extends BaseAlertDialog implements LiveAdapter.OnClickLi
     public void onStart() {
         super.onStart();
         if (adapter.getItemCount() == 0) dismiss();
-        else setWidth(0.4f);
+        else setWidth(getResources().getConfiguration().orientation == android.content.res.Configuration.ORIENTATION_PORTRAIT ? 0.9f : 0.4f);
     }
 }

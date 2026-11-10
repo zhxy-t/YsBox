@@ -7,6 +7,12 @@
     android:tag="port">
     
     <View
+        android:id="@+id/textScrim"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/shape_text_scrim" />
+
+    <View
         android:id="@+id/statusBar"
         android:layout_width="match_parent"
         android:layout_height="0dp"
