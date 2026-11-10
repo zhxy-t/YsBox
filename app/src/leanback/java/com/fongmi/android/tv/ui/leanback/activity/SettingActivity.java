@@ -104,6 +104,7 @@ public class SettingActivity extends BaseActivity implements ConfigListener, Sit
     @Override
     protected void initEvent() {
         mBinding.vod.setOnClickListener(this::onVod);
+        mBinding.enhanced.setOnClickListener(this::onEnhanced);
         mBinding.doh.setOnClickListener(this::setDoh);
         mBinding.proxy.setOnClickListener(this::setProxy);
         mBinding.live.setOnClickListener(this::onLive);
@@ -232,6 +233,10 @@ public class SettingActivity extends BaseActivity implements ConfigListener, Sit
 
     private void onPlayer(View view) {
         SettingPlayerActivity.start(this);
+    }
+
+    private void onEnhanced(View view) {
+        com.fongmi.android.tv.ui.activity.EnhancedActivity.start(this);
     }
 
     private void onDanmaku(View view) {
