@@ -467,10 +467,11 @@
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="4dp"
                         android:layout_marginEnd="8dp"
-                        android:background="@drawable/shape_glass_dark_50"
-                        app:cardBackgroundColor="@android:color/transparent"
+                        app:cardBackgroundColor="#8014181F"
                         app:cardCornerRadius="16dp"
-                        app:cardElevation="0dp">
+                        app:cardElevation="0dp"
+                        app:strokeColor="#26FFFFFF"
+                        app:strokeWidth="1dp">
 
                         <androidx.appcompat.widget.LinearLayoutCompat
                             android:layout_width="match_parent"
