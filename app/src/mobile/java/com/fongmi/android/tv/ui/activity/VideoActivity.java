@@ -1621,6 +1621,14 @@ public class VideoActivity extends PlaybackActivity implements Clock.Callback, C
         mShortDramaMode = true;
         getIntent().putExtra("short_drama", true);
         setupShortDramaOverlay();
+        enterShortDramaFullscreen();
+    }
+
+    /** 短剧模式全屏播放（对齐原生短剧进入路径：全屏容器 + 竖屏方向锁定）。 */
+    private void enterShortDramaFullscreen() {
+        if (player() == null || player().isEmpty()) return;
+        if (!isFullscreen()) enterFullscreen();
+        if (mShortUi != null) mShortUi.setVisibility(View.VISIBLE);
         setRequestedOrientation(PlaybackOrientation.getEnterFullscreenOrientation(true));
     }
 

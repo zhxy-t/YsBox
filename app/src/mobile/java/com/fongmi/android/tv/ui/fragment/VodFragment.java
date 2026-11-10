@@ -253,31 +253,11 @@ public class VodFragment extends BaseFragment implements ConfigListener, SiteLis
     private void onTypeAll(View view) {
         int count = mAdapter.getItemCount();
         if (count == 0) return;
-        String[] names = new String[count];
-        for (int i = 0; i < count; i++) names[i] = mAdapter.get(i).getTypeName();
-        final int[] selected = {mBinding.pager.getCurrentItem()};
-        android.widget.GridView grid = new android.widget.GridView(DialogThemeHelper.wrap(requireActivity()));
-        grid.setNumColumns(2);
-        grid.setVerticalSpacing(0);
-        grid.setPadding(0, ResUtil.dp2px(8), 0, 0);
-        grid.setClipToPadding(false);
-        android.widget.ArrayAdapter<String> adapter = new android.widget.ArrayAdapter<String>(grid.getContext(), R.layout.item_type_all, R.id.text, names) {
-            @Override
-            public View getView(int position, View convertView, ViewGroup parent) {
-                View item = super.getView(position, convertView, parent);
-                item.findViewById(R.id.text).setSelected(position == selected[0]);
-                return item;
-            }
-        };
-        grid.setAdapter(adapter);
-        androidx.appcompat.app.AlertDialog dialog = DialogThemeHelper.builder(requireActivity()).setTitle(R.string.type_all).setView(grid).create();
-        grid.setOnItemClickListener((parent, item, position, id) -> {
-            selected[0] = position;
-            adapter.notifyDataSetChanged();
-            dialog.dismiss();
+        java.util.List<com.fongmi.android.tv.ui.dialog.TypeAllDialog.TypeAllBean> items = new java.util.ArrayList<>();
+        for (int i = 0; i < count; i++) items.add(new com.fongmi.android.tv.ui.dialog.TypeAllDialog.TypeAllBean(mAdapter.get(i).getTypeId(), mAdapter.get(i).getTypeName()));
+        com.fongmi.android.tv.ui.dialog.TypeAllDialog.create().items(items).selected(mBinding.pager.getCurrentItem()).listener(position -> {
             onItemClick(position, mAdapter.get(position));
-        });
-        dialog.show();
+        }).show(this);
     }
 
     private void updateTypeMoreVisible() {
