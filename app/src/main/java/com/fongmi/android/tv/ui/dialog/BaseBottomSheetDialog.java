@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.util.TypedValue;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
@@ -120,9 +121,20 @@ public abstract class BaseBottomSheetDialog extends BottomSheetDialogFragment {
             Window window = dialog.getWindow();
             if (window != null) window.setBackgroundDrawableResource(android.R.color.transparent);
         }
-        // else：sheet 背景统一由 getTheme() 的 BottomSheet 主题（bottomSheetStyle 白底）提供。
-        // 不再用 dialogBackgroundRes() 逐风格画卡片背景——9 种风格各异曾导致依赖主题 attr 的场景
-        // 出现 sheet 无背景（弹窗透明）；统一白底 + 布局内语义色，保证任何风格下可读。
+        else {
+            // 按当前弹窗风格渲染 sheet 表面：解析主题的 dialogSurface（9 种风格各自的
+            // 背景 drawable，渐变风格即渐变描边卡），与裸弹窗（切换线路等）外观完全同源。
+            // transparent() 子类（QuickSearch 等）自绘表面，不在此覆盖。
+            try {
+                TypedValue tv = new TypedValue();
+                if (requireContext().getTheme().resolveAttribute(R.attr.dialogSurface, tv, true)) {
+                    android.graphics.drawable.Drawable surface = androidx.core.content.ContextCompat.getDrawable(requireContext(), tv.resourceId != 0 ? tv.resourceId : tv.data);
+                    if (surface != null) sheet.setBackground(surface);
+                }
+            } catch (Exception e) {
+                // 兜底：主题缺 attr 时保持 getTheme() 的 bottomSheetStyle 底色，不出透明弹窗
+            }
+        }
     }
 
     private void setHeight(FrameLayout sheet, int maxHeight) {
