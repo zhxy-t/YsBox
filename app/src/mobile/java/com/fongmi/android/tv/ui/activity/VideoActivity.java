@@ -7,7 +7,6 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.content.pm.ActivityInfo;
 import androidx.recyclerview.widget.RecyclerView;
@@ -1905,40 +1904,17 @@ public class VideoActivity extends PlaybackActivity implements Clock.Callback, C
         setArtwork();
     }
 
-    private void applyArtBackground(Bitmap src) {
-        try {
-            if (mBinding == null || mBinding.artBg == null) return;
-            if (src == null || src.isRecycled()) {
-                mBinding.artBg.setImageDrawable(null);
-                mBinding.artBg.setVisibility(android.view.View.GONE);
-                return;
-            }
-            int sw = 32;
-            int sh = Math.max(8, sw * src.getHeight() / src.getWidth());
-            Bitmap small = Bitmap.createScaledBitmap(src, sw, sh, true);
-            Bitmap blur = Bitmap.createScaledBitmap(small, 720, 720 * src.getHeight() / src.getWidth(), true);
-            mBinding.artBg.setImageBitmap(blur);
-            mBinding.artBg.setVisibility(android.view.View.VISIBLE);
-        } catch (Throwable e) {
-            e.printStackTrace();
-        }
-    }
 
     private void setArtwork() {
         ImgUtil.load(this, mHistory.getVodPic(), new CustomTarget<>() {
             @Override
             public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
                 mBinding.player.setDefaultArtwork(resource);
-                applyArtBackground(resource instanceof android.graphics.drawable.BitmapDrawable ? ((android.graphics.drawable.BitmapDrawable) resource).getBitmap() : null);
             }
 
             @Override
             public void onLoadFailed(@Nullable Drawable errorDrawable) {
                 mBinding.player.setDefaultArtwork(errorDrawable);
-                if (mBinding.artBg != null) {
-                    mBinding.artBg.setImageDrawable(null);
-                    mBinding.artBg.setVisibility(android.view.View.GONE);
-                }
             }
         });
     }
