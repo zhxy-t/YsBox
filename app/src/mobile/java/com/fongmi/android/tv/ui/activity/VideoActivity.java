@@ -1932,10 +1932,17 @@ public class VideoActivity extends PlaybackActivity implements Clock.Callback, C
         mBinding.settingImg.setImageResource(dark ? R.drawable.ic_func_setting_d : R.drawable.ic_func_setting_w);
         for (int i = 0; i < mBinding.funcBar.getChildCount(); i++) {
             View child = mBinding.funcBar.getChildAt(i);
-            if (child instanceof LinearLayout) {
-                for (int j = 0; j < ((LinearLayout) child).getChildCount(); j++) {
-                    View tv = ((LinearLayout) child).getChildAt(j);
-                    if (tv instanceof TextView) tv.setTextColor(dark ? 0xE6212126 : 0xB3FFFFFF);
+            if (!(child instanceof ViewGroup)) continue;
+            ViewGroup group = (ViewGroup) child;
+            for (int j = 0; j < group.getChildCount(); j++) {
+                View g = group.getChildAt(j);
+                if (g instanceof TextView) g.setTextColor(dark ? 0xE6212126 : 0xB3FFFFFF);
+                else if (g instanceof ViewGroup) {
+                    ViewGroup inner = (ViewGroup) g;
+                    for (int k = 0; k < inner.getChildCount(); k++) {
+                        View t = inner.getChildAt(k);
+                        if (t instanceof TextView) t.setTextColor(dark ? 0xE6212126 : 0xB3FFFFFF);
+                    }
                 }
             }
         }
