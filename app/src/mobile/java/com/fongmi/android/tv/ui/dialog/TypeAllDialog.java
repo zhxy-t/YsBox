@@ -4,7 +4,9 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.LinearLayoutManager;
+import com.google.android.flexbox.FlexWrap;
+import com.google.android.flexbox.FlexboxLayoutManager;
+import com.fongmi.android.tv.utils.ResUtil;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewbinding.ViewBinding;
 import com.google.android.material.textview.MaterialTextView;
@@ -73,7 +75,10 @@ public class TypeAllDialog extends BaseBottomSheetDialog {
 
     @Override
     protected void initView() {
-        binding.recycler.setLayoutManager(new LinearLayoutManager(getContext()));
+        // 与筛选面板同款胶囊流：紧凑排列、自动换行，杜绝纵向长列表
+        FlexboxLayoutManager lm = new FlexboxLayoutManager(getContext());
+        lm.setFlexWrap(FlexWrap.WRAP);
+        binding.recycler.setLayoutManager(lm);
         binding.recycler.setAdapter(new ChipAdapter());
     }
 
@@ -86,6 +91,9 @@ public class TypeAllDialog extends BaseBottomSheetDialog {
 
         @Override
         public void onBindViewHolder(@NonNull VH holder, int position) {
+            ViewGroup.MarginLayoutParams lp = (ViewGroup.MarginLayoutParams) holder.chip.getLayoutParams();
+            lp.topMargin = lp.bottomMargin = ResUtil.dp2px(4);
+            holder.chip.setLayoutParams(lp);
             holder.chip.setText(items.get(position).getName());
             holder.chip.setSelected(position == selected);
             holder.chip.setOnClickListener(v -> {
