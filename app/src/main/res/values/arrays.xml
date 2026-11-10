@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string-array name="danmaku_style_names">
-        <item>阴影</item>
-        <item>描边</item>
-        <item>投影</item>
-    </string-array>
-</resources>

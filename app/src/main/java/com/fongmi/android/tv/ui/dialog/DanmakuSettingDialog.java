@@ -24,8 +24,19 @@ public final class DanmakuSettingDialog {
         return new DanmakuSettingDialog();
     }
 
+    /** 文本样式名：与 DanmakuConfig 的 STYLE_* 常量一一对应，用已有字符串资源避免越界 */
     public static String nameOf(int style) {
-        return ResUtil.getStringArray(R.array.danmaku_style_names)[style];
+        switch (style) {
+            case androidx.media3.ui.danmaku.DanmakuConfig.STYLE_NONE:
+                return ResUtil.getString(R.string.danmaku_style_none);
+            case androidx.media3.ui.danmaku.DanmakuConfig.STYLE_SHADOW:
+                return ResUtil.getString(R.string.danmaku_style_shadow);
+            case androidx.media3.ui.danmaku.DanmakuConfig.STYLE_PROJECTION:
+                return ResUtil.getString(R.string.danmaku_style_projection);
+            case androidx.media3.ui.danmaku.DanmakuConfig.STYLE_STROKE:
+            default:
+                return ResUtil.getString(R.string.danmaku_style_stroke);
+        }
     }
 
     private static DialogDanmakuSettingBinding inflate(LayoutInflater inflater, ViewGroup container) {
