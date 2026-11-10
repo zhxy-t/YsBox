@@ -12,6 +12,7 @@ import androidx.viewbinding.ViewBinding;
 import com.fongmi.android.tv.R;
 import com.fongmi.android.tv.databinding.ActivitySettingAppearanceBinding;
 import com.fongmi.android.tv.event.RefreshEvent;
+import com.fongmi.android.tv.event.ConfigEvent;
 import com.fongmi.android.tv.setting.Setting;
 import com.fongmi.android.tv.ui.leanback.base.BaseActivity;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
