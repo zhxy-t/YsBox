@@ -36,6 +36,7 @@ public class FuncPresenter extends Presenter {
     private void applySize(ViewHolder holder) {
         int screenW = ResUtil.getScreenWidth(context);
         int screenH = ResUtil.getScreenHeight(context);
+        // 卡片 = 屏占比（短边/4，同时受屏宽/6 约束）；下限 96dp 按系统原始密度（不受本页密度改写影响）
         int card = Math.max(dp2px(96), Math.min(screenW / 6, screenH / 4));
         int icon = Math.round(card * 0.36f);
         float text = Math.min(20f, Math.max(14f, screenW / rawDensity() / 62f));

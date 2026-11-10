@@ -113,10 +113,26 @@ public abstract class BaseActivity extends AppCompatActivity {
         });
     }
 
-    /** 不再做 AutoSize 密度改写：TV 布局使用固定 dp/sp，在手机高密度屏上
-     *  autoConvertDensityOfGlobal 会把密度放大数倍导致整页超大；直接返回原始 Resources */
+    /** TV 页面统一按「屏占比」渲染：
+     *  TV 布局的 dp/sp 是按 1080p 电视（短边 1080px、density=1）设计的，
+     *  在手机高密度屏（density≈2.75）上同样 24sp 标题的屏占比会被放大约 2.8 倍，观感巨大。
+     *  这里把密度重定为 短边px/1080 —— 同一元素在所有设备上的屏占比与 1080p 电视完全一致：
+     *    1080p 电视 -> 1.0（不变）；4K 电视 -> 2.0（不变，原生即此值）；
+     *    手机横持（短边约 1240px）-> 1.15（对比原生 2.75，整页缩至电视观感）。 */
     private Resources hackResources(Resources resources) {
-        return resources;
+        try {
+            android.util.DisplayMetrics dm = resources.getDisplayMetrics();
+            float shortSide = Math.min(dm.widthPixels, dm.heightPixels);
+            float density = Math.max(0.75f, shortSide / 1080f);
+            if (Math.abs(density - dm.density) > 0.01f) {
+                dm.density = density;
+                dm.scaledDensity = density;
+                dm.densityDpi = (int) (density * 160);
+            }
+            return resources;
+        } catch (Exception e) {
+            return resources;
+        }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
