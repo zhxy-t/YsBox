@@ -10,6 +10,8 @@ import android.content.res.Configuration;
 import android.graphics.Color;
 import android.content.pm.ActivityInfo;
 import androidx.palette.graphics.Palette;
+import androidx.recyclerview.widget.RecyclerView;
+import java.util.List;
 import android.graphics.drawable.Drawable;
 import android.net.TrafficStats;
 import android.net.Uri;
