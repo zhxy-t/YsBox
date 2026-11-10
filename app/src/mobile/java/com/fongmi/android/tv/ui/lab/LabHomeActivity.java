@@ -40,10 +40,6 @@ public class LabHomeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // TV 模式下锁横屏：实验室可能被 TV 设置页的「增强功能」调起
-        if (com.fongmi.android.tv.ui.UiMode.isLeanback()) {
-            setRequestedOrientation(android.content.pm.ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
-        }
         LabSkin.edgeToEdge(this);
         buildUi();
         // 页面进出统一渐入渐出（与 BaseActivity 一致）

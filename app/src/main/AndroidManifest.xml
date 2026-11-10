@@ -104,6 +104,7 @@
             android:theme="@android:style/Theme.Material.NoActionBar" />
 
         <activity
+            android:screenOrientation="behind"
             android:name=".ui.activity.CrashActivity"
             android:process=":error_activity"
             android:theme="@style/Theme.Crash" />
@@ -261,49 +262,51 @@
 
         <activity
             android:name=".ui.activity.PluginActivity"
-            android:configChanges="screenSize|smallestScreenSize|screenLayout" />
+            android:configChanges="screenSize|smallestScreenSize|screenLayout"
+            android:screenOrientation="behind" />
 
         <activity
             android:name=".ui.activity.DownloadActivity"
-            android:configChanges="screenSize|smallestScreenSize|screenLayout" />
+            android:configChanges="screenSize|smallestScreenSize|screenLayout"
+            android:screenOrientation="behind" />
 
         <!-- 实验室：独立包 ui.lab -->
         <activity
             android:name=".ui.lab.LabHomeActivity"
             android:theme="@style/Theme.Lab"
             android:configChanges="screenSize|smallestScreenSize|screenLayout"
-            android:screenOrientation="fullUser" />
+            android:screenOrientation="behind" />
         <activity
             android:name=".ui.lab.LabSettingActivity"
             android:theme="@style/Theme.Lab"
             android:configChanges="screenSize|smallestScreenSize|screenLayout"
-            android:screenOrientation="fullUser" />
+            android:screenOrientation="behind" />
         <activity
             android:name=".ui.lab.LabEnvActivity"
             android:theme="@style/Theme.Lab"
             android:configChanges="screenSize|smallestScreenSize|screenLayout"
-            android:screenOrientation="fullUser" />
+            android:screenOrientation="behind" />
         <activity
             android:name=".ui.lab.LabServiceActivity"
             android:theme="@style/Theme.Lab"
             android:configChanges="screenSize|smallestScreenSize|screenLayout"
-            android:screenOrientation="fullUser" />
+            android:screenOrientation="behind" />
         <activity
             android:name=".ui.lab.LabLogActivity"
             android:theme="@style/Theme.Lab"
             android:configChanges="screenSize|smallestScreenSize|screenLayout"
-            android:screenOrientation="fullUser" />
+            android:screenOrientation="behind" />
         <activity
             android:name=".ui.lab.LabPasteImportActivity"
             android:theme="@style/Theme.Lab"
             android:configChanges="screenSize|smallestScreenSize|screenLayout"
-            android:screenOrientation="fullUser" />
+            android:screenOrientation="behind" />
         <activity
             android:name=".ui.lab.LabInstallActivity"
             android:exported="true"
             android:theme="@style/Theme.Lab"
             android:configChanges="screenSize|smallestScreenSize|screenLayout"
-            android:screenOrientation="fullUser">
+            android:screenOrientation="behind">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -318,12 +321,12 @@
             android:name=".ui.lab.LabLiveOutputActivity"
             android:theme="@style/Theme.Lab"
             android:configChanges="screenSize|smallestScreenSize|screenLayout"
-            android:screenOrientation="fullUser" />
+            android:screenOrientation="behind" />
         <activity
             android:name=".ui.lab.LabTerminalActivity"
             android:theme="@style/Theme.Lab"
             android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation|keyboardHidden"
-            android:screenOrientation="fullUser"
+            android:screenOrientation="behind"
             android:windowSoftInputMode="adjustResize" />
 
         <service
@@ -333,19 +336,23 @@
         <!-- 旧实验室：播放器实验开关页，从实验室设置进入 -->
         <activity
             android:name=".ui.activity.LabActivity"
+            android:screenOrientation="behind"
             android:configChanges="screenSize|smallestScreenSize|screenLayout" />
 
         <activity
             android:name=".ui.activity.EnhancedActivity"
-            android:configChanges="screenSize|smallestScreenSize|screenLayout" />
+            android:configChanges="screenSize|smallestScreenSize|screenLayout"
+            android:screenOrientation="behind" />
 
         <activity
             android:name=".ui.activity.PanDriveLoginActivity"
-            android:configChanges="screenSize|smallestScreenSize|screenLayout" />
+            android:configChanges="screenSize|smallestScreenSize|screenLayout"
+            android:screenOrientation="behind" />
 
         <activity
             android:name=".ui.activity.PanLoginActivity"
-            android:configChanges="screenSize|smallestScreenSize|screenLayout" />
+            android:configChanges="screenSize|smallestScreenSize|screenLayout"
+            android:screenOrientation="behind" />
 
         <activity
             android:name=".ui.activity.MiniAppActivity"
@@ -357,14 +364,14 @@
             android:theme="@style/Theme.XingChen.HkPage"
             android:configChanges="orientation|screenSize|smallestScreenSize|screenLayout|keyboardHidden"
             android:windowSoftInputMode="adjustResize"
-            android:screenOrientation="fullUser" />
+            android:screenOrientation="behind" />
 
         <activity
             android:name=".ui.hk.HkSearchActivity"
             android:exported="false"
             android:theme="@style/Theme.XingChen.HkPage"
             android:configChanges="orientation|screenSize|smallestScreenSize|screenLayout|keyboardHidden"
-            android:screenOrientation="fullUser"
+            android:screenOrientation="behind"
             android:windowSoftInputMode="adjustResize" />
 
         <activity
@@ -372,7 +379,7 @@
             android:exported="true"
             android:theme="@style/Theme.XingChen.HkPage"
             android:configChanges="screenSize|smallestScreenSize|screenLayout"
-            android:screenOrientation="fullUser">
+            android:screenOrientation="behind">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -390,28 +397,29 @@
             android:name=".ui.activity.HkRuleSearchActivity"
             android:theme="@style/Theme.XingChen.HkPage"
             android:configChanges="screenSize|smallestScreenSize|screenLayout"
-            android:screenOrientation="fullUser" />
+            android:screenOrientation="behind" />
 
         <activity
             android:name=".ui.activity.HkFavoriteActivity"
             android:theme="@style/Theme.XingChen.HkPage"
             android:configChanges="screenSize|smallestScreenSize|screenLayout"
-            android:screenOrientation="fullUser" />
+            android:screenOrientation="behind" />
 
         <activity
             android:name=".ui.activity.HkHistoryActivity"
             android:theme="@style/Theme.XingChen.HkPage"
             android:configChanges="screenSize|smallestScreenSize|screenLayout"
-            android:screenOrientation="fullUser" />
+            android:screenOrientation="behind" />
 
         <activity
             android:name=".ui.activity.AdBlockActivity"
             android:configChanges="screenSize|smallestScreenSize|screenLayout"
-            android:screenOrientation="fullUser" />
+            android:screenOrientation="behind" />
 
         <activity
             android:name=".ui.activity.AiSettingsActivity"
-            android:configChanges="screenSize|smallestScreenSize|screenLayout" />
+            android:configChanges="screenSize|smallestScreenSize|screenLayout"
+            android:screenOrientation="behind" />
 
         <activity
             android:name=".ui.activity.AiProviderEditActivity"
@@ -424,7 +432,8 @@
 
         <activity
             android:name=".ui.activity.TmdbActivity"
-            android:configChanges="screenSize|smallestScreenSize|screenLayout" />
+            android:configChanges="screenSize|smallestScreenSize|screenLayout"
+            android:screenOrientation="behind" />
 
         <activity
             android:name=".ui.activity.PythonPackagesActivity"

@@ -43,7 +43,6 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         applyDialogTheme();
-        applyLeanbackOrientation();
         enableEdgeToEdge();
         enableDynamicColor();
         super.onCreate(savedInstanceState);
@@ -177,18 +176,10 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     /**
-     * 单包双 UI：本 APK 同时含手机/TV 两套界面。当运行在 TV 模式时，
-     * 手机侧页面（增强功能/下载/网盘登录/AI 设置等）会被 TV 端调起，
-     * 若不锁方向会变成竖屏手机布局，遥控器几乎不可用。
-     * 因此 TV 模式下统一锁 sensorLandscape；手机模式完全不受影响。
-     * 播放类页面（Video/Live）自行管理旋转方向，跳过。
+     * 单包双 UI：本 APK 同时含手机/TV 两套界面。方向处理已全部静态声明在
+     * AndroidManifest（behind = 跟随任务栈下方 Activity 的方向）：
+     * TV 模式入口页为横屏 → 工具页秒横无闪烁；手机模式入口为竖屏 → 秒竖。
      */
-    private void applyLeanbackOrientation() {
-        if (!com.fongmi.android.tv.ui.UiMode.isLeanback()) return;
-        String name = this.getClass().getSimpleName();
-        if (name.equals("VideoActivity") || name.equals("LiveActivity") || name.equals("CastActivity")) return;
-        setRequestedOrientation(android.content.pm.ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
-    }
 
     private float appliedFontScale = -1f;
 
