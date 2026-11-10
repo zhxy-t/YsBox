@@ -7,9 +7,9 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.content.pm.ActivityInfo;
-import androidx.palette.graphics.Palette;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 import android.graphics.drawable.Drawable;
@@ -162,7 +162,6 @@ public class VideoActivity extends PlaybackActivity implements Clock.Callback, C
     private boolean fullscreen;
     /** 短剧模式：进页即全屏，详情到达后自动起播（与普通视频同一套播放链，仅省掉详情停留）。 */
     private boolean mShortDramaMode;
-    private boolean mFuncDarkText;
     /** 选集直达在 Service 未就绪时挂起，连接完成后再跑（对齐 xingchen 的 deferPlayRequest）。 */
     private boolean mPendingHkDirect;
 
@@ -1898,53 +1897,24 @@ public class VideoActivity extends PlaybackActivity implements Clock.Callback, C
         setArtwork();
     }
 
-    private void applyAdaptiveContrast(android.graphics.drawable.Drawable art) {
+    private void applyArtBackground(Bitmap src) {
         try {
-            android.graphics.Bitmap bmp = art instanceof android.graphics.drawable.BitmapDrawable ? ((android.graphics.drawable.BitmapDrawable) art).getBitmap() : null;
-            if (bmp == null || bmp.isRecycled()) {
-                setFuncIcons(false);
+            if (mBinding == null || mBinding.artBg == null) return;
+            if (src == null || src.isRecycled()) {
+                mBinding.artBg.setImageDrawable(null);
+                mBinding.artBg.setVisibility(android.view.View.GONE);
                 return;
             }
-            Palette.from(bmp).maximumColorCount(24).resizeBitmapArea(80000).generate(p -> {
-                int dom = p.getDominantColor(android.graphics.Color.TRANSPARENT);
-                boolean dark = true;
-                if (dom != android.graphics.Color.TRANSPARENT) {
-                    double lum = 0.2126 * Color.red(dom) + 0.7152 * Color.green(dom) + 0.0722 * Color.blue(dom);
-                    dark = lum < 140;
-                }
-                setFuncIcons(dark);
-            });
+            int sw = 32;
+            int sh = Math.max(8, sw * src.getHeight() / src.getWidth());
+            Bitmap small = Bitmap.createScaledBitmap(src, sw, sh, true);
+            Bitmap blur = Bitmap.createScaledBitmap(small, 720, 720 * src.getHeight() / src.getWidth(), true);
+            android.graphics.Canvas c = new android.graphics.Canvas(blur);
+            c.drawColor(0xB3000000);
+            mBinding.artBg.setImageBitmap(blur);
+            mBinding.artBg.setVisibility(android.view.View.VISIBLE);
         } catch (Throwable e) {
-            setFuncIcons(false);
-        }
-    }
-
-    private void setFuncIcons(boolean dark) {
-        if (mFuncDarkText == dark) return;
-        mFuncDarkText = dark;
-        if (mBinding == null) return;
-        mBinding.danmakuToggleImg.setImageResource(DanmakuSetting.isShow() ? (dark ? R.drawable.ic_func_danmaku_on_d : R.drawable.ic_func_danmaku_on_w) : (dark ? R.drawable.ic_func_danmaku_off_d : R.drawable.ic_func_danmaku_off_w));
-        mBinding.funcAudioImg.setImageResource(dark ? R.drawable.ic_func_audio_d : R.drawable.ic_func_audio);
-        mBinding.funcRotateImg.setImageResource(dark ? R.drawable.ic_func_rotate_d : R.drawable.ic_func_rotate);
-        mBinding.castImg.setImageResource(dark ? R.drawable.ic_func_cast_d : R.drawable.ic_func_cast_w);
-        mBinding.infoImg.setImageResource(dark ? R.drawable.ic_func_info_d : R.drawable.ic_func_info_w);
-        mBinding.keepImg.setImageResource(Keep.find(getHistoryKey()) == null ? (dark ? R.drawable.ic_func_keep_off_d : R.drawable.ic_func_keep_off_w) : (dark ? R.drawable.ic_func_keep_on_d : R.drawable.ic_func_keep_on_w));
-        mBinding.settingImg.setImageResource(dark ? R.drawable.ic_func_setting_d : R.drawable.ic_func_setting_w);
-        for (int i = 0; i < mBinding.funcBar.getChildCount(); i++) {
-            View child = mBinding.funcBar.getChildAt(i);
-            if (!(child instanceof ViewGroup)) continue;
-            ViewGroup group = (ViewGroup) child;
-            for (int j = 0; j < group.getChildCount(); j++) {
-                View g = group.getChildAt(j);
-                if (g instanceof TextView) ((TextView) g).setTextColor(dark ? 0xE6212126 : 0xB3FFFFFF);
-                else if (g instanceof ViewGroup) {
-                    ViewGroup inner = (ViewGroup) g;
-                    for (int k = 0; k < inner.getChildCount(); k++) {
-                        View t = inner.getChildAt(k);
-                        if (t instanceof TextView) ((TextView) t).setTextColor(dark ? 0xE6212126 : 0xB3FFFFFF);
-                    }
-                }
-            }
+            e.printStackTrace();
         }
     }
 
@@ -1953,12 +1923,16 @@ public class VideoActivity extends PlaybackActivity implements Clock.Callback, C
             @Override
             public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
                 mBinding.player.setDefaultArtwork(resource);
+                applyArtBackground(resource instanceof android.graphics.drawable.BitmapDrawable ? ((android.graphics.drawable.BitmapDrawable) resource).getBitmap() : null);
             }
 
             @Override
             public void onLoadFailed(@Nullable Drawable errorDrawable) {
                 mBinding.player.setDefaultArtwork(errorDrawable);
-                setFuncIcons(false);
+                if (mBinding.artBg != null) {
+                    mBinding.artBg.setImageDrawable(null);
+                    mBinding.artBg.setVisibility(android.view.View.GONE);
+                }
             }
         });
     }
