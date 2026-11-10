@@ -60,6 +60,12 @@ public class TypeAllDialog extends BaseBottomSheetDialog {
         return this;
     }
 
+    /** 与 FilterDialog 一致的 Fragment 宿主入口：走 childFragmentManager，防重复弹窗。 */
+    public void show(androidx.fragment.app.Fragment fragment) {
+        for (androidx.fragment.app.Fragment f : fragment.getChildFragmentManager().getFragments()) if (f instanceof TypeAllDialog) return;
+        show(fragment.getChildFragmentManager(), null);
+    }
+
     @Override
     protected ViewBinding getBinding(@NonNull LayoutInflater inflater, @Nullable ViewGroup container) {
         return binding = DialogTypeAllBinding.inflate(inflater, container, false);
