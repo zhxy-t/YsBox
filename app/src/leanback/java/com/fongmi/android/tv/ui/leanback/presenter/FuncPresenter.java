@@ -39,10 +39,12 @@ public class FuncPresenter extends Presenter {
         int card = Math.max(dp2px(96), Math.min(screenW / 6, screenH / 4));
         int icon = Math.round(card * 0.36f);
         float text = Math.min(20f, Math.max(14f, screenW / rawDensity() / 62f));
+        // 卡片高度 = 图标区 + 文字区，避免正方形把文字裁掉
+        int cardH = Math.round(card * 1.25f);
         ViewGroup.LayoutParams cardParams = holder.binding.getRoot().getLayoutParams();
         if (cardParams != null) {
             cardParams.width = card;
-            cardParams.height = card;
+            cardParams.height = cardH;
             holder.binding.getRoot().setLayoutParams(cardParams);
         }
         ViewGroup.LayoutParams iconParams = holder.binding.icon.getLayoutParams();

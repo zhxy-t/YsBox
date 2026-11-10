@@ -27,7 +27,6 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import me.jessyan.autosize.AutoSizeCompat;
 
 public abstract class BaseActivity extends AppCompatActivity {
 
@@ -114,13 +113,10 @@ public abstract class BaseActivity extends AppCompatActivity {
         });
     }
 
+    /** 不再做 AutoSize 密度改写：TV 布局使用固定 dp/sp，在手机高密度屏上
+     *  autoConvertDensityOfGlobal 会把密度放大数倍导致整页超大；直接返回原始 Resources */
     private Resources hackResources(Resources resources) {
-        try {
-            AutoSizeCompat.autoConvertDensityOfGlobal(resources);
-            return resources;
-        } catch (Exception ignored) {
-            return resources;
-        }
+        return resources;
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
