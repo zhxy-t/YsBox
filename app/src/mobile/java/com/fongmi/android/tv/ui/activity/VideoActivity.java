@@ -8,6 +8,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Color;
+import android.content.pm.ActivityInfo;
+import androidx.palette.graphics.Palette;
 import android.graphics.drawable.Drawable;
 import android.net.TrafficStats;
 import android.net.Uri;
@@ -38,7 +40,6 @@ import androidx.media3.common.Player;
 import androidx.media3.common.VideoSize;
 import androidx.media3.ui.PlayerSeekView;
 import androidx.media3.ui.PlayerView;
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.transition.ChangeBounds;
 import androidx.transition.TransitionManager;
 import androidx.viewbinding.ViewBinding;
@@ -131,7 +132,6 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
@@ -160,6 +160,7 @@ public class VideoActivity extends PlaybackActivity implements Clock.Callback, C
     private boolean fullscreen;
     /** 短剧模式：进页即全屏，详情到达后自动起播（与普通视频同一套播放链，仅省掉详情停留）。 */
     private boolean mShortDramaMode;
+    private boolean mFuncDarkText;
     /** 选集直达在 Service 未就绪时挂起，连接完成后再跑（对齐 xingchen 的 deferPlayRequest）。 */
     private boolean mPendingHkDirect;
 
@@ -1413,7 +1414,7 @@ public class VideoActivity extends PlaybackActivity implements Clock.Callback, C
     private void setOther(TextView view, Vod item) {
         StringBuilder sb = new StringBuilder();
         java.util.List<String> parts = new java.util.ArrayList<>();
-        if (!item.getYear().isEmpty()) parts.add(getString(R.string.detail_year, item.getYear()));
+        if (!item.getYear().isEmpty() && !"0".equals(item.getYear())) parts.add(getString(R.string.detail_year, item.getYear()));
         if (!item.getArea().isEmpty()) parts.add(item.getArea());
         if (!item.getTypeName().isEmpty()) parts.add(item.getTypeName());
         sb.append(android.text.TextUtils.join(" · ", parts));
@@ -1611,8 +1612,8 @@ public class VideoActivity extends PlaybackActivity implements Clock.Callback, C
 
     private void onRotate() {
         setR1Callback();
-        setRotate(!isRotate());
-        setRequestedOrientation(PlaybackOrientation.getRotateOrientation(this));
+        setRequestedOrientation(isLand() ? ActivityInfo.SCREEN_ORIENTATION_PORTRAIT : ActivityInfo.SCREEN_ORIENTATION_FULL_USER);
+        if (isLand()) hideControl();
     }
 
     private void onTrack(View view) {
@@ -1895,6 +1896,49 @@ public class VideoActivity extends PlaybackActivity implements Clock.Callback, C
         setArtwork();
     }
 
+    private void applyAdaptiveContrast(android.graphics.drawable.Drawable art) {
+        try {
+            android.graphics.Bitmap bmp = art instanceof android.graphics.drawable.BitmapDrawable ? ((android.graphics.drawable.BitmapDrawable) art).getBitmap() : null;
+            if (bmp == null || bmp.isRecycled()) {
+                setFuncIcons(false);
+                return;
+            }
+            Palette.from(bmp).maximumColorCount(24).resizeBitmapArea(80000).generate(p -> {
+                int dom = p.getDominantColor(android.graphics.Color.TRANSPARENT);
+                boolean dark = true;
+                if (dom != android.graphics.Color.TRANSPARENT) {
+                    double lum = 0.2126 * Color.red(dom) + 0.7152 * Color.green(dom) + 0.0722 * Color.blue(dom);
+                    dark = lum < 140;
+                }
+                setFuncIcons(dark);
+            });
+        } catch (Throwable e) {
+            setFuncIcons(false);
+        }
+    }
+
+    private void setFuncIcons(boolean dark) {
+        if (mFuncDarkText == dark) return;
+        mFuncDarkText = dark;
+        if (mBinding == null) return;
+        mBinding.danmakuToggleImg.setImageResource(DanmakuSetting.isShow() ? (dark ? R.drawable.ic_func_danmaku_on_d : R.drawable.ic_func_danmaku_on_w) : (dark ? R.drawable.ic_func_danmaku_off_d : R.drawable.ic_func_danmaku_off_w));
+        mBinding.funcAudioImg.setImageResource(dark ? R.drawable.ic_func_audio_d : R.drawable.ic_func_audio);
+        mBinding.funcRotateImg.setImageResource(dark ? R.drawable.ic_func_rotate_d : R.drawable.ic_func_rotate);
+        mBinding.castImg.setImageResource(dark ? R.drawable.ic_func_cast_d : R.drawable.ic_func_cast_w);
+        mBinding.infoImg.setImageResource(dark ? R.drawable.ic_func_info_d : R.drawable.ic_func_info_w);
+        mBinding.keepImg.setImageResource(Keep.find(getHistoryKey()) == null ? (dark ? R.drawable.ic_func_keep_off_d : R.drawable.ic_func_keep_off_w) : (dark ? R.drawable.ic_func_keep_on_d : R.drawable.ic_func_keep_on_w));
+        mBinding.settingImg.setImageResource(dark ? R.drawable.ic_func_setting_d : R.drawable.ic_func_setting_w);
+        for (int i = 0; i < mBinding.funcBar.getChildCount(); i++) {
+            View child = mBinding.funcBar.getChildAt(i);
+            if (child instanceof LinearLayout) {
+                for (int j = 0; j < ((LinearLayout) child).getChildCount(); j++) {
+                    View tv = ((LinearLayout) child).getChildAt(j);
+                    if (tv instanceof TextView) tv.setTextColor(dark ? 0xE6212126 : 0xB3FFFFFF);
+                }
+            }
+        }
+    }
+
     private void setArtwork() {
         ImgUtil.load(this, mHistory.getVodPic(), new CustomTarget<>() {
             @Override
@@ -1905,6 +1949,7 @@ public class VideoActivity extends PlaybackActivity implements Clock.Callback, C
             @Override
             public void onLoadFailed(@Nullable Drawable errorDrawable) {
                 mBinding.player.setDefaultArtwork(errorDrawable);
+                setFuncIcons(false);
             }
         });
     }

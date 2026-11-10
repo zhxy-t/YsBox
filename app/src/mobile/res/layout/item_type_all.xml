@@ -2,10 +2,10 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingStart="6dp"
-    android:paddingTop="8dp"
-    android:paddingEnd="6dp"
-    android:paddingBottom="8dp">
+    android:paddingStart="8dp"
+    android:paddingTop="3dp"
+    android:paddingEnd="8dp"
+    android:paddingBottom="3dp">
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/text"
@@ -16,6 +16,6 @@
         android:ellipsize="end"
         android:maxLines="1"
         android:textColor="@color/selector_control"
-        android:textSize="14sp"
+        android:textSize="13sp"
         android:textStyle="bold" />
 </FrameLayout>

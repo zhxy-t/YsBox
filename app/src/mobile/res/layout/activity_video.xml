@@ -197,18 +197,23 @@
         android:layout_below="@+id/video"
         android:background="@drawable/shadow" />
 
-    <androidx.appcompat.widget.LinearLayoutCompat
+    <android.widget.HorizontalScrollView
         android:id="@+id/funcBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/video"
-        android:background="@drawable/shape_glass_bar"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingStart="12dp"
-        android:paddingTop="6dp"
-        android:paddingEnd="12dp"
-        android:paddingBottom="6dp">
+        android:background="@drawable/shape_glass_dark"
+        android:overScrollMode="never"
+        android:scrollbars="none">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingStart="12dp"
+            android:paddingTop="6dp"
+            android:paddingEnd="12dp"
+            android:paddingBottom="6dp">
         <LinearLayout
             android:id="@+id/danmakuToggle"
             android:layout_width="wrap_content"
@@ -218,9 +223,9 @@
             android:focusable="true"
             android:gravity="center_horizontal"
             android:orientation="vertical"
-            android:paddingStart="14dp"
+            android:paddingStart="10dp"
             android:paddingTop="6dp"
-            android:paddingEnd="14dp"
+            android:paddingEnd="10dp"
             android:paddingBottom="6dp">
 
             <androidx.appcompat.widget.AppCompatImageView
@@ -248,9 +253,9 @@
             android:focusable="true"
             android:gravity="center_horizontal"
             android:orientation="vertical"
-            android:paddingStart="14dp"
+            android:paddingStart="10dp"
             android:paddingTop="6dp"
-            android:paddingEnd="14dp"
+            android:paddingEnd="10dp"
             android:paddingBottom="6dp">
 
             <androidx.appcompat.widget.AppCompatImageView
@@ -278,9 +283,9 @@
             android:focusable="true"
             android:gravity="center_horizontal"
             android:orientation="vertical"
-            android:paddingStart="14dp"
+            android:paddingStart="10dp"
             android:paddingTop="6dp"
-            android:paddingEnd="14dp"
+            android:paddingEnd="10dp"
             android:paddingBottom="6dp">
 
             <androidx.appcompat.widget.AppCompatImageView
@@ -307,9 +312,9 @@
             android:focusable="true"
             android:gravity="center_horizontal"
             android:orientation="vertical"
-            android:paddingStart="14dp"
+            android:paddingStart="10dp"
             android:paddingTop="6dp"
-            android:paddingEnd="14dp"
+            android:paddingEnd="10dp"
             android:paddingBottom="6dp">
 
             <androidx.appcompat.widget.AppCompatImageView
@@ -336,9 +341,9 @@
             android:focusable="true"
             android:gravity="center_horizontal"
             android:orientation="vertical"
-            android:paddingStart="14dp"
+            android:paddingStart="10dp"
             android:paddingTop="6dp"
-            android:paddingEnd="14dp"
+            android:paddingEnd="10dp"
             android:paddingBottom="6dp">
 
             <androidx.appcompat.widget.AppCompatImageView
@@ -366,9 +371,9 @@
             android:focusable="true"
             android:gravity="center_horizontal"
             android:orientation="vertical"
-            android:paddingStart="14dp"
+            android:paddingStart="10dp"
             android:paddingTop="6dp"
-            android:paddingEnd="14dp"
+            android:paddingEnd="10dp"
             android:paddingBottom="6dp">
 
             <androidx.appcompat.widget.AppCompatImageView
@@ -400,9 +405,9 @@
             android:focusable="true"
             android:gravity="center_horizontal"
             android:orientation="vertical"
-            android:paddingStart="14dp"
+            android:paddingStart="10dp"
             android:paddingTop="6dp"
-            android:paddingEnd="14dp"
+            android:paddingEnd="10dp"
             android:paddingBottom="6dp">
 
             <androidx.appcompat.widget.AppCompatImageView
@@ -420,7 +425,8 @@
                 android:textColor="#B3FFFFFF"
                 android:textSize="11sp" />
         </LinearLayout>
-    </androidx.appcompat.widget.LinearLayoutCompat>
+        </LinearLayout>
+    </android.widget.HorizontalScrollView>
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipeLayout"
         android:layout_width="match_parent"
@@ -454,7 +460,7 @@
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="4dp"
                         android:layout_marginEnd="8dp"
-                        android:background="@drawable/shape_glass_bar"
+                        android:background="@drawable/shape_glass_dark"
                         app:cardBackgroundColor="@android:color/transparent"
                         app:cardCornerRadius="16dp"
                         app:cardElevation="0dp">

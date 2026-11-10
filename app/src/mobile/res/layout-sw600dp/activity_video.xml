@@ -279,18 +279,23 @@
             android:textSize="14sp"
             tools:text="演員：FongMi" />
 
-        <androidx.appcompat.widget.LinearLayoutCompat
+        <android.widget.HorizontalScrollView
             android:id="@+id/funcBar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/video"
-            android:background="@drawable/shape_glass_bar"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:paddingStart="12dp"
-            android:paddingTop="6dp"
-            android:paddingEnd="12dp"
-            android:paddingBottom="6dp">
+            android:background="@drawable/shape_glass_dark"
+            android:overScrollMode="never"
+            android:scrollbars="none">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingStart="12dp"
+                android:paddingTop="6dp"
+                android:paddingEnd="12dp"
+                android:paddingBottom="6dp">
             <LinearLayout
                 android:id="@+id/danmakuToggle"
                 android:layout_width="wrap_content"
@@ -300,9 +305,9 @@
                 android:focusable="true"
                 android:gravity="center_horizontal"
                 android:orientation="vertical"
-                android:paddingStart="14dp"
+                android:paddingStart="10dp"
                 android:paddingTop="6dp"
-                android:paddingEnd="14dp"
+                android:paddingEnd="10dp"
                 android:paddingBottom="6dp">
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/danmakuToggleImg"
@@ -328,9 +333,9 @@
                 android:focusable="true"
                 android:gravity="center_horizontal"
                 android:orientation="vertical"
-                android:paddingStart="14dp"
+                android:paddingStart="10dp"
                 android:paddingTop="6dp"
-                android:paddingEnd="14dp"
+                android:paddingEnd="10dp"
                 android:paddingBottom="6dp">
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/castImg"
@@ -356,9 +361,9 @@
                 android:focusable="true"
                 android:gravity="center_horizontal"
                 android:orientation="vertical"
-                android:paddingStart="14dp"
+                android:paddingStart="10dp"
                 android:paddingTop="6dp"
-                android:paddingEnd="14dp"
+                android:paddingEnd="10dp"
                 android:paddingBottom="6dp">
 
                 <androidx.appcompat.widget.AppCompatImageView
@@ -385,9 +390,9 @@
                 android:focusable="true"
                 android:gravity="center_horizontal"
                 android:orientation="vertical"
-                android:paddingStart="14dp"
+                android:paddingStart="10dp"
                 android:paddingTop="6dp"
-                android:paddingEnd="14dp"
+                android:paddingEnd="10dp"
                 android:paddingBottom="6dp">
 
                 <androidx.appcompat.widget.AppCompatImageView
@@ -414,9 +419,9 @@
                 android:focusable="true"
                 android:gravity="center_horizontal"
                 android:orientation="vertical"
-                android:paddingStart="14dp"
+                android:paddingStart="10dp"
                 android:paddingTop="6dp"
-                android:paddingEnd="14dp"
+                android:paddingEnd="10dp"
                 android:paddingBottom="6dp">
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/infoImg"
@@ -442,9 +447,9 @@
                 android:focusable="true"
                 android:gravity="center_horizontal"
                 android:orientation="vertical"
-                android:paddingStart="14dp"
+                android:paddingStart="10dp"
                 android:paddingTop="6dp"
-                android:paddingEnd="14dp"
+                android:paddingEnd="10dp"
                 android:paddingBottom="6dp">
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/keepImg"
@@ -473,9 +478,9 @@
                 android:focusable="true"
                 android:gravity="center_horizontal"
                 android:orientation="vertical"
-                android:paddingStart="14dp"
+                android:paddingStart="10dp"
                 android:paddingTop="6dp"
-                android:paddingEnd="14dp"
+                android:paddingEnd="10dp"
                 android:paddingBottom="6dp">
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/settingImg"
@@ -491,7 +496,8 @@
                     android:textColor="#B3FFFFFF"
                     android:textSize="11sp" />
             </LinearLayout>
-        </androidx.appcompat.widget.LinearLayoutCompat>
+            </LinearLayout>
+        </android.widget.HorizontalScrollView>
 
         <!-- 占位：与手机布局保持 ViewBinding 字段一致（平板沿用旧扁平详情视觉，不渲染此卡片） -->
         <com.google.android.material.card.MaterialCardView
