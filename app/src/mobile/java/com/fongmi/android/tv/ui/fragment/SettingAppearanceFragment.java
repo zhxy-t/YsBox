@@ -24,8 +24,8 @@ import com.fongmi.android.tv.event.RefreshEvent;
 import com.fongmi.android.tv.setting.PlayerSetting;
 import com.fongmi.android.tv.setting.Setting;
 import com.fongmi.android.tv.ui.base.BaseFragment;
+import com.fongmi.android.tv.ui.dialog.ColorPickerDialog;
 import com.fongmi.android.tv.ui.dialog.DialogStylePickerDialog;
-import com.fongmi.android.tv.ui.dialog.ThemeDialog;
 import com.fongmi.android.tv.ui.dialog.WallPickerDialog;
 import com.fongmi.android.tv.utils.ResUtil;
 import com.fongmi.android.tv.utils.WallUtil;
@@ -33,8 +33,9 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.Locale;
 
-public class SettingAppearanceFragment extends BaseFragment implements ThemeDialog.Listener {
+public class SettingAppearanceFragment extends BaseFragment {
 
+    private static final int[] THEME_COLORS = {-1, 0, 0xFF000000, 0xFF1B1B1B, 0xFF263238, 0xFF455A64, 0xFF6D4C41, 0xFF6750A4, 0xFF3949AB, 0xFF1E88E5, 0xFF039BE5, 0xFF00ACC1, 0xFF00897B, 0xFF43A047, 0xFF7CB342, 0xFFC0CA33, 0xFFFB8C00, 0xFFF4511E, 0xFFE53935, 0xFFD81B60, 0xFF8E24AA};
     private static final String[] LANGUAGES = {"", "zh-CN", "zh-TW", "en"};
     private static final String[] LANGUAGE_NAMES = {"跟随系统", "简体中文", "繁體中文", "English"};
     private static final String[] RATIO_NAMES = {"跟随站点", "竖屏 3:4", "横屏 16:9", "方形 1:1"};
@@ -194,7 +195,7 @@ public class SettingAppearanceFragment extends BaseFragment implements ThemeDial
     }
 
     private void setThemeColor(View view) {
-        ThemeDialog.show(this);
+        ColorPickerDialog.showTheme(requireActivity(), R.string.setting_theme_color, THEME_COLORS, Setting.getThemeColor(), this::setTheme);
     }
 
     private void updateFontSizeText() {
@@ -224,8 +225,7 @@ public class SettingAppearanceFragment extends BaseFragment implements ThemeDial
         return DialogStylePickerDialog.nameOf(Setting.getDialogStyle());
     }
 
-    @Override
-    public void setTheme(int color) {
+    private void setTheme(int color) {
         Setting.putThemeColor(color);
         mBinding.themeColorText.setText(getThemeColorName(color));
         RefreshEvent.theme();
