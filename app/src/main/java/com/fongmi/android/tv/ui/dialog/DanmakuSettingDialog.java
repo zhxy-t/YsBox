@@ -23,6 +23,10 @@ public final class DanmakuSettingDialog {
         return new DanmakuSettingDialog();
     }
 
+    public static String nameOf(int style) {
+        return ResUtil.getStringArray(R.array.danmaku_style_names)[style];
+    }
+
     private static DialogDanmakuSettingBinding inflate(LayoutInflater inflater, ViewGroup container) {
         return DialogDanmakuSettingBinding.inflate(inflater, container, false);
     }

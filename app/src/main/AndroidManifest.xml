@@ -447,6 +447,7 @@
             android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"
             android:exported="true"
             android:launchMode="singleTop"
+            android:screenOrientation="sensorLandscape"
             android:theme="@style/Theme.Tv.Splash">
 
             <meta-data
@@ -509,7 +510,8 @@
             android:name=".ui.leanback.activity.CastActivity"
             android:configChanges="screenSize|smallestScreenSize|screenLayout|uiMode|orientation"
             android:exported="true"
-            android:launchMode="singleTop">
+            android:launchMode="singleTop"
+            android:screenOrientation="sensorLandscape">
             <intent-filter>
                 <action android:name="${applicationId}.cast" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -518,73 +520,89 @@
 
         <activity
             android:name=".ui.leanback.activity.VodActivity"
-            android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation" />
+            android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"
+            android:screenOrientation="sensorLandscape" />
 
         <activity
             android:name=".ui.leanback.activity.LiveActivity"
             android:configChanges="screenSize|smallestScreenSize|screenLayout|uiMode|orientation"
             android:exported="true"
             android:launchMode="singleTop"
-            android:parentActivityName=".ui.activity.HomeActivity" />
+            android:parentActivityName=".ui.activity.HomeActivity"
+            android:screenOrientation="sensorLandscape" />
 
         <activity
             android:name=".ui.leanback.activity.VideoActivity"
             android:configChanges="screenSize|smallestScreenSize|screenLayout|uiMode|orientation|keyboard|keyboardHidden|navigation"
             android:launchMode="singleTop"
-            android:parentActivityName=".ui.activity.HomeActivity" />
+            android:parentActivityName=".ui.activity.HomeActivity"
+            android:screenOrientation="sensorLandscape" />
 
         <activity
             android:name=".ui.leanback.activity.KeepActivity"
-            android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation" />
+            android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"
+            android:screenOrientation="sensorLandscape" />
 
         <activity
             android:name=".ui.leanback.activity.PushActivity"
-            android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation" />
+            android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"
+            android:screenOrientation="sensorLandscape" />
 
         <activity
             android:name=".ui.leanback.activity.SearchActivity"
             android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"
+            android:screenOrientation="sensorLandscape"
             android:windowSoftInputMode="stateHidden" />
 
         <activity
             android:name=".ui.leanback.activity.CollectActivity"
-            android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation" />
+            android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"
+            android:screenOrientation="sensorLandscape" />
 
         <activity
             android:name=".ui.leanback.activity.FileActivity"
-            android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation" />
+            android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"
+            android:screenOrientation="sensorLandscape" />
 
         <activity
             android:name=".ui.leanback.activity.SettingActivity"
-            android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation" />
+            android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"
+            android:screenOrientation="sensorLandscape" />
 
         <activity
             android:name=".ui.leanback.activity.SettingPlayerActivity"
-            android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation" />
+            android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"
+            android:screenOrientation="sensorLandscape" />
 
         <activity
             android:name=".ui.leanback.activity.SettingDecodeActivity"
-            android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation" />
+            android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"
+            android:screenOrientation="sensorLandscape" />
 
         <activity
             android:name=".ui.leanback.activity.SettingPreloadActivity"
-            android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation" />
+            android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"
+            android:screenOrientation="sensorLandscape" />
 
         <activity
             android:name=".ui.leanback.activity.SettingDanmakuActivity"
-            android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation" />
+            android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"
+            android:screenOrientation="sensorLandscape" />
 
         <activity
             android:name=".ui.leanback.activity.SettingSubtitleActivity"
-            android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation" />
+            android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"
+            android:screenOrientation="sensorLandscape" />
 
         <activity
             android:name=".ui.leanback.activity.SettingAppearanceActivity"
-            android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation" />
+            android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"
+            android:screenOrientation="sensorLandscape" />
 
         <activity
             android:name=".ui.leanback.activity.SettingPersonalActivity"
-            android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation" />
+            android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"
+            android:screenOrientation="sensorLandscape" />
 
         <service
             android:name=".service.DLNARendererService"

@@ -28,6 +28,7 @@ import com.fongmi.android.tv.utils.ResUtil;
 import com.fongmi.android.tv.utils.WallUtil;
 import com.fongmi.android.tv.ui.dialog.DialogStylePickerDialog;
 import com.fongmi.android.tv.ui.dialog.WallPickerDialog;
+import com.fongmi.android.tv.ui.dialog.ColorPickerDialog;
 
 public class SettingAppearanceActivity extends BaseActivity {
 
@@ -92,14 +93,12 @@ public class SettingAppearanceActivity extends BaseActivity {
     }
 
     private void setThemeColor(View view) {
-        int checked = findIndex(THEME_COLORS, Setting.getThemeColor());
-        DialogThemeHelper.builder(this).setTitle(R.string.setting_theme_color).setSingleChoiceItems(getThemeColorNames(), checked, (dialog, which) -> {
-            Setting.putThemeColor(THEME_COLORS[which]);
-            mBinding.themeColorText.setText(getThemeColorName(THEME_COLORS[which]));
-            dialog.dismiss();
+        ColorPickerDialog.showTheme(this, R.string.setting_theme_color, THEME_COLORS, Setting.getThemeColor(), color -> {
+            Setting.putThemeColor(color);
+            mBinding.themeColorText.setText(getThemeColorName(color));
             RefreshEvent.theme();
             recreate();
-        }).show();
+        });
     }
 
     private void setDialogStyle(View view) {
@@ -244,11 +243,6 @@ public class SettingAppearanceActivity extends BaseActivity {
 
     private int indexOf(String[] array, String value) {
         for (int i = 0; i < array.length; i++) if (array[i].equals(value)) return i;
-        return 0;
-    }
-
-    private int findIndex(int[] array, int value) {
-        for (int i = 0; i < array.length; i++) if (array[i] == value) return i;
         return 0;
     }
 }

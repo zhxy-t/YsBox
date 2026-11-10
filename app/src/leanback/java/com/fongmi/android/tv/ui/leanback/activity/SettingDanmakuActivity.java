@@ -15,6 +15,7 @@ import com.fongmi.android.tv.setting.DanmakuSetting;
 import com.fongmi.android.tv.setting.Setting;
 import com.fongmi.android.tv.ui.leanback.base.BaseActivity;
 import com.fongmi.android.tv.ui.leanback.dialog.DanmakuApiDialog;
+import com.fongmi.android.tv.ui.dialog.DanmakuSettingDialog;
 
 public class SettingDanmakuActivity extends BaseActivity implements DanmakuListener {
 
@@ -40,15 +41,21 @@ public class SettingDanmakuActivity extends BaseActivity implements DanmakuListe
         mBinding.danmakuAutoText.setText(Setting.getSwitch(DanmakuSetting.isAuto()));
         mBinding.danmakuLoadText.setText(Setting.getSwitch(DanmakuSetting.isLoad()));
         mBinding.danmakuSpiderText.setText(Setting.getSwitch(DanmakuSetting.isSpiderFirst()));
+        mBinding.danmakuStyleText.setText(DanmakuSettingDialog.nameOf(DanmakuSetting.getStyleMode()));
         updateApiVisibility();
     }
 
     @Override
     protected void initEvent() {
         mBinding.danmakuApi.setOnClickListener(this::onDanmakuApi);
+        mBinding.danmakuStyle.setOnClickListener(this::onDanmakuStyle);
         mBinding.danmakuAuto.setOnClickListener(this::setDanmakuAuto);
         mBinding.danmakuLoad.setOnClickListener(this::setDanmakuLoad);
         mBinding.danmakuSpider.setOnClickListener(this::setDanmakuSpider);
+    }
+
+    private void onDanmakuStyle(View view) {
+        DanmakuSettingDialog.create().show(this);
     }
 
     private void setDanmakuLoad(View view) {

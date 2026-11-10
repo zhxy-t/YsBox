@@ -102,7 +102,6 @@ public final class ColorPickerDialog {
         ref[0] = DialogThemeHelper.builder(activity)
                 .setTitle(titleRes)
                 .setView(scroll)
-                
                 .show();
         scroll.post(() -> {
             int x = target != null ? target.getLeft() : index * (cell + dp(activity, 10) + gap * 2);

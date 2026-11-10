@@ -115,7 +115,6 @@ public class SettingActivity extends BaseActivity implements ConfigListener, Sit
         mBinding.player.setOnClickListener(this::onPlayer);
         mBinding.danmaku.setOnClickListener(this::onDanmaku);
         mBinding.subtitle.setOnClickListener(this::onSubtitle);
-        mBinding.personal.setOnClickListener(this::onPersonal);
         mBinding.appearance.setOnClickListener(this::onAppearance);
         mBinding.restore.setOnClickListener(this::onRestore);
         mBinding.version.setOnClickListener(this::onVersion);
@@ -245,10 +244,6 @@ public class SettingActivity extends BaseActivity implements ConfigListener, Sit
 
     private void onSubtitle(View view) {
         SettingSubtitleActivity.start(this);
-    }
-
-    private void onPersonal(View view) {
-        SettingPersonalActivity.start(this);
     }
 
     private void onAppearance(View view) {
