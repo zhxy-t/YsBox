@@ -579,6 +579,11 @@
             android:screenOrientation="sensorLandscape" />
 
         <activity
+            android:name=".ui.leanback.activity.TvEnhancedActivity"
+            android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"
+            android:screenOrientation="sensorLandscape" />
+
+        <activity
             android:name=".ui.leanback.activity.SettingPlayerActivity"
             android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"
             android:screenOrientation="sensorLandscape" />

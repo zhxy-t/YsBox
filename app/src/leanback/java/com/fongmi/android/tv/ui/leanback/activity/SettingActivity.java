@@ -236,7 +236,7 @@ public class SettingActivity extends BaseActivity implements ConfigListener, Sit
     }
 
     private void onEnhanced(View view) {
-        com.fongmi.android.tv.ui.activity.EnhancedActivity.start(this);
+        TvEnhancedActivity.start(this);
     }
 
     private void onDanmaku(View view) {
