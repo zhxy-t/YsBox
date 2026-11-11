@@ -137,6 +137,7 @@ media3-extractor = { group = "androidx.media3", name = "media3-extractor", versi
 media3-session = { group = "androidx.media3", name = "media3-session", version.ref = "media3" }
 media3-ui = { group = "androidx.media3", name = "media3-ui", version.ref = "media3" }
 media3-ui-danmaku = { group = "androidx.media3", name = "media3-ui-danmaku", version.ref = "media3" }
+media3-decoder-ffmpeg = { group = "androidx.media3", name = "media3-decoder-ffmpeg", version = "1.11.0-alpha01-fongmi-r1" }
 exoplayer-hdr-utils = { group = "com.suyashbelekar", name = "exoplayerhdrutils", version.ref = "exoplayerHdrUtils" }
 nextlib-media3ext = { group = "io.github.anilbeesetti", name = "nextlib-media3ext", version.ref = "nextlib" }
 
@@ -146,7 +147,7 @@ android-library = { id = "com.android.library", version.ref = "agp" }
 chaquo-python = { id = "com.chaquo.python", version.ref = "python" }
 
 [bundles]
-media3 = ["media3-common", "media3-container", "media3-database", "media3-datasource", "media3-datasource-okhttp", "media3-datasource-rtmp", "media3-decoder", "media3-effect", "media3-exoplayer", "media3-exoplayer-dash", "media3-exoplayer-hls", "media3-exoplayer-rtsp", "media3-exoplayer-smoothstreaming", "media3-extractor", "media3-session", "media3-ui", "media3-ui-danmaku"]
+media3 = ["media3-decoder-ffmpeg", "media3-common", "media3-container", "media3-database", "media3-datasource", "media3-datasource-okhttp", "media3-datasource-rtmp", "media3-decoder", "media3-effect", "media3-exoplayer", "media3-exoplayer-dash", "media3-exoplayer-hls", "media3-exoplayer-rtsp", "media3-exoplayer-smoothstreaming", "media3-extractor", "media3-session", "media3-ui", "media3-ui-danmaku"]
 glide = ["glide", "glide-annotations", "glide-avif-integration", "glide-okhttp3-integration"]
 jupnp = ["org-jupnp", "org-jupnp-android", "org-jupnp-support"]
 okhttp = ["okhttp", "okhttp-dnsoverhttps", "okhttp-logging-interceptor"]
