@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>androidx.media3</groupId>
+  <artifactId>media3-decoder-ffmpeg</artifactId>
+  <version>1.11.0-alpha01-fongmi</version>
+  <packaging>aar</packaging>
+  <name>Media3 FFmpeg decoder (ByteVC2 video soft-decode build)</name>
+</project>
