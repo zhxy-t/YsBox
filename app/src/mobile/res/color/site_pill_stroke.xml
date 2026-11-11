@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- 选中：描边变强调色；默认：沿用弹窗的分隔色 -->
+    <item android:state_selected="true" android:color="?attr/dialogAccent" />
+    <item android:color="?attr/dialogDivider" />
+</selector>

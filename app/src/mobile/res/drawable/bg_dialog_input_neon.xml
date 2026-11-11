@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 霓虹风格输入框：加粗描边，跟着风格强调色系走 -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+    <solid android:color="#1A1A2E" />
+    <corners android:radius="10dp" />
+    <stroke android:width="1.5dp" android:color="#8800D4FF" />
+</shape>

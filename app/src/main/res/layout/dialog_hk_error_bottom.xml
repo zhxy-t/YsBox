@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 一比一对照 8.83 反编译原文：res/layout/view_msg_bottom_pop.xml -->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="bottom">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="50dp"
+        android:background="?attr/dialogSurface"
+        android:paddingEnd="5dp"
+        android:paddingBottom="16dp">
+
+        <TextView
+            android:id="@+id/msg_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:gravity="center"
+            android:maxLines="3"
+            android:padding="10dp"
+            android:text="规则执行过程中出现错误"
+            android:textColor="?attr/dialogTextPrimary"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/btn_copy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/msg_text"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="10dp"
+            android:background="@drawable/hk_rect_button_gray"
+            android:paddingHorizontal="14dp"
+            android:paddingVertical="8dp"
+            android:text="复制"
+            android:textColor="?attr/dialogTextPrimary"
+            android:textSize="13sp" />
+
+        <TextView
+            android:id="@+id/dismiss"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/msg_text"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="5dp"
+            android:background="@drawable/hk_rect_button_gray"
+            android:paddingHorizontal="14dp"
+            android:paddingVertical="8dp"
+            android:text="忽略"
+            android:textColor="?attr/dialogTextPrimary"
+            android:textSize="13sp" />
+
+        <TextView
+            android:id="@+id/btn_show"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/msg_text"
+            android:layout_marginStart="8dp"
+            android:layout_toEndOf="@id/btn_copy"
+            android:background="@drawable/hk_rect_button_gray"
+            android:paddingHorizontal="14dp"
+            android:paddingVertical="8dp"
+            android:text="查看详情"
+            android:textColor="?attr/dialogTextPrimary"
+            android:textSize="13sp" />
+    </RelativeLayout>
+</FrameLayout>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <attr name="center" format="integer">
+        <enum name="all" value="0" />
+        <enum name="baseline" value="1" />
+    </attr>
+    <attr name="drawableSrc" format="reference" />
+    <attr name="drawableWidth" format="dimension" />
+    <attr name="text" format="string" />
+    <attr name="textSize" format="dimension" />
+    <attr name="textTop" format="dimension" />
+    <attr name="lineNumLowerLimit" format="integer" />
+    <declare-styleable name="DrawableTextView">
+        <attr name="center" />
+        <attr name="drawableSrc" />
+        <attr name="drawableWidth" />
+        <attr name="text" />
+        <attr name="textSize" />
+        <attr name="textTop" />
+    </declare-styleable>
+    <declare-styleable name="AdaptiveTextView">
+        <attr name="lineNumLowerLimit" />
+        <attr name="lineSpaceLowerLimit" />
+        <attr name="operateType" />
+    </declare-styleable>
+    <declare-styleable name="RecyclerFastScroller">
+        <attr name="rfs_barColor" format="color" />
+        <attr name="rfs_handleNormalColor" format="color" />
+        <attr name="rfs_handlePressedColor" format="color" />
+        <attr name="rfs_hideDelay" format="integer" />
+        <attr name="rfs_hidingEnabled" format="boolean" />
+        <attr name="rfs_touchTargetWidth" format="dimension" />
+    </declare-styleable>
+
+</resources>

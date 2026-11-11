@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="CustomRecyclerView">
+        <attr name="android:minWidth" />
+        <attr name="android:minHeight" />
+        <attr name="maxWidth" format="dimension" />
+        <attr name="maxHeight" format="dimension" />
+    </declare-styleable>
+
+    <!-- 共享代码（app/src/main/java 的 AlignTextView）使用；原先只在 mobile res 定义 -->
+    <attr name="align" format="integer">
+        <enum name="left" value="0" />
+        <enum name="center" value="1" />
+        <enum name="right" value="2" />
+    </attr>
+    <declare-styleable name="AlignTextView">
+        <attr name="align" />
+    </declare-styleable>
+    <!-- ========== 统一弹窗语义色：5 种风格各自赋值，所有弹窗(含自绘裸 Dialog)引用 ========== -->
+    <attr name="dialogSurface" format="reference|color" />
+    <!-- 弹窗底色「纯颜色」版本：给 shape 的 <solid> 用（dialogSurface 可能指向 drawable，不能当颜色用） -->
+    <attr name="dialogSurfaceColor" format="color" />
+    <attr name="dialogTextPrimary" format="color" />
+    <attr name="dialogTextSecondary" format="color" />
+    <attr name="dialogTextHint" format="color" />
+    <attr name="dialogAccent" format="color" />
+    <attr name="dialogInputSurface" format="reference|color" />
+    <attr name="dialogDivider" format="color" />
+    <attr name="dialogCardSurface" format="reference|color" />
+</resources>

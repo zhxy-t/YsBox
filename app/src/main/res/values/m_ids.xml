@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <item type="id" name="edit" />
+    <item type="id" name="item_result_img_bg" />
+    <item type="id" name="item_bg" />
+    <item type="id" name="textView" />
+    <item type="id" name="item_bg1" />
+    <item type="id" name="item_bg2" />
+    <item type="id" name="textView2" />
+    <item type="id" name="img_bg" />
+    <item type="id" name="bg" />
+    <item type="id" name="clickBg" />
+    <item type="id" name="item_img_bg" />
+    <item type="id" name="shortcut_icon_text" />
+    <item type="id" name="dt1" />
+    <item type="id" name="dt2" />
+    <item type="id" name="dt3" />
+    <item type="id" name="dt4" />
+    <item type="id" name="dt5" />
+    <item type="id" name="dt6" />
+    <item type="id" name="dt7" />
+    <item type="id" name="dt8" />
+    <item type="id" name="descView" />
+    <item type="id" name="clickBg1" />
+    <item type="id" name="textView1" />
+    <item type="id" name="clickBg2" />
+    <item type="id" name="item_chapter_jishu" />
+    <item type="id" name="item_ad_bg" />
+    <item type="id" name="item_ad_title" />
+    <item type="id" name="res_header_item_text" />
+    <item type="id" name="item_rect_text" />
+    <item type="id" name="btn_bg" />
+    <item type="id" name="item_rect_text_desc" />
+    <!-- 液态玻璃动态背景（HkDynamicBgView），各海阔页根第一个孩子 -->
+    <item type="id" name="hk_dynamic_bg" />
+    <!-- 实验室 tab：代码动态加到底栏菜单，id 在此预声明（菜单 XML 里不再放第 7 项，Material 写死最多 6 项） -->
+    <item type="id" name="lab" />
+
+</resources>

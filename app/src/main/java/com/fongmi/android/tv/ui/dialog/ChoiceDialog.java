@@ -1,0 +1,464 @@
+package com.fongmi.android.tv.ui.dialog;
+import com.fongmi.android.tv.ui.dialog.DialogThemeHelper;
+
+import android.app.Dialog;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.text.TextUtils;
+import android.util.TypedValue;
+import android.os.Bundle;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
+import androidx.core.widget.TextViewCompat;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
+
+import com.fongmi.android.tv.R;
+import com.fongmi.android.tv.utils.ResUtil;
+import com.fongmi.android.tv.utils.Util;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textview.MaterialTextView;
+
+import java.util.Arrays;
+
+public final class ChoiceDialog extends DialogFragment {
+
+    private CharSequence title;
+    private CharSequence message;
+    private String positive;
+    private String negative;
+    private String neutral;
+    private CharSequence[] items;
+    private boolean[] checked;
+    private int selected = -1;
+    private boolean multi;
+    private boolean showCancel = true;
+    private boolean dismissOnChoice = true;
+    /** 窗口层是否已成功画上卡背景；false 时由内容 View 兜底自绘一张，避免整体透明 */
+    private boolean windowHasCardBg;
+    private OnChoice choice;
+    private OnApply apply;
+    private OnItemEnabled itemEnabled;
+    private OnNeutral neutralAction;
+    private Runnable positiveAction;
+
+    public interface OnChoice {
+        void onChoice(int which);
+    }
+
+    public interface OnApply {
+        void onApply(boolean[] checked);
+    }
+
+    public interface OnItemEnabled {
+        boolean isEnabled(int which, boolean[] checked);
+    }
+
+    public interface OnNeutral {
+        CharSequence onNeutral();
+    }
+
+    // 全族 show* 的统一收口：状态已保存后再 show 必抛
+    // IllegalStateException。调用方多为活页点击，但也有异步链回调用法，
+    // 守卫放在这一处，全族一起生效——宁可不开窗，不许崩掉整条链。
+    @Override
+    public void show(@NonNull FragmentManager manager, @Nullable String tag) {
+        if (manager.isStateSaved()) return;
+        super.show(manager, tag);
+    }
+
+    public static void showSingle(Fragment fragment, int titleRes, CharSequence[] items, int selected, OnChoice choice) {
+        showSingle(fragment.getChildFragmentManager(), fragment.getString(titleRes), items, selected, choice);
+    }
+
+    public static void showSingle(FragmentActivity activity, int titleRes, CharSequence[] items, int selected, OnChoice choice) {
+        showSingle(activity.getSupportFragmentManager(), activity.getString(titleRes), items, selected, choice);
+    }
+
+    public static void showSingleNoCancel(Fragment fragment, int titleRes, CharSequence[] items, int selected, OnChoice choice) {
+        showSingle(fragment.getChildFragmentManager(), fragment.getString(titleRes), items, selected, false, choice);
+    }
+
+    public static void showSingleNoCancel(FragmentActivity activity, int titleRes, CharSequence[] items, int selected, OnChoice choice) {
+        showSingle(activity.getSupportFragmentManager(), activity.getString(titleRes), items, selected, false, choice);
+    }
+
+    public static void showSingle(FragmentManager manager, CharSequence title, CharSequence[] items, int selected, OnChoice choice) {
+        showSingle(manager, title, items, selected, true, choice);
+    }
+
+    private static void showSingle(FragmentManager manager, CharSequence title, CharSequence[] items, int selected, boolean showCancel, OnChoice choice) {
+        ChoiceDialog dialog = new ChoiceDialog();
+        dialog.title = title;
+        dialog.items = items == null ? new CharSequence[0] : Arrays.copyOf(items, items.length);
+        dialog.selected = selected;
+        dialog.showCancel = showCancel;
+        dialog.choice = choice;
+        dialog.show(manager, ChoiceDialog.class.getSimpleName());
+    }
+
+    public static void showSingle(FragmentManager manager, CharSequence title, CharSequence[] items, int selected, String neutral, OnNeutral neutralAction, OnChoice choice) {
+        ChoiceDialog dialog = new ChoiceDialog();
+        dialog.title = title;
+        dialog.items = items == null ? new CharSequence[0] : Arrays.copyOf(items, items.length);
+        dialog.selected = selected;
+        dialog.neutral = neutral;
+        dialog.neutralAction = neutralAction;
+        dialog.choice = choice;
+        dialog.positive = ResUtil.getString(R.string.dialog_positive);
+        dialog.dismissOnChoice = false;
+        dialog.show(manager, ChoiceDialog.class.getSimpleName());
+    }
+
+    public static void showMulti(FragmentActivity activity, int titleRes, CharSequence[] items, boolean[] checked, OnApply apply) {
+        showMulti(activity.getSupportFragmentManager(), activity.getString(titleRes), items, checked, apply);
+    }
+
+    public static void showMulti(Fragment fragment, int titleRes, CharSequence[] items, boolean[] checked, OnApply apply) {
+        showMulti(fragment.getChildFragmentManager(), fragment.getString(titleRes), items, checked, apply);
+    }
+
+    public static void showMulti(FragmentManager manager, CharSequence title, CharSequence[] items, boolean[] checked, OnApply apply) {
+        showMulti(manager, title, items, checked, null, apply);
+    }
+
+    public static void showMulti(FragmentManager manager, CharSequence title, CharSequence[] items, boolean[] checked, OnItemEnabled itemEnabled, OnApply apply) {
+        ChoiceDialog dialog = new ChoiceDialog();
+        dialog.title = title;
+        dialog.items = items == null ? new CharSequence[0] : Arrays.copyOf(items, items.length);
+        dialog.checked = checked == null ? new boolean[dialog.items.length] : Arrays.copyOf(checked, dialog.items.length);
+        dialog.multi = true;
+        dialog.apply = apply;
+        dialog.itemEnabled = itemEnabled;
+        dialog.positive = ResUtil.getString(R.string.dialog_positive);
+        dialog.negative = ResUtil.getString(R.string.dialog_negative);
+        dialog.show(manager, ChoiceDialog.class.getSimpleName());
+    }
+
+    public static void showConfirm(FragmentActivity activity, int titleRes, CharSequence message, Runnable positiveAction) {
+        showConfirm(activity, titleRes, message, R.string.dialog_positive, positiveAction);
+    }
+
+    public static void showConfirm(FragmentActivity activity, int titleRes, CharSequence message, int positiveRes, Runnable positiveAction) {
+        ChoiceDialog dialog = new ChoiceDialog();
+        dialog.title = activity.getString(titleRes);
+        dialog.message = message;
+        dialog.positive = activity.getString(positiveRes);
+        dialog.negative = activity.getString(R.string.dialog_negative);
+        dialog.positiveAction = positiveAction;
+        dialog.show(activity.getSupportFragmentManager(), ChoiceDialog.class.getSimpleName());
+    }
+
+    public static void showConfirm(Fragment fragment, int titleRes, CharSequence message, Runnable positiveAction) {
+        showConfirm(fragment, titleRes, message, R.string.dialog_positive, positiveAction);
+    }
+
+    public static void showConfirm(Fragment fragment, int titleRes, CharSequence message, int positiveRes, Runnable positiveAction) {
+        showConfirm(fragment.getChildFragmentManager(), fragment.getString(titleRes), message, fragment.getString(positiveRes), positiveAction);
+    }
+
+    public static void showConfirm(FragmentManager manager, CharSequence title, CharSequence message, String positive, Runnable positiveAction) {
+        ChoiceDialog dialog = new ChoiceDialog();
+        dialog.title = title;
+        dialog.message = message;
+        dialog.positive = positive;
+        dialog.negative = ResUtil.getString(R.string.dialog_negative);
+        dialog.positiveAction = positiveAction;
+        dialog.show(manager, ChoiceDialog.class.getSimpleName());
+    }
+
+    @NonNull
+    @Override
+    public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
+        Dialog dialog = new Dialog(requireContext(), DialogThemeHelper.getTheme());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        // 卡片背景画在【窗口层】而不是内容 View 上，与 MaterialAlertDialog 的
+        // applyWindowBackground() 完全同源。原因：内容 View 的宽度会被 Dialog 内建的
+        // decor inset 缩掉一圈（实测窗口 972px、卡片只有 855px），卡片画在 View 上时
+        // 四周会露出窗口背景（Material3 light 下是近白 #F9F8FE），看上去就是
+        // 「霓虹卡片外面套了个白色方角底板」。画在窗口层后卡片永远等于窗口，不可能错位。
+        applyCardBackground(dialog);
+        dialog.setContentView(createView(LayoutInflater.from(com.fongmi.android.tv.ui.dialog.DialogThemeHelper.wrap(requireContext()))));
+        dialog.setCanceledOnTouchOutside(true);
+        return dialog;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        Dialog dialog = getDialog();
+        Window window = dialog == null ? null : dialog.getWindow();
+        if (window == null) return;
+        WindowManager.LayoutParams params = window.getAttributes();
+        boolean land = ResUtil.isLand(requireContext());
+        params.width = (int) (ResUtil.getScreenWidth(requireContext()) * (land ? 0.52f : 0.9f));
+        params.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        params.dimAmount = 0.58f;
+        // 窗口背景 = 当前风格的卡边框（渐变/描边/圆角），不要刷透明
+        applyCardBackground(dialog);
+        window.getDecorView().setPadding(0, 0, 0, 0);
+        window.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+        window.setAttributes(params);
+        window.setLayout(params.width, params.height);
+        window.getDecorView().post(this::focusSelectedItem);
+    }
+
+    /**
+     * 把「当前风格的卡边框」设到窗口背景上：渐变描边 + 圆角 + 深色底一体。
+     * 与 DialogThemeHelper.applyWindowBackground(MaterialAlertDialog) 同一张 drawable、
+     * 同一个层级，保证自绘弹窗与 Material 弹窗在任何风格下轮廓完全一致。
+     * 「原始」风格 dialogBackgroundRes() 返回 0，此时才退回透明 + 内容自绘。
+     */
+    private void applyCardBackground(Dialog dialog) {
+        Window window = dialog == null ? null : dialog.getWindow();
+        if (window == null) {
+            windowHasCardBg = false;
+            return;
+        }
+        int bg = DialogThemeHelper.dialogBackgroundRes();
+        if (bg != 0) {
+            window.setBackgroundDrawableResource(bg);
+            windowHasCardBg = true;
+        } else {
+            // 「原始」风格：沿用系统 Material 观感，窗口刷透明，卡背景交给内容 View 兜底
+            window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            windowHasCardBg = false;
+        }
+    }
+
+    private View createView(LayoutInflater inflater) {
+        if (showCancel && !multi && items != null && items.length > 0 && negative == null) negative = getString(R.string.dialog_negative);
+        LinearLayout root = new LinearLayout(requireContext());
+        root.setOrientation(LinearLayout.VERTICAL);
+        // 卡背景由窗口负责（见 applyCardBackground），这里不再画第二层，
+        // 否则两层尺寸不一致又会出现白边/方角。
+        // 例外：「原始」风格（style=5）dialogBackgroundRes() 返回 0，窗口是透明的，
+        // 必须由内容 View 兜底画一张卡，否则整个弹窗透明看不见。
+        if (!windowHasCardBg) {
+            int card = DialogThemeHelper.surfaceRes(requireContext());
+            if (card != 0) root.setBackgroundResource(card);
+            else root.setBackgroundColor(DialogThemeHelper.surfaceColor(requireContext()));
+        }
+        int vertical = dp(24);
+        int horizontal = dp(actionCount() >= 3 ? 18 : 24);
+        root.setPadding(horizontal, vertical, horizontal, vertical);
+
+        MaterialTextView titleView = new MaterialTextView(requireContext());
+        titleView.setText(title);
+        titleView.setTextColor(DialogThemeHelper.primaryText(requireContext()));
+        titleView.setTextSize(18);
+        titleView.setGravity(Gravity.CENTER_VERTICAL);
+        titleView.setSingleLine(false);
+        root.addView(titleView, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+
+        if (message != null) addMessage(root);
+        if (items != null && items.length > 0) addItems(root);
+        // 「只有取消」时不再渲染按钮行：单选列表只需点选即回，遮罩点击/返回键均可关闭，
+        // 一个孤零零的「取消」没有意义（按需求：只有取消的时候删除取消按钮）。
+        // 判定口径：没有 positive/neutral，且仅剩自动补的 negative 一颗按钮时跳过。
+        if (positive != null || neutral != null || actionCount() > 1) addActions(root);
+        return root;
+    }
+
+    private void addMessage(LinearLayout root) {
+        MaterialTextView messageView = new MaterialTextView(requireContext());
+        messageView.setText(message);
+        messageView.setTextColor(DialogThemeHelper.secondaryText(requireContext()));
+        messageView.setTextSize(14);
+        messageView.setLineSpacing(dp(2), 1f);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        params.topMargin = dp(12);
+        root.addView(messageView, params);
+    }
+
+    private void addItems(LinearLayout root) {
+        ScrollView scroll = new ScrollView(requireContext());
+        scroll.setFillViewport(false);
+        scroll.setOverScrollMode(View.OVER_SCROLL_NEVER);
+        LinearLayout list = new LinearLayout(requireContext());
+        list.setOrientation(LinearLayout.VERTICAL);
+        list.setTag("choice_list");
+        scroll.addView(list, new ScrollView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        for (int i = 0; i < items.length; i++) list.addView(createItem(i));
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        params.topMargin = dp(16);
+        int maxHeight = positive != null || negative != null || neutral != null ? dp(300) : dp(360);
+        params.height = Math.min(maxHeight, Math.max(dp(56), items.length * dp(54)));
+        root.addView(scroll, params);
+    }
+
+    private View createItem(int position) {
+        MaterialButton button = new MaterialButton(requireContext());
+        button.setAllCaps(false);
+        button.setGravity(Gravity.CENTER_VERTICAL | Gravity.START);
+        button.setSingleLine(false);
+        button.setMinHeight(dp(44));
+        button.setInsetTop(0);
+        button.setInsetBottom(0);
+        button.setStrokeWidth(dp(1));
+        button.setCornerRadius(dp(12));
+        setItemEnabled(button, position);
+        button.setText(itemText(position));
+        styleItem(button, position);
+        button.setOnFocusChangeListener((view, hasFocus) -> styleItem(button, position));
+        button.setOnClickListener(view -> onItemClick(position));
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, dp(46));
+        params.bottomMargin = dp(8);
+        button.setLayoutParams(params);
+        return button;
+    }
+
+    private CharSequence itemText(int position) {
+        return items[position];
+    }
+
+    private boolean itemSelected(int position) {
+        return multi ? position < checked.length && checked[position] : position == selected;
+    }
+
+    private boolean itemEnabled(int position) {
+        return itemEnabled == null || itemEnabled.isEnabled(position, Arrays.copyOf(checked, checked.length));
+    }
+
+    private void setItemEnabled(MaterialButton button, int position) {
+        boolean enabled = itemEnabled(position);
+        button.setEnabled(enabled);
+        button.setFocusable(enabled);
+        button.setFocusableInTouchMode(enabled && Util.isLeanback());
+    }
+
+    private void styleItem(MaterialButton button, int position) {
+        if (!itemEnabled(position)) {
+            button.setTextColor(ColorStateList.valueOf(DialogThemeHelper.secondaryText(requireContext())));
+            button.setBackgroundTintList(ColorStateList.valueOf(DialogThemeHelper.hintText(requireContext())));
+            button.setStrokeColor(ColorStateList.valueOf(DialogThemeHelper.divider(requireContext())));
+            return;
+        }
+        boolean on = itemSelected(position);
+        boolean focused = button.isFocused();
+        int accent = DialogThemeHelper.accent(requireContext());
+        int text = focused ? android.graphics.Color.WHITE : on ? accent : DialogThemeHelper.primaryText(requireContext());
+        int bg = focused ? accent : DialogThemeHelper.surfaceColor(requireContext());
+        int stroke = focused || on ? accent : DialogThemeHelper.divider(requireContext());
+        button.setTextColor(ColorStateList.valueOf(text));
+        button.setBackgroundTintList(ColorStateList.valueOf(bg));
+        button.setStrokeColor(ColorStateList.valueOf(stroke));
+    }
+
+    private void focusSelectedItem() {
+        if (!Util.isLeanback() || multi || selected < 0) return;
+        View root = viewRoot();
+        View listView = root == null ? null : root.findViewWithTag("choice_list");
+        if (!(listView instanceof ViewGroup list) || selected >= list.getChildCount()) return;
+        list.getChildAt(selected).requestFocus();
+    }
+
+    private void onItemClick(int position) {
+        if (!itemEnabled(position)) return;
+        if (multi) {
+            if (position >= 0 && position < checked.length) checked[position] = !checked[position];
+            View root = viewRoot();
+            refreshItems(root == null ? null : root.findViewWithTag("choice_list"));
+        } else {
+            if (choice != null) choice.onChoice(position);
+            selected = position;
+            if (dismissOnChoice) dismiss();
+            else {
+                View root = viewRoot();
+                refreshItems(root == null ? null : root.findViewWithTag("choice_list"));
+            }
+        }
+    }
+
+    private View viewRoot() {
+        Dialog dialog = getDialog();
+        Window window = dialog == null ? null : dialog.getWindow();
+        return window == null ? null : window.getDecorView();
+    }
+
+    private void refreshItems(ViewGroup list) {
+        if (list == null) return;
+        for (int i = 0; i < list.getChildCount(); i++) {
+            View child = list.getChildAt(i);
+            if (child instanceof MaterialButton button) {
+                setItemEnabled(button, i);
+                button.setText(itemText(i));
+                styleItem(button, i);
+            }
+        }
+    }
+
+    private void addActions(LinearLayout root) {
+        LinearLayout actions = new LinearLayout(requireContext());
+        actions.setGravity(Gravity.END | Gravity.CENTER_VERTICAL);
+        actions.setOrientation(LinearLayout.HORIZONTAL);
+        boolean compact = actionCount() >= 3;
+        int index = 0;
+        if (neutral != null) actions.addView(actionButton(neutral, false, view -> {
+            if (neutralAction == null || !(view instanceof MaterialButton button)) return;
+            CharSequence next = neutralAction.onNeutral();
+            if (next != null) button.setText(next);
+        }, compact, index++ == 0));
+        if (negative != null) actions.addView(actionButton(negative, false, view -> dismiss(), compact, index++ == 0));
+        if (positive != null) actions.addView(actionButton(positive, true, view -> {
+            if (multi && apply != null) apply.onApply(Arrays.copyOf(checked, checked.length));
+            if (positiveAction != null) positiveAction.run();
+            dismiss();
+        }, compact, index == 0));
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        params.topMargin = dp(18);
+        root.addView(actions, params);
+    }
+
+    private int actionCount() {
+        return (positive == null ? 0 : 1) + (negative == null ? 0 : 1) + (neutral == null ? 0 : 1);
+    }
+
+    private MaterialButton actionButton(String text, boolean primary, View.OnClickListener listener, boolean compact, boolean first) {
+        MaterialButton button = new MaterialButton(requireContext());
+        button.setAllCaps(false);
+        button.setText(text);
+        button.setSingleLine(true);
+        button.setMaxLines(1);
+        button.setEllipsize(TextUtils.TruncateAt.END);
+        button.setGravity(Gravity.CENTER);
+        button.setTextSize(compact ? 14 : 15);
+        button.setIncludeFontPadding(false);
+        button.setPadding(dp(compact ? 6 : 16), 0, dp(compact ? 6 : 16), 0);
+        if (compact) TextViewCompat.setAutoSizeTextTypeUniformWithConfiguration(button, 10, 14, 1, TypedValue.COMPLEX_UNIT_SP);
+        button.setMinWidth(compact ? 0 : dp(88));
+        button.setMinimumWidth(0);
+        button.setMinHeight(dp(40));
+        button.setInsetTop(0);
+        button.setInsetBottom(0);
+        button.setCornerRadius(dp(12));
+        button.setFocusable(true);
+        button.setFocusableInTouchMode(Util.isLeanback());
+        button.setTextColor(android.content.res.ColorStateList.valueOf(primary ? DialogThemeHelper.accent(requireContext()) : DialogThemeHelper.primaryText(requireContext())));
+        button.setBackgroundTintList(android.content.res.ColorStateList.valueOf(primary ? DialogThemeHelper.accent(requireContext()) : DialogThemeHelper.divider(requireContext())));
+        button.setStrokeColor(android.content.res.ColorStateList.valueOf(DialogThemeHelper.divider(requireContext())));
+        button.setStrokeWidth(primary ? 0 : dp(1));
+        button.setOnClickListener(listener);
+        LinearLayout.LayoutParams params = compact ? new LinearLayout.LayoutParams(0, dp(40), 1) : new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, dp(40));
+        params.leftMargin = first ? 0 : dp(compact ? 6 : 12);
+        button.setLayoutParams(params);
+        return button;
+    }
+
+    private int dp(int value) {
+        return (int) (value * getResources().getDisplayMetrics().density + 0.5f);
+    }
+}

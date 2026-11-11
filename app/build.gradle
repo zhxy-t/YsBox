@@ -1,0 +1,185 @@
+plugins {
+    alias libs.plugins.android.application
+}
+
+def localProps = new Properties()
+def localPropsFile = rootProject.file('local.properties')
+if (localPropsFile.exists()) {
+    localPropsFile.withInputStream {
+        localProps.load(it)
+    }
+}
+def hasReleaseSigning = localProps['storeFile'] && localProps['keyAlias'] && localProps['storePassword']
+def releaseKeyPassword = localProps['keyPassword'] ?: localProps['storePassword']
+
+
+android {
+    namespace = 'com.fongmi.android.tv'
+
+    compileSdk libs.versions.compileSdk.get().toInteger()
+
+    ndkVersion '29.0.14206865'
+
+    defaultConfig {
+        applicationId "com.ysbox.app"
+        minSdk libs.versions.minSdk.get().toInteger()
+        targetSdk libs.versions.targetSdk.get().toInteger()
+        versionCode 101
+        versionName "1.0.0"
+        // 仅保留中/繁体 + 默认 values，裁掉 AAR 自带的 79 种语言资源（节省 ~1MB）
+        resConfigs "zh-rCN", "zh-rTW"
+        buildConfigField "String", "UI_CHANNEL", "\"mobile\""
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = ["room.schemaLocation": "$projectDir/schemas".toString(), "eventBusIndex": "com.fongmi.android.tv.event.EventIndex"]
+            }
+        }
+    }
+
+    flavorDimensions = ["abi"]
+    productFlavors {
+        arm64_v8a {
+            dimension "abi"
+            ndk { abiFilters "arm64-v8a" }
+        }
+        armeabi_v7a {
+            dimension "abi"
+            ndk { abiFilters "armeabi-v7a" }
+        }
+    }
+
+    // mobile / leanback 完全一致的源码与资源集中到 src/shared，避免重复维护
+    sourceSets {
+        main {
+            java.srcDirs += ['src/shared/java', 'src/mobile/java', 'src/leanback/java']
+            res.srcDirs += ['src/shared/res', 'src/mobile/res', 'src/leanback/res']
+        }
+    }
+
+    buildFeatures {
+        buildConfig = true
+        viewBinding = true
+    }
+
+    signingConfigs {
+        release {
+            enableV1Signing = true
+            enableV2Signing = true
+            enableV3Signing = true
+            if (hasReleaseSigning) {
+                // 优先使用 local.properties 中配置的密钥（可选）
+                storeFile file(localProps['storeFile'])
+                keyAlias localProps['keyAlias']
+                keyPassword releaseKeyPassword
+                storePassword localProps['storePassword']
+            } else {
+                // 内置密钥：任何环境（本地/CI）打包均为同一签名，装好即可用，无需重新签名
+                storeFile file('ys.jks')
+                keyAlias 'ys'
+                keyPassword 'ys2026fongmi'
+                storePassword 'ys2026fongmi'
+            }
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled = true
+            shrinkResources = true
+            signingConfig = signingConfigs.release
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro', 'proguard-rules-media.pro'
+        }
+    }
+
+    packaging {
+        jniLibs {
+            // so 压缩进 APK：安装时解压到 nativeLibraryDir，System.loadLibrary 行为不变，
+            // 但 APK 体积能少一截（本项目仅 mpv/ffmpeg 就 40MB+）
+            useLegacyPackaging = true
+        }
+    }
+
+    configurations.configureEach {
+        exclude group: 'stax', module: 'stax-api'
+        exclude group: 'xpp3', module: 'xpp3'
+        exclude group: 'com.android.support'
+        resolutionStrategy {
+            force libs.okhttp
+            eachDependency { details ->
+                if (details.requested.group == 'androidx.media3') {
+                    details.useVersion(libs.versions.media3.get())
+                    details.because('Use the WebHTV-pinned FongMi Media3 fork')
+                }
+            }
+        }
+    }
+
+    lint {
+        disable 'UnsafeOptInUsageError'
+        disable 'ExpiredTargetSdkVersion'
+    }
+
+    compileOptions {
+        coreLibraryDesugaringEnabled = true
+        sourceCompatibility JavaVersion.VERSION_21
+        targetCompatibility JavaVersion.VERSION_21
+    }
+}
+
+androidComponents {
+    onVariants(selector().withBuildType('release')) { variant ->
+        def flavors = variant.productFlavors.collectEntries { [(it.first): it.second] }
+        def abi = flavors['abi'] ?: 'abi'
+        variant.outputs.each { output ->
+            output.outputFileName.set("mobile-${abi}.apk")
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: "libs", include: ["*.aar"])
+    implementation project(':catvod')
+    implementation project(':chaquo')
+    implementation project(':quickjs')
+    implementation libs.appcompat
+    implementation libs.rhino
+    implementation libs.jsoup
+    implementation libs.webkit
+    implementation "io.github.scwang90:refresh-layout-kernel:2.0.5"
+    implementation "io.github.scwang90:refresh-header-classics:2.0.5"
+    implementation "io.github.scwang90:refresh-footer-classics:2.0.5"
+    implementation libs.lifecycle.service
+    implementation libs.media
+    implementation libs.bundles.media3
+    implementation libs.exoplayer.hdr.utils
+    implementation libs.palette
+    implementation libs.recyclerview
+    implementation libs.room.runtime
+    implementation libs.splashscreen
+    implementation libs.swiperefreshlayout
+    implementation libs.viewpager2
+    implementation libs.android.gif.drawable
+    implementation libs.bundles.glide
+    implementation libs.bundles.jupnp
+    implementation libs.customactivityoncrash
+    implementation libs.eventbus
+    implementation libs.flexbox
+    implementation libs.lottie
+    implementation libs.material
+    implementation libs.materialdesigncolors
+    implementation libs.nanohttpd
+    implementation libs.newpipeextractor
+    implementation libs.permissionx
+    implementation libs.simple.xml
+    implementation libs.textdrawable
+    implementation libs.leanback
+    implementation libs.androidautosize
+    implementation libs.biometric
+    implementation libs.zxing.android.embedded
+    implementation libs.commons.compress
+    implementation libs.xz
+    annotationProcessor libs.room.compiler
+    annotationProcessor libs.eventbus.annotation.processor
+    annotationProcessor libs.glide.compiler
+    coreLibraryDesugaring libs.desugar
+}

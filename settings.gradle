@@ -1,0 +1,37 @@
+pluginManagement {
+    repositories {
+        // Google Maven 放最前：androidx / AGP 只在 dl.google.com，走阿里云 central 会 404/502。
+        google()
+        // 阿里云镜像兜底：GitHub Actions 上 Maven Central 常被 403 限流。
+        maven { url = "https://maven.aliyun.com/repository/gradle-plugin" }
+        maven { url = "https://maven.aliyun.com/repository/public" }
+        mavenCentral()
+        gradlePluginPortal()
+    }
+}
+
+plugins {
+    id "org.gradle.toolchains.foojay-resolver-convention" version "1.0.0"
+}
+
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        maven { url = uri("$rootDir/third_party/maven") }
+        // 顺序很重要：androidx 等 Jetpack 构件只在 Google Maven，
+        // 若先问阿里云 central，镜像 502 会直接中断解析（armeabi_v7a 就是这样挂的）。
+        google()
+        maven { url = "https://maven.aliyun.com/repository/google" }
+        maven { url = "https://maven.aliyun.com/repository/public" }
+        mavenCentral()
+        maven { url = "https://jitpack.io" }
+        flatDir { dirs "$rootDir/app/libs" }
+    }
+}
+
+include ':app'
+include ':catvod'
+include ':chaquo'
+include ':quickjs'
+include ':thunder'
+rootProject.name = "TV"
