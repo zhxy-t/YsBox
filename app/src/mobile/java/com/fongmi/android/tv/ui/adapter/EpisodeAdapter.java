@@ -108,15 +108,13 @@ public class EpisodeAdapter extends RecyclerView.Adapter<BaseEpisodeHolder> {
         if (viewType == ViewType.HORI) {
             AdapterEpisodeHoriBinding binding = AdapterEpisodeHoriBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
             if (detailMode) {
-                binding.text.setBackgroundResource(R.drawable.selector_item_dark);
-                binding.text.setTextColor(androidx.appcompat.content.res.AppCompatResources.getColorStateList(parent.getContext(), R.color.selector_detail_episode_dark));
+                com.fongmi.android.tv.ui.dialog.ChipThemeHelper.apply(binding.text, 16f);
             }
             return new EpisodeHoriHolder(binding, listener);
         } else {
             AdapterEpisodeGridBinding binding = AdapterEpisodeGridBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
             if (detailMode) {
-                binding.text.setBackgroundResource(R.drawable.selector_item_dark);
-                binding.text.setTextColor(androidx.appcompat.content.res.AppCompatResources.getColorStateList(parent.getContext(), R.color.selector_detail_episode_dark));
+                com.fongmi.android.tv.ui.dialog.ChipThemeHelper.apply(binding.text, 16f);
             }
             return new EpisodeGridHolder(binding, listener);
         }
