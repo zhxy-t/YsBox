@@ -21,6 +21,8 @@
     <string name="detail_director">Director: <xliff:g name="name">%s</xliff:g></string>
     <string name="detail_actor">Actor: <xliff:g name="name">%s</xliff:g></string>
     <string name="detail_content">Summary: <xliff:g name="name">%s</xliff:g></string>
+    <string name="detail_remark">Remark: <xliff:g name="name">%s</xliff:g></string>
+    <string name="detail_none">N/A</string>
     <string name="detail_desc">Summary</string>
 
     <!-- Keep -->

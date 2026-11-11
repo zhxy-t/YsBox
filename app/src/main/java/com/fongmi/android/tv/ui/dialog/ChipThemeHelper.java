@@ -42,8 +42,6 @@ public final class ChipThemeHelper {
         bg.setShape(GradientDrawable.RECTANGLE);
         float density = ctx.getResources().getDisplayMetrics().density;
         bg.setCornerRadius(radiusDp * density);
-        int accent = DialogThemeHelper.accent(ctx);
-        boolean selected = false; // 由 ColorStateList/调用方处理选中，这里只出常态底
         int normal = style == STYLE_GLASS ? GLASS_NORMAL : DARK_NORMAL;
         int strokeNormal = style == STYLE_GLASS ? GLASS_STROKE_NORMAL : DARK_STROKE_NORMAL;
         bg.setColor(normal);
@@ -77,7 +75,7 @@ public final class ChipThemeHelper {
         selectedBg2.setColor(selectedBg);
         selectedBg2.setStroke(Math.round(1.5f * density), accent);
 
-        android.content.res.StateListDrawable states = new android.content.res.StateListDrawable();
+        android.graphics.drawable.StateListDrawable states = new android.graphics.drawable.StateListDrawable();
         states.addState(new int[]{android.R.attr.state_selected}, selectedBg2);
         states.addState(new int[]{android.R.attr.state_focused}, selectedBg2);
         states.addState(new int[]{}, normalBg);

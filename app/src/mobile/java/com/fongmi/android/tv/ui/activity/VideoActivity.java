@@ -494,6 +494,7 @@ public class VideoActivity extends PlaybackActivity implements Clock.Callback, C
         mBinding.more.setOnClickListener(view -> onMore());
         mBinding.actor.setOnClickListener(view -> onActor());
         mBinding.content.setOnClickListener(view -> onContent());
+        mBinding.remark.setOnClickListener(view -> mBinding.remark.setMaxLines(mBinding.remark.getMaxLines() == 1 ? Integer.MAX_VALUE : 1));
         mBinding.reverse.setOnClickListener(view -> onReverse());
         mBinding.director.setOnClickListener(view -> onDirector());
         mBinding.name.setOnLongClickListener(view -> onChange());
@@ -1381,15 +1382,21 @@ public class VideoActivity extends PlaybackActivity implements Clock.Callback, C
 
     private void setText(Vod item) {
         setText(mBinding.site, 0, getSite().getName());
-        setText(mBinding.director, R.string.detail_director, item.getDirector());
-        setText(mBinding.actor, R.string.detail_actor, item.getActor());
-        setText(mBinding.content, R.string.detail_content, item.getContent());
-        // 年份并入「更新至」行：更新至第04集 · 2024（备注为空时只显年份）
-        String remark = item.getRemarks();
-        if (!TextUtils.isEmpty(item.getYear()) && !"0".equals(item.getYear()))
-            remark = TextUtils.isEmpty(remark) ? item.getYear() : remark + " · " + item.getYear();
-        setText(mBinding.remark, 0, remark);
-        setOther(mBinding.other, item);
+        setText(mBinding.director, R.string.detail_director, value(item.getDirector()));
+        setText(mBinding.actor, R.string.detail_actor, value(item.getActor()));
+        setText(mBinding.content, R.string.detail_content, value(item.getContent()));
+        // 备注 / 年份 / 地区 / 类型 合并为一行：全部带前缀，年份只出现一次，空数据显示「暂无」
+        String year = "0".equals(item.getYear()) ? "" : item.getYear();
+        String remark = getString(R.string.detail_remark, value(item.getRemarks()))
+                + " · " + getString(R.string.detail_year, value(year))
+                + " · " + getString(R.string.detail_area, value(item.getArea()))
+                + " · " + getString(R.string.detail_type, value(item.getTypeName()));
+        mBinding.remark.setText(remark);
+        mBinding.other.setVisibility(View.GONE);
+    }
+    /** 空数据显示「暂无」 */
+    private String value(String text) {
+        return TextUtils.isEmpty(text) ? getString(R.string.detail_none) : text;
     }
 
     private void setText(TextView view, int resId, String text) {

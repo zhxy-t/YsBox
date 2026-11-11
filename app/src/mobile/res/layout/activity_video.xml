@@ -533,19 +533,19 @@
                                     android:id="@+id/remark"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginTop="10dp"
+                                    android:layout_marginTop="2dp"
                                     android:ellipsize="end"
                                     android:maxLines="1"
                                     android:textColor="#B3FFFFFF"
                                     android:textSize="13sp"
-                                    tools:text="备注：更新至第04集" />
+                                    tools:text="备注：更新至第04集 · 年份：2026 · 地区：中国大陆 · 类型：电视剧" />
 
                                                                 
                                 <com.google.android.material.textview.MaterialTextView
                                     android:id="@+id/other"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginTop="4dp"
+                                    android:layout_marginTop="2dp"
                                     android:ellipsize="end"
                                     android:maxLines="1"
                                     android:textColor="#B3FFFFFF"
@@ -556,7 +556,7 @@
                                     android:id="@+id/director"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginTop="4dp"
+                                    android:layout_marginTop="2dp"
                                     android:ellipsize="end"
                                     android:maxLines="1"
                                     android:textColor="#B3FFFFFF"
@@ -577,7 +577,7 @@
                                 android:id="@+id/content_layout"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="8dp"
+                                android:layout_marginTop="2dp"
                                 android:orientation="vertical">
 
                                 <com.google.android.material.textview.MaterialTextView
