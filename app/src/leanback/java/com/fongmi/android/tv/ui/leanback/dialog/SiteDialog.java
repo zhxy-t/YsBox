@@ -310,7 +310,12 @@ public class SiteDialog extends BaseAlertDialog implements SiteAdapter.OnClickLi
         binding.getRoot().setBackgroundResource(com.fongmi.android.tv.ui.dialog.DialogThemeHelper.siteDialogBackgroundRes());
         window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         WindowManager.LayoutParams params = window.getAttributes();
-        params.width = (int) (ResUtil.getScreenWidth() * getWidth());
+        // 用窗口自身 context 的 DisplayMetrics（已由 UiModeWrapper 重定密度），
+        // 而不是 ResUtil 的 Application 全局尺寸：TV 横屏下两者坐标系不一致，
+        // 会让站源弹窗宽度算错、UI 不匹配横屏。横屏取 0.5、竖屏取 0.92。
+        android.util.DisplayMetrics dm = window.getContext().getResources().getDisplayMetrics();
+        float ratio = dm.widthPixels >= dm.heightPixels ? 0.5f : 0.92f;
+        params.width = (int) (dm.widthPixels * ratio * getWidth());
         params.height = WindowManager.LayoutParams.WRAP_CONTENT;
         window.setAttributes(params);
     }

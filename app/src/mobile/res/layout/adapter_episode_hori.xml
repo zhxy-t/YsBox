@@ -4,7 +4,7 @@
     android:id="@+id/text"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="@drawable/selector_dialog_glass_chip"
+    android:background="@drawable/selector_detail_chip_glass"
     android:ellipsize="marquee"
     android:gravity="center"
     android:singleLine="true"

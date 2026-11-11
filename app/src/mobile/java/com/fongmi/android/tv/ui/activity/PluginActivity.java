@@ -255,6 +255,7 @@ public class PluginActivity extends BaseActivity implements PluginAdapter.Listen
                 if (tree != null) importTree(tree);
                 invalidate();
                 loadPlugins();
+                onPluginsImported();
             } catch (Exception e) {
                 Notify.show(e.getMessage());
             }
@@ -270,9 +271,19 @@ public class PluginActivity extends BaseActivity implements PluginAdapter.Listen
             }
             invalidate();
             loadPlugins();
+            onPluginsImported();
         } catch (Exception e) {
             Notify.show(e.getMessage());
         }
+    }
+
+    /** 导入成功后通知首页重新加载配置/内容，否则回首页看不到新插件。 */
+    private void onPluginsImported() {
+        com.fongmi.android.tv.api.config.VodConfig.get().init().load(new com.fongmi.android.tv.impl.Callback() {
+            @Override public void success() {}
+            @Override public void error(String msg) {}
+        });
+        com.fongmi.android.tv.event.RefreshEvent.home();
     }
 
     private void importTree(Uri treeUri) throws Exception {

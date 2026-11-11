@@ -46,7 +46,14 @@ public abstract class BaseActivity extends AppCompatActivity {
         applyDialogTheme();
         // TV 模式下打开 mobile 页面（增强功能/实验室等）：与 TV 端一致走全屏沉浸，
         // 不做 edge-to-edge —— 避免页面 fitsSystemWindows 与 edge-to-edge 冲突导致系统栏区域露白底。
-        if (!com.fongmi.android.tv.ui.UiMode.isLeanback()) enableEdgeToEdge();
+        if (!com.fongmi.android.tv.ui.UiMode.isLeanback()) {
+            enableEdgeToEdge();
+            // 手机模式：工具页（插件管理/下载列表等）显式锁竖屏。
+            // manifest 里这些页是 screenOrientation="behind"，会跟随栈下方残留的
+            // 旧 TV Home（横屏）或系统文件选择器返回时的横屏，导致「导入插件就进横屏」。
+            // 显式锁定可彻底切断这条方向继承链。
+            setRequestedOrientation(android.content.pm.ActivityInfo.SCREEN_ORIENTATION_USER_PORTRAIT);
+        }
         enableDynamicColor();
         super.onCreate(savedInstanceState);
         setContentView(getBinding().getRoot());
@@ -55,11 +62,6 @@ public abstract class BaseActivity extends AppCompatActivity {
         setBackCallback();
         initEvent();
         if (com.fongmi.android.tv.ui.UiMode.isLeanback()) com.fongmi.android.tv.utils.Util.hideSystemUI(this);
-        // TODO(debug) 密度诊断：TV 模式下显示实际渲染密度，用于验证 UiModeWrapper 是否生效
-        if (com.fongmi.android.tv.ui.UiMode.isLeanback())
-            android.widget.Toast.makeText(this, "DBG act=" + getResources().getDisplayMetrics().density
-                + " sys=" + android.content.res.Resources.getSystem().getDisplayMetrics().density
-                + " mode=" + com.fongmi.android.tv.ui.UiMode.get(), android.widget.Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -196,6 +198,9 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     public Resources getResources() {
         Resources res = super.getResources();
+        // TV 模式 UiModeWrapper 已重定 densityDpi；再 updateConfiguration 会冲回手机高密度，
+        // 使 20sp 标题渲染成巨字（TV 版本大字的根因）。直接返回包装后的 Resources。
+        if (com.fongmi.android.tv.ui.UiMode.isLeanback()) return res;
         float scale = com.fongmi.android.tv.setting.Setting.getFontScale();
         if (scale <= 0) scale = Resources.getSystem().getConfiguration().fontScale;
         // getResources() 是超高频调用（每次取字符串/颜色/尺寸都会走这里），

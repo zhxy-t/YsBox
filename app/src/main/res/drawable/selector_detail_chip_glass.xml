@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 详情页线路/选集按钮：与影片信息卡 shape_glass_dark_50 同款液体玻璃底色 -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_focused="true">
+        <shape android:shape="rectangle">
+            <solid android:color="#B314181F" />
+            <stroke android:width="1.5dp" android:color="?attr/colorPrimary" />
+            <corners android:radius="16dp" />
+            <padding android:left="12dp" android:top="8dp" android:right="12dp" android:bottom="8dp" />
+        </shape>
+    </item>
+    <item android:state_selected="true">
+        <shape android:shape="rectangle">
+            <solid android:color="#B314181F" />
+            <stroke android:width="1.5dp" android:color="?attr/colorPrimary" />
+            <corners android:radius="16dp" />
+            <padding android:left="12dp" android:top="8dp" android:right="12dp" android:bottom="8dp" />
+        </shape>
+    </item>
+    <item android:state_activated="true">
+        <shape android:shape="rectangle">
+            <solid android:color="#B314181F" />
+            <stroke android:width="1.5dp" android:color="?attr/colorPrimary" />
+            <corners android:radius="16dp" />
+            <padding android:left="12dp" android:top="8dp" android:right="12dp" android:bottom="8dp" />
+        </shape>
+    </item>
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="#8014181F" />
+            <stroke android:width="1dp" android:color="#26FFFFFF" />
+            <corners android:radius="16dp" />
+            <padding android:left="12dp" android:top="8dp" android:right="12dp" android:bottom="8dp" />
+        </shape>
+    </item>
+</selector>

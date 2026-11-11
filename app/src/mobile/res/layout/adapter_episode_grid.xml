@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="6dp"
-    android:background="@drawable/selector_dialog_glass_chip"
+    android:background="@drawable/selector_detail_chip_glass"
     android:ellipsize="marquee"
     android:focusable="true"
     android:gravity="center"
