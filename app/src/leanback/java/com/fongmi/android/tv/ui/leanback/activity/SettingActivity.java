@@ -357,7 +357,7 @@ public class SettingActivity extends BaseActivity implements ConfigListener, Sit
                     boolean leanback = com.fongmi.android.tv.ui.UiMode.isLeanback();
                     com.fongmi.android.tv.ui.UiMode.set(leanback ? com.fongmi.android.tv.ui.UiMode.MOBILE : com.fongmi.android.tv.ui.UiMode.LEANBACK);
                     startActivity(new Intent(this, com.fongmi.android.tv.ui.activity.LauncherActivity.class)
-                            .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
+                            .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
                     finish();
                 })
                 .show();

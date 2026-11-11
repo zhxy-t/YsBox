@@ -80,6 +80,15 @@ public class ConfigDialog extends BaseAlertDialog {
 
     @Override
     protected void initView() {
+        // 文字色跟随弹窗风格：深色风格白字、浅色风格深字，
+        // 避免「深色底 + 深色字」看不清（tv_dialog_config.xml 里写死 white）。
+        int textColor = com.fongmi.android.tv.ui.dialog.DialogThemeHelper.primaryText(requireContext());
+        binding.info.setTextColor(textColor);
+        binding.text.setTextColor(textColor);
+        binding.text.setHintTextColor(com.fongmi.android.tv.ui.dialog.DialogThemeHelper.hintText(requireContext()));
+        binding.choose.setTextColor(textColor);
+        binding.positive.setTextColor(textColor);
+        binding.negative.setTextColor(textColor);
         binding.text.setText(url = getUrl());
         binding.text.setSelection(TextUtils.isEmpty(url) ? 0 : url.length());
         binding.positive.setText(edit ? R.string.dialog_edit : R.string.dialog_positive);

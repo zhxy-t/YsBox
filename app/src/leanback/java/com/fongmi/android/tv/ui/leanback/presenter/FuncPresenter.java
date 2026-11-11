@@ -34,12 +34,15 @@ public class FuncPresenter extends Presenter {
      * 字号按真实 dp 屏宽（系统原始密度换算，不受 AutoSize 改写）：手机约 16sp，电视约 20sp。
      */
     private void applySize(ViewHolder holder) {
-        int screenW = ResUtil.getScreenWidth(context);
-        int screenH = ResUtil.getScreenHeight(context);
+        // 用 Presenter 所在 Activity 的 context（attachBaseContext 已重定密度），
+        // 而非 ResUtil 的 Application 全局 context：两者坐标系不一致会让屏占比算错。
+        android.util.DisplayMetrics dm = context.getResources().getDisplayMetrics();
+        int screenW = dm.widthPixels;
+        int screenH = dm.heightPixels;
         // 卡片 = 屏占比（短边/4，同时受屏宽/6 约束）；下限 96dp 按系统原始密度（不受本页密度改写影响）
-        int card = Math.max(dp2px(96), Math.min(screenW / 6, screenH / 4));
+        int card = Math.max(Math.round(96 * dm.density), Math.min(screenW / 6, screenH / 4));
         int icon = Math.round(card * 0.36f);
-        float text = Math.min(20f, Math.max(14f, screenW / rawDensity() / 62f));
+        float text = Math.min(20f, Math.max(14f, screenW / dm.density / 62f));
         // 卡片高度 = 图标区 + 文字区，避免正方形把文字裁掉
         int cardH = Math.round(card * 1.25f);
         ViewGroup.LayoutParams cardParams = holder.binding.getRoot().getLayoutParams();

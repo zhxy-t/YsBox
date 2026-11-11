@@ -92,7 +92,7 @@ public class SettingFragment extends BaseFragment implements ConfigListener, Sit
     private void restartToLauncher() {
         android.app.Activity activity = requireActivity();
         activity.startActivity(new android.content.Intent(activity, com.fongmi.android.tv.ui.activity.LauncherActivity.class)
-                .addFlags(android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP | android.content.Intent.FLAG_ACTIVITY_NEW_TASK));
+                .addFlags(android.content.Intent.FLAG_ACTIVITY_CLEAR_TASK | android.content.Intent.FLAG_ACTIVITY_NEW_TASK));
         activity.finish();
     }
 
