@@ -195,21 +195,6 @@ public class VodFragment extends BaseFragment implements ConfigListener, SiteLis
         android.widget.RadioGroup group = new android.widget.RadioGroup(ctx);
         group.setOrientation(android.widget.RadioGroup.VERTICAL);
         group.setPadding(pad, pad / 2, pad, pad / 2);
-        // 顶部固定「导入插件」入口：用户从首页线路下拉就能直接导入，
-        // 不必先进插件管理页；也避免列表只有同名配置时看起来没有入口。
-        android.widget.TextView importEntry = new android.widget.TextView(ctx);
-        importEntry.setText(R.string.plugin_import);
-        importEntry.setTextColor(DialogThemeHelper.primaryText(requireActivity()));
-        importEntry.setTextSize(15);
-        importEntry.setPadding(pad, ResUtil.dp2px(12), pad, ResUtil.dp2px(12));
-        importEntry.setBackgroundResource(android.R.drawable.list_selector_background);
-        importEntry.setOnClickListener(v -> {
-            if (ref[0] != null) ref[0].dismiss();
-            com.fongmi.android.tv.ui.activity.PluginActivity.start(requireActivity());
-        });
-        group.addView(importEntry, new android.widget.RadioGroup.LayoutParams(
-                android.widget.RadioGroup.LayoutParams.MATCH_PARENT,
-                android.widget.RadioGroup.LayoutParams.WRAP_CONTENT));
         int textColor = DialogThemeHelper.primaryText(requireActivity());
         for (int i = 0; i < configs.size(); i++) {
             Config config = configs.get(i);

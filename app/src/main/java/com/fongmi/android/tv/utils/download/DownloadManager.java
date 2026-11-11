@@ -213,7 +213,13 @@ public class DownloadManager {
     }
 
     public static boolean isSupported(String url) {
-        return !TextUtils.isEmpty(url) && !url.contains(".m3u8") && !url.startsWith("magnet:");
+        if (TextUtils.isEmpty(url)) return false;
+        if (url.startsWith("magnet:")) return false;
+        String path = url.split("#", 2)[0];
+        int query = path.indexOf(63);
+        if (query >= 0) path = path.substring(0, query);
+        path = path.toLowerCase(java.util.Locale.ROOT);
+        return !path.endsWith(".m3u8") && !path.endsWith(".mpd");
     }
 
     private File target(String name, String ext) {

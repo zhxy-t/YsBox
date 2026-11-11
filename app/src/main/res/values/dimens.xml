@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="xc_corner_capsule">28dp</dimen>
+    <dimen name="chip_glass_radius_28">28dp</dimen>
+    <dimen name="chip_glass_radius_16">16dp</dimen>
 </resources>

@@ -20,19 +20,6 @@
         tools:text="@string/error_play_url"
         tools:visibility="visible" />
 
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/copy"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="top|center"
-        android:layout_marginTop="76dp"
-        android:background="@drawable/shape_widget"
-        android:paddingHorizontal="14dp"
-        android:paddingVertical="6dp"
-        android:text="@string/playback_error_copy"
-        android:textColor="@color/white"
-        android:textSize="12sp"
-        android:visibility="gone" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/message"

@@ -1384,7 +1384,11 @@ public class VideoActivity extends PlaybackActivity implements Clock.Callback, C
         setText(mBinding.director, R.string.detail_director, item.getDirector());
         setText(mBinding.actor, R.string.detail_actor, item.getActor());
         setText(mBinding.content, R.string.detail_content, item.getContent());
-        setText(mBinding.remark, 0, item.getRemarks());
+        // 年份并入「更新至」行：更新至第04集 · 2024（备注为空时只显年份）
+        String remark = item.getRemarks();
+        if (!TextUtils.isEmpty(item.getYear()) && !"0".equals(item.getYear()))
+            remark = TextUtils.isEmpty(remark) ? item.getYear() : remark + " · " + item.getYear();
+        setText(mBinding.remark, 0, remark);
         setOther(mBinding.other, item);
     }
 
@@ -1415,7 +1419,6 @@ public class VideoActivity extends PlaybackActivity implements Clock.Callback, C
     private void setOther(TextView view, Vod item) {
         StringBuilder sb = new StringBuilder();
         java.util.List<String> parts = new java.util.ArrayList<>();
-        if (!item.getYear().isEmpty() && !"0".equals(item.getYear())) parts.add(getString(R.string.detail_year, item.getYear()));
         if (!item.getArea().isEmpty()) parts.add(item.getArea());
         if (!item.getTypeName().isEmpty()) parts.add(item.getTypeName());
         sb.append(android.text.TextUtils.join(" · ", parts));
@@ -1831,18 +1834,12 @@ public class VideoActivity extends PlaybackActivity implements Clock.Callback, C
         PlaybackAction.hideSpeedHint(mBinding.widget.message);
         mBinding.widget.error.setVisibility(View.VISIBLE);
         mBinding.widget.error.setText(text);
-        mBinding.widget.copy.setVisibility(View.VISIBLE);
-        mBinding.widget.copy.setOnClickListener(v -> {
-            Util.copy(text);
-            Notify.show(R.string.playback_error_copy);
-        });
         hideProgress();
     }
 
     private void hideError() {
         mBinding.widget.error.setVisibility(View.GONE);
         mBinding.widget.error.setText("");
-        mBinding.widget.copy.setVisibility(View.GONE);
     }
 
     private void syncDanmakuEnabled() {

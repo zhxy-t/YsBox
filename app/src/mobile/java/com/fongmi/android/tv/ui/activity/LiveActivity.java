@@ -500,18 +500,12 @@ public class LiveActivity extends PlaybackActivity implements CustomKeyDown.List
         PlaybackAction.hideSpeedHint(mBinding.widget.message);
         mBinding.widget.error.setVisibility(View.VISIBLE);
         mBinding.widget.error.setText(text);
-        mBinding.widget.copy.setVisibility(View.VISIBLE);
-        mBinding.widget.copy.setOnClickListener(v -> {
-            Util.copy(text);
-            Notify.show(R.string.playback_error_copy);
-        });
         hideProgress();
     }
 
     private void hideError() {
         mBinding.widget.error.setVisibility(View.GONE);
         mBinding.widget.error.setText("");
-        mBinding.widget.copy.setVisibility(View.GONE);
     }
 
     private void showControl() {
