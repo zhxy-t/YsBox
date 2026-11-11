@@ -100,6 +100,8 @@ public class SiteDialog extends BaseAlertDialog implements SiteAdapter.OnClickLi
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         Dialog dialog = new Dialog(requireActivity(), DialogThemeHelper.getTheme());
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        // 同 showDirect：背景跟随弹窗风格，不写死
+        binding.getRoot().setBackgroundResource(DialogThemeHelper.siteDialogBackgroundRes());
         dialog.setContentView(getBinding().getRoot());
         initView();
         initEvent();
@@ -304,6 +306,8 @@ public class SiteDialog extends BaseAlertDialog implements SiteAdapter.OnClickLi
     private void applyWindow(Window window) {
         if (window == null) return;
         window.setWindowAnimations(0);
+        // 弹窗背景跟随弹窗风格设置：不再写死 shape_site_dialog（白底白字问题）
+        binding.getRoot().setBackgroundResource(com.fongmi.android.tv.ui.dialog.DialogThemeHelper.siteDialogBackgroundRes());
         window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         WindowManager.LayoutParams params = window.getAttributes();
         params.width = (int) (ResUtil.getScreenWidth() * getWidth());

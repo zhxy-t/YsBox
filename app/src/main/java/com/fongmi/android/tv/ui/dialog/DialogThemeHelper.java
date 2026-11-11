@@ -182,6 +182,30 @@ public final class DialogThemeHelper {
         if (res != 0) dialog.getWindow().setBackgroundDrawableResource(res);
     }
 
+    /**
+     * 站点弹窗（SiteDialog / tv_dialog_site.xml）专用背景：内容文字全部是白字，
+     * 背景必须跟随弹窗风格且保证「深底白字」可读。
+     * 暗色风格用各自风格底（与 dialogBackgroundRes() 一致）；
+     * 浅色风格（White/iOS/Original）不能直接用白底 —— 会白底白字，
+     * 改用各自风格的深色输入框底（bg_dialog_input_* 系列，同为深色）。
+     */
+    static int siteDialogBackgroundRes() {
+        // 站点弹窗内容固定白字：暗色风格用各自风格深色底，浅色风格（1/3/5）
+        // 统一用深色底 shape_site_dialog_bg（#F21A1D24），保证可读且不突兀。
+        switch (Setting.getDialogStyle()) {
+            case 1:
+            case 3:
+            case 5:
+                return R.drawable.shape_site_dialog_bg;
+            case 2: return R.drawable.bg_dialog_input_amoled;
+            case 4: return R.drawable.bg_dialog_input_neon;
+            case 6: return R.drawable.bg_dialog_frost;
+            case 7: return R.drawable.bg_dialog_violet;
+            case 8: return R.drawable.bg_dialog_original_dark;
+            case 0:
+            default: return R.drawable.dialog_glass_dark;
+        }
+    }
     /** 当前风格对应的弹窗边框背景（带 stroke）；0 = 不设置（原始风格） */
     static int dialogBackgroundRes() {
         switch (Setting.getDialogStyle()) {
