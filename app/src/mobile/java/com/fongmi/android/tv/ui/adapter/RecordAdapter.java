@@ -59,7 +59,9 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.ViewHolder
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new ViewHolder(AdapterSearchRecordBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
+        AdapterSearchRecordBinding binding = AdapterSearchRecordBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+        com.fongmi.android.tv.ui.dialog.ChipThemeHelper.apply(binding.text, 28f);
+        return new ViewHolder(binding);
     }
 
     @Override
