@@ -137,7 +137,7 @@ media3-extractor = { group = "androidx.media3", name = "media3-extractor", versi
 media3-session = { group = "androidx.media3", name = "media3-session", version.ref = "media3" }
 media3-ui = { group = "androidx.media3", name = "media3-ui", version.ref = "media3" }
 media3-ui-danmaku = { group = "androidx.media3", name = "media3-ui-danmaku", version.ref = "media3" }
-media3-decoder-ffmpeg = { group = "androidx.media3", name = "media3-decoder-ffmpeg", version = "1.11.0-alpha01-fongmi-r1" }
+media3-decoder-ffmpeg = { group = "androidx.media3", name = "media3-decoder-ffmpeg", version.ref = "media3" }
 exoplayer-hdr-utils = { group = "com.suyashbelekar", name = "exoplayerhdrutils", version.ref = "exoplayerHdrUtils" }
 nextlib-media3ext = { group = "io.github.anilbeesetti", name = "nextlib-media3ext", version.ref = "nextlib" }
 
