@@ -197,6 +197,12 @@ public class Setting {
     public static void putDialogStyle(int style) {
         Prefers.put("dialog_style", style);
     }
+    public static int getChipStyle() {
+        return Prefers.getInt("chip_style", 0);
+    }
+    public static void putChipStyle(int style) {
+        Prefers.put("chip_style", style);
+    }
 
     public static Context wrapLocale(Context context) {
         Configuration config = new Configuration(context.getResources().getConfiguration());
