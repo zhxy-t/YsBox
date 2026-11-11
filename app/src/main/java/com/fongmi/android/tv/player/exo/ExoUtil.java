@@ -108,7 +108,7 @@ public class ExoUtil {
             protected void buildVideoRenderers(Context context, int extensionRendererMode, androidx.media3.exoplayer.mediacodec.MediaCodecSelector mediaCodecSelector, boolean enableDecoderFallback, android.os.Handler eventHandler, androidx.media3.exoplayer.video.VideoRendererEventListener eventListener, long allowedVideoJoiningDurationMs, java.util.ArrayList<androidx.media3.exoplayer.Renderer> out) {
                 super.buildVideoRenderers(context, extensionRendererMode, mediaCodecSelector, enableDecoderFallback, eventHandler, eventListener, allowedVideoJoiningDurationMs, out);
                 try {
-                    out.add(0, new FfmpegVideoRenderer(context, allowedVideoJoiningDurationMs, eventHandler, eventListener));
+                    out.add(0, new FfmpegVideoRenderer(context, allowedVideoJoiningDurationMs, eventHandler, eventListener, androidx.media3.exoplayer.DefaultRenderersFactory.MAX_DROPPED_VIDEO_FRAME_COUNT_TO_NOTIFY));
                 } catch (Throwable e) {
                     android.util.Log.d("ExoUtil", "FfmpegVideoRenderer unavailable: " + e);
                 }
