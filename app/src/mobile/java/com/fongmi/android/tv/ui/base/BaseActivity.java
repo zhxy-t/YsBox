@@ -37,7 +37,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     @Override
     protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(Setting.wrapLocale(newBase));
+        super.attachBaseContext(UiModeWrapper.wrap(newBase));
     }
 
     @Override

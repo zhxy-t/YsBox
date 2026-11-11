@@ -86,12 +86,32 @@ public class ResUtil {
         return context.getResources().getConfiguration().smallestScreenWidthDp >= 600;
     }
 
+    /**
+     * TV（LEANBACK）模式下把 Application 原生密度折算到 1080p 短边基准，
+     * 与 Activity XML 侧 UiModeWrapper 的 createConfigurationContext 包装保持同一密度体系：
+     * XML dp 与 Java ResUtil.dp2px/sp2px 得到一致的屏占比（短边px/1080）。
+     * 1080p/4K 电视 target==原生密度，零变化；手机 TV 模式 2.75 -> 1.15。
+     */
+    private static DisplayMetrics tvScaled() {
+        DisplayMetrics dm = getDisplayMetrics();
+        if (!com.fongmi.android.tv.ui.UiMode.isLeanback()) return dm;
+        float shortSide = Math.min(dm.widthPixels, dm.heightPixels);
+        float target = Math.max(0.75f, shortSide / 1080f);
+        if (Math.abs(target - dm.density) <= 0.01f) return dm;
+        DisplayMetrics copy = new DisplayMetrics();
+        copy.setTo(dm);
+        copy.density = target;
+        copy.densityDpi = Math.round(target * 160f);
+        copy.scaledDensity = target * (dm.scaledDensity / dm.density);
+        return copy;
+    }
+
     public static int sp2px(int sp) {
-        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, sp, getDisplayMetrics());
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, sp, tvScaled());
     }
 
     public static int dp2px(int dp) {
-        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, getDisplayMetrics());
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, tvScaled());
     }
 
     public static String getString(@StringRes int resId) {
