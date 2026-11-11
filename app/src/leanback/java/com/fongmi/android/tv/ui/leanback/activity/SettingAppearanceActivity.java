@@ -131,6 +131,16 @@ public class SettingAppearanceActivity extends BaseActivity {
         ConfigEvent.wall();
     }
 
+    /**
+     * 弹窗风格/主题色只影响弹窗外观，不需要重建 HomeActivity、更不需要重拉配置。
+     * 本页自己重建即可套用新风格；Home 若收到 THEME 事件会 recreate 并重走
+     * initConfig() 重新加载配置 —— 网络稍差就弹「配置获取失败」，必须避免。
+     */
+    @org.greenrobot.eventbus.Subscribe(threadMode = org.greenrobot.eventbus.ThreadMode.MAIN)
+    public void onThemeEvent(RefreshEvent event) {
+        recreate();
+    }
+
     private void setWallDefault(View view) {
         WallPickerDialog.show(this, wall ->
                 mBinding.wallDefaultText.setText(wall == 0 ? getString(R.string.wall_random) : getString(R.string.wall_builtin, wall)));

@@ -129,6 +129,8 @@ public class VideoActivity extends PlaybackActivity implements VodPlaybackHost, 
     private boolean useParse;
 
     public static void push(FragmentActivity activity, String text) {
+        // 导入插件/外部推送可能带 null 或空白文本，直接丢弃，避免下游 trim NPE
+        if (text == null || text.trim().isEmpty()) return;
         Uri uri = UrlUtil.uri(text);
         if (FileChooser.isValid(activity, uri)) file(activity, FileChooser.getPathFromUri(uri));
         else start(activity, Sniffer.getUrl(text));

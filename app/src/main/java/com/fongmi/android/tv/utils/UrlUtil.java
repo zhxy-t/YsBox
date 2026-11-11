@@ -16,6 +16,9 @@ import java.io.File;
 public class UrlUtil {
 
     public static Uri uri(String url) {
+        // null 兜底：外部推送/剪贴板/导入插件事件可能带 null 文本，
+        // 直接 trim() 会 NPE（VideoActivity.push 的崩溃根因）。
+        if (url == null) url = "";
         url = url.trim().replace("\\", "");
         return url.startsWith("/") ? Uri.fromFile(new File(url)) : Uri.parse(url);
     }

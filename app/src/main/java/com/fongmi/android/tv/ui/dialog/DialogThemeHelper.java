@@ -189,7 +189,7 @@ public final class DialogThemeHelper {
      * 浅色风格（White/iOS/Original）不能直接用白底 —— 会白底白字，
      * 改用各自风格的深色输入框底（bg_dialog_input_* 系列，同为深色）。
      */
-    static int siteDialogBackgroundRes() {
+    public static int siteDialogBackgroundRes() {
         // 站点弹窗内容固定白字：暗色风格用各自风格深色底，浅色风格（1/3/5）
         // 统一用深色底 shape_site_dialog_bg（#F21A1D24），保证可读且不突兀。
         switch (Setting.getDialogStyle()) {

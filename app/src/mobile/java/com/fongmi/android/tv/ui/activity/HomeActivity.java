@@ -73,6 +73,10 @@ public class HomeActivity extends BaseActivity implements NavigationBarView.OnIt
     @Override
     protected void onResume() {
         super.onResume();
+        // 从播放器/全屏页返回时方向可能被设为 USER_LANDSCAPE/FULL_USER；
+        // 手机界面首页恢复竖屏（TV 模式由 manifest 锁横屏，不处理）。
+        if (!com.fongmi.android.tv.ui.UiMode.isLeanback())
+            setRequestedOrientation(android.content.pm.ActivityInfo.SCREEN_ORIENTATION_USER_PORTRAIT);
         checkClipboardRule();
     }
 

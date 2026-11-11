@@ -349,7 +349,11 @@ public class HomeActivity extends BaseActivity implements CustomTitleView.Listen
                 getHistory(true);
                 break;
             case THEME:
-                recreate();
+                // 弹窗风格/主题色只影响弹窗与配色，弹窗创建时动态读取
+                // DialogThemeHelper，无需 recreate —— recreate 会重走
+                // initConfig() 重新拉取配置，网络稍差就弹「配置获取失败」。
+                // 设置页自己 recreate 即可套用新风格。
+                Util.hideSystemUI(this);
                 break;
         }
     }

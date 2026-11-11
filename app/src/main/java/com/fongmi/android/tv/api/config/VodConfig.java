@@ -310,8 +310,15 @@ public class VodConfig extends BaseConfig {
 
     public Site getSite(String key) {
         Site home = getHome();
-        if (key != null && !home.getKey().isEmpty() && key.trim().equals(home.getKey().trim())) return home;
-        return getSites().stream().filter(item -> item.getKey().equals(key)).findFirst().orElse(new Site());
+        String homeKey = home == null ? null : home.getKey();
+        if (key != null && homeKey != null && !homeKey.isEmpty()) {
+            try {
+                if (key.trim().equals(homeKey.trim())) return home;
+            } catch (Exception e) {
+                // trim NPE 兜底：不做任何处理，走下面兜底查找
+            }
+        }
+        return getSites().stream().filter(item -> item.getKey() != null && item.getKey().equals(key)).findFirst().orElse(new Site());
     }
 
     private void setParse(Config config, Parse parse, boolean save) {
