@@ -34,7 +34,27 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     @Override
     protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(Setting.wrapLocale(newBase));
+        super.attachBaseContext(wrapTvDensity(Setting.wrapLocale(newBase)));
+    }
+
+    /**
+     * TV 模式屏占比适配（正规方案）：
+     * 用 createConfigurationContext 生成固定 1080p 短边基准的 Context ——
+     * xml 里的 sp/dp 在布局 inflate 时就按新密度解析，系统无法回退。
+     * 1080p 电视 density=1 不变；4K=2 不变；手机横持（短边~1240px）→ 1.15，全站缩至电视观感。
+     */
+    private static Context wrapTvDensity(Context base) {
+        try {
+            android.util.DisplayMetrics sys = base.getResources().getDisplayMetrics();
+            float shortSide = Math.min(sys.widthPixels, sys.heightPixels);
+            float density = Math.max(0.75f, shortSide / 1080f);
+            if (Math.abs(density - sys.density) <= 0.01f) return base;
+            android.content.res.Configuration config = new android.content.res.Configuration(base.getResources().getConfiguration());
+            config.densityDpi = Math.round(density * 160f);
+            return base.createConfigurationContext(config);
+        } catch (Exception e) {
+            return base;
+        }
     }
 
     @Override
