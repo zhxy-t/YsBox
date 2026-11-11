@@ -490,6 +490,7 @@ public class VideoActivity extends PlaybackActivity implements Clock.Callback, C
     @SuppressLint("ClickableViewAccessibility")
     protected void initEvent() {
         mBinding.name.setOnClickListener(view -> onName());
+        mBinding.name.setSelected(true);
         mBinding.download.setOnClickListener(view -> onDownload());
         mBinding.more.setOnClickListener(view -> onMore());
         mBinding.actor.setOnClickListener(view -> onActor());

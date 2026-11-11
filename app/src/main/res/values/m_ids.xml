@@ -37,4 +37,5 @@
     <!-- 实验室 tab：代码动态加到底栏菜单，id 在此预声明（菜单 XML 里不再放第 7 项，Material 写死最多 6 项） -->
     <item type="id" name="lab" />
 
+    <item name="tag_chip_applied" type="id" />
 </resources>

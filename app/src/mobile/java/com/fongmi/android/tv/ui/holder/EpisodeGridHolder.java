@@ -20,7 +20,7 @@ public class EpisodeGridHolder extends BaseEpisodeHolder {
 
     @Override
     public void initView(Episode item) {
-        binding.text.setSelected(item.isSelected());
+        com.fongmi.android.tv.ui.dialog.ChipThemeHelper.select(binding.text, item.isSelected());
         binding.text.setText(item.getDesc().concat(item.getName()));
         binding.text.setOnClickListener(v -> listener.onItemClick(item));
     }

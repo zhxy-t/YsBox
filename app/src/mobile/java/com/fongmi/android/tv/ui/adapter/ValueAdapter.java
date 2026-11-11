@@ -33,14 +33,16 @@ public class ValueAdapter extends RecyclerView.Adapter<ValueAdapter.ViewHolder> 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new ViewHolder(AdapterValueBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
+        AdapterValueBinding binding = AdapterValueBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+        com.fongmi.android.tv.ui.dialog.ChipThemeHelper.apply(binding.text, 8f);
+        return new ViewHolder(binding);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Value item = mItems.get(position);
         holder.binding.text.setText(item.getN());
-        holder.binding.text.setSelected(item.isSelected());
+        com.fongmi.android.tv.ui.dialog.ChipThemeHelper.select(holder.binding.text, item.isSelected());
         holder.binding.text.setOnClickListener(v -> onItemClick(item));
     }
 

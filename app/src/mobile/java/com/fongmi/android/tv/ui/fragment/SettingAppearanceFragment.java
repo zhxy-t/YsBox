@@ -26,6 +26,7 @@ import com.fongmi.android.tv.setting.Setting;
 import com.fongmi.android.tv.ui.base.BaseFragment;
 import com.fongmi.android.tv.ui.dialog.ColorPickerDialog;
 import com.fongmi.android.tv.ui.dialog.DialogStylePickerDialog;
+import com.fongmi.android.tv.ui.dialog.ChipThemeHelper;
 import com.fongmi.android.tv.ui.dialog.WallPickerDialog;
 import com.fongmi.android.tv.utils.ResUtil;
 import com.fongmi.android.tv.utils.WallUtil;
@@ -59,6 +60,7 @@ public class SettingAppearanceFragment extends BaseFragment {
         mBinding.languageText.setText(getLanguageName());
         mBinding.themeColorText.setText(getThemeColorName(Setting.getThemeColor()));
         mBinding.dialogStyleText.setText(getDialogStyleName());
+        mBinding.chipStyleText.setText(ChipThemeHelper.nameOf(Setting.getChipStyle()));
         updateFontSizeText();
         sizes = ResUtil.getStringArray(R.array.select_size);
         mBinding.coverText.setText(sizes[PlayerSetting.getSize()]);
@@ -75,6 +77,7 @@ public class SettingAppearanceFragment extends BaseFragment {
         mBinding.language.setOnClickListener(this::setLanguage);
         mBinding.themeColor.setOnClickListener(this::setThemeColor);
         mBinding.dialogStyle.setOnClickListener(this::setDialogStyle);
+        mBinding.chipStyle.setOnClickListener(this::setChipStyle);
         mBinding.fontSize.setOnClickListener(this::showFontSizeDialog);
         mBinding.wallDefault.setOnClickListener(this::setWallDefault);
         mBinding.wallLocal.setOnClickListener(this::setWallLocal);
@@ -217,6 +220,20 @@ public class SettingAppearanceFragment extends BaseFragment {
                 .show();
     }
 
+    private void setChipStyle(View view) {
+        String[] items = {ChipThemeHelper.nameOf(ChipThemeHelper.STYLE_DARK), ChipThemeHelper.nameOf(ChipThemeHelper.STYLE_GLASS)};
+        int checked = Setting.getChipStyle();
+        new MaterialAlertDialogBuilder(requireActivity())
+                .setTitle(R.string.setting_chip_style)
+                .setSingleChoiceItems(items, checked, (dialog, which) -> {
+                    Setting.putChipStyle(which);
+                    mBinding.chipStyleText.setText(items[which]);
+                    RefreshEvent.theme();
+                    dialog.dismiss();
+                })
+                .setNegativeButton(R.string.dialog_negative, null)
+                .show();
+    }
     private void setDialogStyle(View view) {
         DialogStylePickerDialog.show(requireActivity(), style ->
                 mBinding.dialogStyleText.setText(DialogStylePickerDialog.nameOf(style)));

@@ -101,7 +101,7 @@ public class FlagAdapter extends RecyclerView.Adapter<FlagAdapter.ViewHolder> {
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Flag item = mItems.get(position);
         holder.binding.text.setText(item.getShow());
-        holder.binding.text.setSelected(item.isSelected());
+        com.fongmi.android.tv.ui.dialog.ChipThemeHelper.select(holder.binding.text, item.isSelected());
         holder.binding.text.setOnClickListener(v -> listener.onItemClick(item));
     }
 

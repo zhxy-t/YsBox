@@ -86,7 +86,9 @@ public class TypeAllDialog extends BaseBottomSheetDialog {
         @NonNull
         @Override
         public VH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            return new VH((MaterialTextView) LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_value, parent, false));
+            MaterialTextView chip = (MaterialTextView) LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_value, parent, false);
+            ChipThemeHelper.apply(chip, 8f);
+            return new VH(chip);
         }
 
         @Override
@@ -95,7 +97,7 @@ public class TypeAllDialog extends BaseBottomSheetDialog {
             lp.topMargin = lp.bottomMargin = ResUtil.dp2px(4);
             holder.chip.setLayoutParams(lp);
             holder.chip.setText(items.get(position).getName());
-            holder.chip.setSelected(position == selected);
+            ChipThemeHelper.select(holder.chip, position == selected);
             holder.chip.setOnClickListener(v -> {
                 selected = position;
                 notifyDataSetChanged();

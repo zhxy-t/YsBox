@@ -77,7 +77,7 @@ public class TypeAdapter extends RecyclerView.Adapter<TypeAdapter.ViewHolder> {
         Class item = mItems.get(position);
         // 页签保留站点分类原名（如「短剧」）；命中短剧的分类，点条目会直接起播
         holder.binding.text.setText(item.getTypeName());
-        holder.binding.text.setSelected(item.isSelected());
+        com.fongmi.android.tv.ui.dialog.ChipThemeHelper.select(holder.binding.text, item.isSelected());
         holder.binding.text.setOnClickListener(v -> listener.onItemClick(position, item));
     }
 

@@ -285,6 +285,7 @@
     <string name="setting_reset">重置</string>
     <string name="setting_about">关于</string>
     <string name="setting_theme_color">主题色彩</string>
+    <string name="setting_chip_style">胶囊背景</string>
     <string name="setting_auto">自动</string>
     <string name="setting_custom">自定义</string>
     <string name="setting_size">图片尺寸</string>

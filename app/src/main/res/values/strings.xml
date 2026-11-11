@@ -286,6 +286,7 @@
     <string name="setting_reset">Reset</string>
     <string name="setting_about">About</string>
     <string name="setting_theme_color">Theme color</string>
+    <string name="setting_chip_style">Chip background</string>
     <string name="setting_auto">Auto</string>
     <string name="setting_custom">Custom</string>
     <string name="setting_size">Image size</string>
