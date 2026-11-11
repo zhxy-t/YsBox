@@ -51,8 +51,7 @@ public class QualityAdapter extends RecyclerView.Adapter<QualityAdapter.ViewHold
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         ViewHolder holder = new ViewHolder(AdapterQualityBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
         if (detailMode) {
-            holder.binding.text.setBackgroundResource(R.drawable.selector_item_dark);
-            holder.binding.text.setTextColor(androidx.appcompat.content.res.AppCompatResources.getColorStateList(parent.getContext(), R.color.selector_detail_text_dark));
+            com.fongmi.android.tv.ui.dialog.ChipThemeHelper.apply(holder.binding.text, 16f);
         }
         return holder;
     }
