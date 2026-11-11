@@ -44,7 +44,9 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         applyDialogTheme();
-        enableEdgeToEdge();
+        // TV 模式下打开 mobile 页面（增强功能/实验室等）：与 TV 端一致走全屏沉浸，
+        // 不做 edge-to-edge —— 避免页面 fitsSystemWindows 与 edge-to-edge 冲突导致系统栏区域露白底。
+        if (!com.fongmi.android.tv.ui.UiMode.isLeanback()) enableEdgeToEdge();
         enableDynamicColor();
         super.onCreate(savedInstanceState);
         setContentView(getBinding().getRoot());
@@ -52,6 +54,12 @@ public abstract class BaseActivity extends AppCompatActivity {
         initView(savedInstanceState);
         setBackCallback();
         initEvent();
+        if (com.fongmi.android.tv.ui.UiMode.isLeanback()) com.fongmi.android.tv.utils.Util.hideSystemUI(this);
+        // TODO(debug) 密度诊断：TV 模式下显示实际渲染密度，用于验证 UiModeWrapper 是否生效
+        if (com.fongmi.android.tv.ui.UiMode.isLeanback())
+            android.widget.Toast.makeText(this, "DBG act=" + getResources().getDisplayMetrics().density
+                + " sys=" + android.content.res.Resources.getSystem().getDisplayMetrics().density
+                + " mode=" + com.fongmi.android.tv.ui.UiMode.get(), android.widget.Toast.LENGTH_LONG).show();
     }
 
     @Override
