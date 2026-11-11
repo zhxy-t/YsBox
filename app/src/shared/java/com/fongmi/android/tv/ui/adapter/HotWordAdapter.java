@@ -20,7 +20,9 @@ public class HotWordAdapter extends BaseDiffAdapter<Word.Data, HotWordAdapter.Vi
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new ViewHolder(AdapterSearchHotWordBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
+        AdapterSearchHotWordBinding binding = AdapterSearchHotWordBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+        com.fongmi.android.tv.ui.dialog.ChipThemeHelper.apply(binding.text, 8f);
+        return new ViewHolder(binding);
     }
 
     @Override
