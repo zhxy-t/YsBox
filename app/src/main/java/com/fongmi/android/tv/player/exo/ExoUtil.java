@@ -12,6 +12,7 @@ import androidx.media3.common.Player;
 import androidx.media3.common.audio.AudioProcessor;
 import androidx.media3.exoplayer.DefaultLoadControl;
 import androidx.media3.exoplayer.DefaultRenderersFactory;
+import androidx.media3.decoder.ffmpeg.FfmpegVideoRenderer;
 import androidx.media3.exoplayer.ExoPlayer;
 import androidx.media3.exoplayer.LoadControl;
 import androidx.media3.exoplayer.RenderersFactory;
@@ -103,6 +104,15 @@ public class ExoUtil {
 
     static RenderersFactory buildRenderersFactory(AudioProcessor audioProcessor, androidx.media3.exoplayer.text.TextOutput secondary) {
         DefaultRenderersFactory factory = new DefaultRenderersFactory(App.get()) {
+            @Override
+            protected void buildVideoRenderers(Context context, int extensionRendererMode, androidx.media3.exoplayer.mediacodec.MediaCodecSelector mediaCodecSelector, boolean enableDecoderFallback, android.os.Handler eventHandler, androidx.media3.exoplayer.video.VideoRendererEventListener eventListener, long allowedVideoJoiningDurationMs, java.util.ArrayList<androidx.media3.exoplayer.Renderer> out) {
+                super.buildVideoRenderers(context, extensionRendererMode, mediaCodecSelector, enableDecoderFallback, eventHandler, eventListener, allowedVideoJoiningDurationMs, out);
+                try {
+                    out.add(0, new FfmpegVideoRenderer(context, allowedVideoJoiningDurationMs, eventHandler, eventListener));
+                } catch (Throwable e) {
+                    android.util.Log.d("ExoUtil", "FfmpegVideoRenderer unavailable: " + e);
+                }
+            }
             @Override
             protected void buildTextRenderers(Context context, androidx.media3.exoplayer.text.TextOutput output,
                                               android.os.Looper looper, int mode, java.util.ArrayList<androidx.media3.exoplayer.Renderer> out) {
