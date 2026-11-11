@@ -67,7 +67,9 @@ public class TypeAdapter extends RecyclerView.Adapter<TypeAdapter.ViewHolder> {
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new ViewHolder(AdapterTypeBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
+        AdapterTypeBinding binding = AdapterTypeBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+        com.fongmi.android.tv.ui.dialog.ChipThemeHelper.apply(binding.text, 28f);
+        return new ViewHolder(binding);
     }
 
     @Override
