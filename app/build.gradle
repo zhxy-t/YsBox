@@ -27,7 +27,7 @@ android {
         versionCode 101
         versionName "1.0.0"
         // 仅保留中/繁体 + 默认 values，裁掉 AAR 自带的 79 种语言资源（节省 ~1MB）
-        resConfigs "zh-rCN", "zh-rTW"
+        
         buildConfigField "String", "UI_CHANNEL", "\"mobile\""
         javaCompileOptions {
             annotationProcessorOptions {
@@ -119,6 +119,10 @@ android {
         disable 'UnsafeOptInUsageError'
         disable 'ExpiredTargetSdkVersion'
         checkReleaseBuilds false
+    }
+    androidResources {
+        // 只保留中英文字符串资源，其余语言的 aar 附带资源全部剔除
+        localeFilters += ['zh', 'zh-rCN', 'zh-rTW', 'en']
     }
 
     compileOptions {
