@@ -84,8 +84,9 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled = true
-            shrinkResources = true
+            // -Pquick: 跳过R8混淆/资源收缩，本地UI快速验证用(包变大，签名不变可覆盖装)
+            minifyEnabled = !project.hasProperty('quick')
+            shrinkResources = !project.hasProperty('quick')
             signingConfig = signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro', 'proguard-rules-media.pro'
         }
