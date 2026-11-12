@@ -60,7 +60,6 @@ public class EnhancedActivity extends BaseActivity {
         mBinding.lab.setOnClickListener(view -> com.fongmi.android.tv.ui.lab.LabHomeActivity.start(this));
         mBinding.panDriveLogin.setOnClickListener(view -> PanDriveLoginActivity.start(this));
         mBinding.panLogin.setOnClickListener(view -> PanLoginActivity.start(this));
-        mBinding.miniApp.setOnClickListener(view -> openMiniApp());
         GroupHeaderUtil.apply(mBinding.getRoot());
         mBinding.ai.setOnClickListener(view -> AiSettingsActivity.start(this));
         mBinding.tmdb.setOnClickListener(view -> TmdbActivity.start(this));
