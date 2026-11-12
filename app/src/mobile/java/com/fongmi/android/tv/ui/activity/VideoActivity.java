@@ -2099,8 +2099,8 @@ public class VideoActivity extends PlaybackActivity implements Clock.Callback, C
     }
 
     /**
-     * 起播后按视频本身判定短剧（点播与小程序推送共用）：单集 ≤8 分钟且 ≥3 集 → 短剧 UI。
-     * 升格不重启播放：只挂 UI + 全屏 + 整集预下。
+     * 起播后按视频本身判定短剧（点播与小程序推送共用）：单集 ≤8 分钟、≥3 集、
+     * 且画面为竖屏（播放器真实解码宽高）→ 短剧 UI。升格不重启播放：只挂 UI + 全屏 + 整集预下。
      */
     private void maybePromoteShortDrama() {
         if (mShortDramaMode) return;
@@ -2110,6 +2110,7 @@ public class VideoActivity extends PlaybackActivity implements Clock.Callback, C
         if (duration <= 0 || duration > SHORT_DRAMA_MAX_EPISODE_MS) return;   // 单集不够短，不是短剧
         int count = mEpisodeAdapter == null ? 0 : mEpisodeAdapter.getItemCount();
         if (count < 3) return;                                               // 单条播放不是剧
+        if (!pm.isPortrait()) return;                                        // 横屏画面不是短剧
         mShortDramaMode = true;
         getIntent().putExtra("short_drama", true);
         if (!isFullscreen()) enterFullscreen();
