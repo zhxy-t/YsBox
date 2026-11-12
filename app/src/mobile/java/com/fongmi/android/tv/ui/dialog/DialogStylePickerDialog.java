@@ -141,10 +141,14 @@ public final class DialogStylePickerDialog {
             check.setTextSize(22);
             check.setTextColor(Color.WHITE);
             check.setGravity(Gravity.CENTER);
-            GradientDrawable cb = new GradientDrawable();
-            cb.setColor(ACCENT[i]);
-            cb.setCornerRadius(dp(activity, 14));
-            check.setBackground(cb);
+            if (neon) {
+                check.setBackground(new GradientDrawable(GradientDrawable.Orientation.TL_BR, NEON));
+            } else {
+                GradientDrawable cb = new GradientDrawable();
+                cb.setColor(ACCENT[i]);
+                cb.setCornerRadius(dp(activity, 14));
+                check.setBackground(cb);
+            }
             FrameLayout.LayoutParams clp = new FrameLayout.LayoutParams(dp(activity, 28), dp(activity, 28));
             clp.gravity = Gravity.END | Gravity.TOP;
             clp.setMargins(0, dp(activity, 6), dp(activity, 6), 0);
@@ -180,29 +184,20 @@ public final class DialogStylePickerDialog {
         return inner;
     }
 
-    /** 按钮常态：透明底 + 边框（霓虹主钮为渐变边框） */
+    /** 按钮常态：透明底 + 边框（霓虹主钮与卡片边框同款渐变填充） */
     private static Drawable buttonNormal(float density, int i, boolean neon, boolean primary) {
         GradientDrawable inner = new GradientDrawable();
-        inner.setColor(0x00000000);
         inner.setCornerRadius(dp(density, BTN_RADIUS));
         if (neon && primary) {
-            // 渐变描边需要不透明内层“挖空”，否则整个按钮会被外层渐变填满
-            inner.setColor(SURFACE[i]);
-            return gradientBorder(density, inner, BTN_RADIUS, Math.max(1, dp(density, 2)));
+            // 与其他风格的选中填充同一语义：整颗渐变填充(三色 TL_BR)，文字白色
+            return new GradientDrawable(GradientDrawable.Orientation.TL_BR, NEON);
         }
+        inner.setColor(0x00000000);
         int strokeColor = primary ? ACCENT[i] : blend(ACCENT[i], SURFACE[i], 0.30f);
         inner.setStroke(Math.max(1, dp(density, 1)), strokeColor);
         return inner;
     }
 
-    /** 按钮按下：强调色填充（霓虹为三色渐变填充） */
-    private static Drawable buttonPressed(float density, int i, boolean neon) {
-        GradientDrawable d = new GradientDrawable(
-                neon ? GradientDrawable.Orientation.TL_BR : GradientDrawable.Orientation.LEFT_RIGHT,
-                neon ? NEON : new int[]{ACCENT[i], ACCENT[i]});
-        d.setCornerRadius(dp(density, BTN_RADIUS));
-        return d;
-    }
 
     /** 选中外框：霓虹=渐变描边，其余=强调色描边 */
     private static Drawable ringBackground(float density, int i, boolean neon) {
@@ -219,22 +214,18 @@ public final class DialogStylePickerDialog {
         return inner;
     }
 
-    /** 按下时边框与文字一起变化；霓虹主钮的文字也变渐变 */
+    /** 按下效果：所有卡片统一——填充变三色渐变(霓虹卡同款)、文字白色；抬起恢复常态 */
     private static void attachPressEffect(TextView btn, float density, int i, boolean neon, boolean primary) {
-        final boolean hasBorder = !neon || primary;
         final int normalColor = neon ? Color.WHITE : ACCENT[i];
-        final int pressedColor = onAccent(ACCENT[i]);
         btn.setOnTouchListener((v, event) -> {
             switch (event.getActionMasked()) {
                 case MotionEvent.ACTION_DOWN:
-                    if (hasBorder) v.setBackground(buttonPressed(density, i, neon));
-                    if (neon && primary) NeonButtonStyler.applyGradient((TextView) v, true);
-                    else ((TextView) v).setTextColor(pressedColor);
+                    v.setBackground(pressedGradient(density));
+                    ((TextView) v).setTextColor(Color.WHITE);
                     break;
                 case MotionEvent.ACTION_UP:
                 case MotionEvent.ACTION_CANCEL:
-                    if (hasBorder) v.setBackground(buttonNormal(density, i, neon, primary));
-                    if (neon && primary) NeonButtonStyler.applyGradient((TextView) v, false);
+                    v.setBackground(buttonNormal(density, i, neon, primary));
                     ((TextView) v).setTextColor(normalColor);
                     break;
                 default:
@@ -242,6 +233,13 @@ public final class DialogStylePickerDialog {
             }
             return false;
         });
+    }
+
+    /** 按下态：霓虹三色渐变填充（所有风格统一使用） */
+    private static Drawable pressedGradient(float density) {
+        GradientDrawable d = new GradientDrawable(GradientDrawable.Orientation.TL_BR, NEON);
+        d.setCornerRadius(dp(density, BTN_RADIUS));
+        return d;
     }
 
     /** 渐变边框 = 外层三色渐变 + 内层镂空缩进 stroke */
@@ -255,10 +253,6 @@ public final class DialogStylePickerDialog {
         return layer;
     }
 
-    private static int onAccent(int accent) {
-        double lum = 0.299 * Color.red(accent) + 0.587 * Color.green(accent) + 0.114 * Color.blue(accent);
-        return lum > 160 ? 0xFF171310 : Color.WHITE;
-    }
 
     private static int clamp(int v) {
         return v < 0 || v >= NAMES.length ? 3 : v;
