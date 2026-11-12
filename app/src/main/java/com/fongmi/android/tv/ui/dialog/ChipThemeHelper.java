@@ -17,6 +17,8 @@ import com.fongmi.android.tv.setting.Setting;
 public final class ChipThemeHelper {
     public static final int STYLE_DARK = 0;
     public static final int STYLE_GLASS = 1;
+    /** 跟随弹窗风格：浅色弹窗用白磨砂，深色弹窗用半透明深灰黑，由弹窗明暗自动决定 */
+    public static final int STYLE_FOLLOW = 2;
     /** 胶囊内边距按弧度档位（与原版 drawable 的 <padding> 一致） */
     private static final int[] PADDING_28 = {14, 8};   // selector_chip_glass / shape_item_round
     private static final int[] PADDING_16 = {14, 8};   // selector_detail_chip_glass
@@ -25,10 +27,17 @@ public final class ChipThemeHelper {
     private static final int TEXT_NORMAL = 0xFFFFFFFF;
     private static final int TEXT_DARK = 0xFF101216;
     /** 胶囊文字色必须跟随自身底色：白色磨砂玻璃用深色字，半透明深灰黑用白字。 */
-    public static int textNormal() { return getStyle() == STYLE_GLASS ? TEXT_DARK : TEXT_NORMAL; }
+    public static int textNormal() { return chipIsLight() ? TEXT_DARK : TEXT_NORMAL; }
     /** 详情卡片与线路胶囊同源：同一底色 + 同一描边，保证「胶囊背景」设置同时控制两者。 */
-    public static int cardColor()  { return getStyle() == STYLE_GLASS ? GLASS_NORMAL : DARK_NORMAL; }
-    public static int cardStroke() { return getStyle() == STYLE_GLASS ? GLASS_STROKE_NORMAL : DARK_STROKE_NORMAL; }
+    public static int cardColor()  { return chipIsLight() ? GLASS_NORMAL : DARK_NORMAL; }
+    public static int cardStroke() { return chipIsLight() ? GLASS_STROKE_NORMAL : DARK_STROKE_NORMAL; }
+    /** 胶囊底色明暗：白磨砂=浅、深灰黑=深；跟随档位时按弹窗风格明暗自动决定（浅色弹窗→白磨砂） */
+    private static boolean chipIsLight() {
+        int style = getStyle();
+        if (style == STYLE_GLASS) return true;
+        if (style == STYLE_DARK) return false;
+        return DialogThemeHelper.isLightStyle();
+    }
     private static final int DARK_NORMAL = 0x8014181F;
     private static final int DARK_STROKE_NORMAL = 0x26FFFFFF;
     private static final int GLASS_NORMAL = 0x40FFFFFF;
@@ -36,7 +45,11 @@ public final class ChipThemeHelper {
     private static final int GLASS_STROKE_NORMAL = 0x26FFFFFF;
     private ChipThemeHelper() {}
     public static int getStyle() { return Setting.getChipStyle(); }
-    public static String nameOf(int style) { return style == STYLE_GLASS ? "白色磨砂玻璃" : "半透明深灰黑"; }
+    public static String nameOf(int style) {
+        if (style == STYLE_GLASS) return "白色磨砂玻璃";
+        if (style == STYLE_FOLLOW) return "跟随弹窗风格";
+        return "半透明深灰黑";
+    }
     /** 按原版弧度档位取内边距 */
     private static int[] paddingFor(float radiusDp) {
         if (radiusDp >= 28f) return PADDING_28;
@@ -67,9 +80,10 @@ public final class ChipThemeHelper {
         int style = getStyle();
         float density = ctx.getResources().getDisplayMetrics().density;
         int accent = DialogThemeHelper.accent(ctx);
-        int normal = style == STYLE_GLASS ? GLASS_NORMAL : DARK_NORMAL;
-        int selectedBg = style == STYLE_GLASS ? GLASS_SELECTED : Color.argb(0xCC, 0x14, 0x18, 0x1F);
-        int strokeNormal = style == STYLE_GLASS ? GLASS_STROKE_NORMAL : DARK_STROKE_NORMAL;
+        boolean light = chipIsLight();
+        int normal = light ? GLASS_NORMAL : DARK_NORMAL;
+        int selectedBg = light ? GLASS_SELECTED : Color.argb(0xCC, 0x14, 0x18, 0x1F);
+        int strokeNormal = light ? GLASS_STROKE_NORMAL : DARK_STROKE_NORMAL;
         GradientDrawable normalBg = new GradientDrawable();
         normalBg.setShape(GradientDrawable.RECTANGLE);
         normalBg.setCornerRadius(radiusDp * density);
@@ -110,9 +124,11 @@ public final class ChipThemeHelper {
         Context ctx = view.getContext();
         float density = ctx.getResources().getDisplayMetrics().density;
         int accent = DialogThemeHelper.accent(ctx);
-        boolean light = DialogThemeHelper.isLightStyle();
-        int normalBg = light ? 0x14000000 : 0x2EFFFFFF;
-        int normalTx = light ? 0xE6101216 : 0xF2F4F8;
+        int surface = DialogThemeHelper.surfaceColor(ctx);
+        boolean light = !isLight(surface);
+        // 底色由弹窗表面色派生：深色面板上铺亮底(白 26%)，浅色面板上铺暗底(黑 14%)，保证任何风格都看得清
+        int normalBg = light ? 0x42FFFFFF : 0x24000000;
+        int normalTx = light ? 0xF5FFFFFF : 0xE6101216;
         int selTx = isLight(accent) ? 0xFF101216 : 0xFFFFFFFF;
         GradientDrawable nb = new GradientDrawable();
         nb.setShape(GradientDrawable.RECTANGLE);

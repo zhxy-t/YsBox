@@ -28,6 +28,7 @@ import com.fongmi.android.tv.ui.dialog.ColorPickerDialog;
 import com.fongmi.android.tv.ui.dialog.DialogStylePickerDialog;
 import com.fongmi.android.tv.ui.dialog.ChipThemeHelper;
 import com.fongmi.android.tv.ui.dialog.WallPickerDialog;
+import com.fongmi.android.tv.ui.dialog.ChipStylePickerDialog;
 import com.fongmi.android.tv.utils.ResUtil;
 import com.fongmi.android.tv.utils.WallUtil;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
@@ -60,7 +61,7 @@ public class SettingAppearanceFragment extends BaseFragment {
         mBinding.languageText.setText(getLanguageName());
         mBinding.themeColorText.setText(getThemeColorName(Setting.getThemeColor()));
         mBinding.dialogStyleText.setText(getDialogStyleName());
-        mBinding.chipStyleText.setText(ChipThemeHelper.nameOf(Setting.getChipStyle()));
+        mBinding.chipStyleText.setText(ChipStylePickerDialog.nameOf(Setting.getChipStyle()));
         updateFontSizeText();
         sizes = ResUtil.getStringArray(R.array.select_size);
         mBinding.coverText.setText(sizes[PlayerSetting.getSize()]);
@@ -221,18 +222,8 @@ public class SettingAppearanceFragment extends BaseFragment {
     }
 
     private void setChipStyle(View view) {
-        String[] items = {ChipThemeHelper.nameOf(ChipThemeHelper.STYLE_DARK), ChipThemeHelper.nameOf(ChipThemeHelper.STYLE_GLASS)};
-        int checked = Setting.getChipStyle();
-        new MaterialAlertDialogBuilder(requireActivity())
-                .setTitle(R.string.setting_chip_style)
-                .setSingleChoiceItems(items, checked, (dialog, which) -> {
-                    Setting.putChipStyle(which);
-                    mBinding.chipStyleText.setText(items[which]);
-                    RefreshEvent.theme();
-                    dialog.dismiss();
-                })
-                .setNegativeButton(R.string.dialog_negative, null)
-                .show();
+        ChipStylePickerDialog.show(requireActivity(), style ->
+                mBinding.chipStyleText.setText(ChipStylePickerDialog.nameOf(Setting.getChipStyle())));
     }
     private void setDialogStyle(View view) {
         DialogStylePickerDialog.show(requireActivity(), style ->
