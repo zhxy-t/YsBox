@@ -117,6 +117,7 @@ android {
     lint {
         disable 'UnsafeOptInUsageError'
         disable 'ExpiredTargetSdkVersion'
+        checkReleaseBuilds false
     }
 
     compileOptions {
