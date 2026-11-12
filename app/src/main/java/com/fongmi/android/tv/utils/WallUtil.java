@@ -18,7 +18,7 @@ import java.io.FileOutputStream;
 public final class WallUtil {
 
     public static final int MIN_BUILT_IN = 1;
-    public static final int MAX_BUILT_IN = 4;
+    public static final int MAX_BUILT_IN = 8;
 
     private WallUtil() {
     }

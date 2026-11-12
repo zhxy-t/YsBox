@@ -166,6 +166,7 @@ public final class DialogThemeHelper {
             applyDialogSize(dialog.getWindow());
             applyButtonStyle(dialog);
             applyListItemStyle(dialog);
+            applyTitleStyle(dialog);
             return dialog;
         }
     }
@@ -265,6 +266,24 @@ public final class DialogThemeHelper {
         });
     }
 
+    /**
+     * 强制标题/正文字色跟随弹窗风格语义色。
+     * Material 默认标题样式在浅色风格（纯白 Material）下会解析到外层暗色主题的浅色字，
+     * 出现「白底白字」；这里在窗口布局完成后按 dialogTextPrimary / dialogTextSecondary 直接着色。
+     */
+    private static void applyTitleStyle(androidx.appcompat.app.AlertDialog dialog) {
+        if (dialog == null || dialog.getWindow() == null) return;
+        dialog.getWindow().getDecorView().post(() -> {
+            try {
+                android.widget.TextView title = dialog.findViewById(androidx.appcompat.R.id.alertTitle);
+                if (title == null) title = dialog.findViewById(com.google.android.material.R.id.alertTitle);
+                if (title != null) title.setTextColor(primaryText(title.getContext()));
+                android.widget.TextView message = dialog.findViewById(android.R.id.message);
+                if (message != null) message.setTextColor(secondaryText(message.getContext()));
+            } catch (Exception ignored) {
+            }
+        });
+    }
     private static void applyButtonStyle(androidx.appcompat.app.AlertDialog dialog) {
         if (dialog == null || dialog.getWindow() == null) return;
         Window window = dialog.getWindow();
