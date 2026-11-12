@@ -87,8 +87,6 @@ public class SiteDialog extends BaseAlertDialog implements SiteAdapter.OnClickLi
     protected void initView() {
         adapter = new SiteAdapter(this);
         groups = getGroups();
-        // change 模式（点首页标题弹出的站点切换）显示顶部「导入插件」入口，
-        // 点击直达插件管理页 —— 用户反馈「没有导入插件」的真正入口位置。
         binding.recycler.setAdapter(adapter);
         adapter.search(search).change(change);
         setColumnCount(Setting.getSiteColumn());
@@ -139,12 +137,6 @@ protected void initEvent() {
         });
         binding.block.setOnClickListener(this::onBlockToggle);
         binding.search.setOnClickListener(this::onColumnToggle);
-    }
-
-    /** 顶部「导入插件」入口：关掉站点弹窗直达插件管理页。 */
-    private void onImportPlugin(View view) {
-        try { dismiss(); } catch (Exception ignored) { }
-        com.fongmi.android.tv.ui.activity.PluginActivity.start(requireActivity());
     }
 
     private void onBlockToggle(View view) {
