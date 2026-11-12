@@ -135,7 +135,7 @@ public class Setting {
     }
 
     public static int getWall() {
-        return Math.clamp(Prefers.getInt("wall", 0), MIN_WALL, MAX_WALL);
+        return Math.clamp(Prefers.getInt("wall", 3), MIN_WALL, MAX_WALL);
     }
 
     /** 进程内缓存的随机壁纸编号：每次冷启动（进程重建）换一张，
@@ -191,7 +191,7 @@ public class Setting {
     }
 
     public static int getDialogStyle() {
-        return Math.clamp(Prefers.getInt("dialog_style", 3), MIN_DIALOG_STYLE, MAX_DIALOG_STYLE);
+        return Math.clamp(Prefers.getInt("dialog_style", 6), MIN_DIALOG_STYLE, MAX_DIALOG_STYLE);
     }
 
     public static void putDialogStyle(int style) {

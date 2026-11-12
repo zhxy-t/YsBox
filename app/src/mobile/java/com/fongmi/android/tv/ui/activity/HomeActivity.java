@@ -57,6 +57,9 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 public class HomeActivity extends BaseActivity implements NavigationBarView.OnItemSelectedListener {
+    private com.google.android.material.bottomnavigation.BottomNavigationView navBar;
+    private android.view.View navWrap;
+
 
     private FragmentStateManager mManager;
     private ActivityHomeBinding mBinding;
@@ -146,6 +149,58 @@ public class HomeActivity extends BaseActivity implements NavigationBarView.OnIt
     @Override
     protected void initEvent() {
         mBinding.navigation.findViewById(R.id.live).setOnLongClickListener(this::addShortcut);
+        setupNavAutoHide();
+    }
+
+    /**
+     * 悬浮胶囊底栏的上下滑动联动：
+     *  - 内容往下滑（手指上推、看后面的内容）→ 底栏收起（滑出屏幕底部）；
+     *  - 内容往上滑（手指下拉、回看前面）→ 底栏滑出显示。
+     * 用 container 的触摸事件做判定，不侵入各 Fragment 自己的滚动逻辑。
+     */
+    private void setupNavAutoHide() {
+        navBar = mBinding.navigation;
+        navWrap = mBinding.navWrap;
+        final float[] downY = {0f};
+        final boolean[] shown = {true};
+        navWrap.setOnTouchListener((v, e) -> false);
+        mBinding.container.setOnTouchListener((v, e) -> {
+            switch (e.getActionMasked()) {
+                case android.view.MotionEvent.ACTION_DOWN:
+                    downY[0] = e.getY();
+                    break;
+                case android.view.MotionEvent.ACTION_UP:
+                case android.view.MotionEvent.ACTION_CANCEL:
+                    float dy = e.getY() - downY[0];
+                    float threshold = dp(14);
+                    if (dy > threshold && !shown[0]) {
+                        toggleNav(true);
+                        shown[0] = true;
+                    } else if (dy < -threshold && shown[0]) {
+                        toggleNav(false);
+                        shown[0] = false;
+                    }
+                    break;
+                default:
+                    break;
+            }
+            return false; // 不吃事件，交给内部列表照常滚动
+        });
+    }
+
+    /** 底栏滑入滑出：向下滑出屏幕（隐藏），向上滑回原位（显示） */
+    private void toggleNav(boolean show) {
+        if (navWrap == null) return;
+        float target = show ? 0f : navWrap.getHeight() + dp(24);
+        navWrap.animate()
+                .translationY(target)
+                .setDuration(220)
+                .setInterpolator(new android.view.animation.DecelerateInterpolator())
+                .start();
+    }
+
+    private float dp(int v) {
+        return v * getResources().getDisplayMetrics().density;
     }
 
     private void checkAction(Intent intent) {

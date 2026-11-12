@@ -61,11 +61,6 @@ public class EnhancedActivity extends BaseActivity {
         mBinding.panDriveLogin.setOnClickListener(view -> PanDriveLoginActivity.start(this));
         mBinding.panLogin.setOnClickListener(view -> PanLoginActivity.start(this));
         mBinding.miniApp.setOnClickListener(view -> openMiniApp());
-        mBinding.miniAppText.setOnClickListener(view -> toggleMiniApp());
-        mBinding.incognito.setOnClickListener(this::setIncognito);
-        mBinding.drpy.setOnClickListener(this::setDrpy);
-        mBinding.adblock.setOnClickListener(this::setAdblock);
-        mBinding.aggregatedSearch.setOnClickListener(this::setAggregatedSearch);
         GroupHeaderUtil.apply(mBinding.getRoot());
         mBinding.ai.setOnClickListener(view -> AiSettingsActivity.start(this));
         mBinding.tmdb.setOnClickListener(view -> TmdbActivity.start(this));
@@ -85,11 +80,6 @@ public class EnhancedActivity extends BaseActivity {
         mBinding.labText.setText(getString(R.string.lab_running_summary, LabRunner.runningCount(this)));
         mBinding.panDriveLoginText.setText(R.string.pan_drive_unsupported);
         mBinding.panLoginText.setText(PanLoginActivity.getSummary(this));
-        mBinding.incognitoText.setText(Setting.getSwitch(Setting.isIncognito()));
-        mBinding.drpyText.setText(Setting.getSwitch(Setting.isDrpyBuiltin()));
-        mBinding.adblockText.setText(Setting.getSwitch(Setting.isAdblock()));
-        mBinding.aggregatedSearchText.setText(Setting.getSwitch(Setting.isAggregatedSearch()));
-        mBinding.miniAppText.setText(MiniAppActivity.isEnabled(this) ? R.string.state_on : R.string.state_off);
         mBinding.aiText.setText(com.fongmi.android.tv.ai.AiStore.summary(this));
         mBinding.tmdbText.setText(TmdbActivity.getSummary(this));
     }
@@ -111,23 +101,19 @@ public class EnhancedActivity extends BaseActivity {
 
     private void setIncognito(View view) {
         Setting.putIncognito(!Setting.isIncognito());
-        mBinding.incognitoText.setText(Setting.getSwitch(Setting.isIncognito()));
     }
 
     private void setDrpy(View view) {
         Setting.putDrpyBuiltin(!Setting.isDrpyBuiltin());
-        mBinding.drpyText.setText(Setting.getSwitch(Setting.isDrpyBuiltin()));
         BaseLoader.get().clear();
     }
 
     private void setAdblock(View view) {
         Setting.putAdblock(!Setting.isAdblock());
-        mBinding.adblockText.setText(Setting.getSwitch(Setting.isAdblock()));
     }
 
     private void setAggregatedSearch(View view) {
         Setting.putAggregatedSearch(!Setting.isAggregatedSearch());
-        mBinding.aggregatedSearchText.setText(Setting.getSwitch(Setting.isAggregatedSearch()));
         RefreshEvent.home();
     }
 

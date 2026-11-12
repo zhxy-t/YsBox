@@ -110,7 +110,7 @@ public class DanmakuSetting {
     }
 
     public static int getColorMode() {
-        return Prefers.getInt("danmaku_color_mode", DanmakuConfig.COLOR_MODE_DEFAULT);
+        return Prefers.getInt("danmaku_color_mode", DanmakuConfig.COLOR_MODE_GRADIENT);
     }
 
     public static void putColorMode(int value) {
