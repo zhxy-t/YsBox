@@ -209,7 +209,6 @@ public class VideoActivity extends PlaybackActivity implements Clock.Callback, C
     /** 短剧单集时长上限：短剧单集普遍 1~3 分钟，放宽到 8 分钟以覆盖横屏短剧。 */
     private static final long SHORT_DRAMA_MAX_EPISODE_MS = 8 * 60 * 1000L;
     /** 横屏短片要判成短剧，至少要有这么多集（防预告片/花絮被误套短剧 UI）。 */
-    private static final int SHORT_DRAMA_MIN_EPISODES = 10;
     private int mSdSpeedIndex;
     private boolean useParse;
     private boolean rotate;
@@ -1227,9 +1226,7 @@ public class VideoActivity extends PlaybackActivity implements Clock.Callback, C
 
     private void checkId() {
         mShortDramaMode = getIntent().getBooleanExtra("short_drama", false)
-                || (!getKey().startsWith("hk_") && (
-                com.fongmi.android.tv.utils.ShortDramaHelper.isPluginShortDramaBySite(getKey())
-                        || com.fongmi.android.tv.utils.CoverRatioCache.isShortDramaCover(getPic())));
+                || (!getKey().startsWith("hk_") && com.fongmi.android.tv.utils.ShortDramaHelper.isPluginShortDramaBySite(getKey()));
         if (mShortDramaMode) {
             getIntent().putExtra("short_drama", true);
             // 短剧统一竖屏：横屏视频也套进竖屏播放器
@@ -2102,10 +2099,8 @@ public class VideoActivity extends PlaybackActivity implements Clock.Callback, C
     }
 
     /**
-     * 起播后按视频本身判定短剧（点播与小程序推送共用）：单集够短，且是成系列的选集 → 短剧 UI。
-     * 短剧不都是竖屏，竖屏/集名形态/集数三条任一成立即可（横屏靠集数兜底）：
-     * 竖屏 ≥3 集即认；集名呈「第X集」形态即认；横屏且非集名形态时要求 ≥10 集
-     * （否则预告片/花絮这类单条短视频会误套）。升格不重启播放：只挂 UI + 全屏 + 整集预下。
+     * 起播后按视频本身判定短剧（点播与小程序推送共用）：单集 ≤8 分钟且 ≥3 集 → 短剧 UI。
+     * 升格不重启播放：只挂 UI + 全屏 + 整集预下。
      */
     private void maybePromoteShortDrama() {
         if (mShortDramaMode) return;
@@ -2115,9 +2110,6 @@ public class VideoActivity extends PlaybackActivity implements Clock.Callback, C
         if (duration <= 0 || duration > SHORT_DRAMA_MAX_EPISODE_MS) return;   // 单集不够短，不是短剧
         int count = mEpisodeAdapter == null ? 0 : mEpisodeAdapter.getItemCount();
         if (count < 3) return;                                               // 单条播放不是剧
-        boolean portrait = pm.isPortrait();
-        boolean nameLike = com.fongmi.android.tv.utils.ShortDramaHelper.isEpisodeListShortDrama(episodeNames());
-        if (!portrait && !nameLike && count < SHORT_DRAMA_MIN_EPISODES) return;
         mShortDramaMode = true;
         getIntent().putExtra("short_drama", true);
         if (!isFullscreen()) enterFullscreen();
@@ -2126,14 +2118,6 @@ public class VideoActivity extends PlaybackActivity implements Clock.Callback, C
         refreshShortDramaInfo();
     }
 
-    /** 当前选集的集名，供短剧形态判定。 */
-    private java.util.List<String> episodeNames() {
-        java.util.List<String> names = new java.util.ArrayList<>();
-        if (mEpisodeAdapter != null) {
-            for (Episode episode : mEpisodeAdapter.getItems()) names.add(episode.getName());
-        }
-        return names;
-    }
 
     @Override
     public void onTimeChanged(long time) {

@@ -499,18 +499,10 @@ public class HkListActivity extends AppCompatActivity
                     firstLineUrl = !TextUtils.isEmpty(fromPayload) ? fromPayload
                             : expandedUrl(playDatas.get(selIdx), rawUrls.get(selIdx), 0);
                 }
-                // 短剧判定：≥3 集且标题带「第X集 / EP.X / E123 / S01E01」特征 → 播放器走竖屏短剧 UI。
-                // 此前这里调 9 参 startHkPlay（shortDrama 恒 false），而 VideoActivity.checkId 又对
-                // hk_ 前缀 key 跳过自动识别，导致小程序推送永远进不了短剧模式。
-                java.util.List<String> episodeNames = new java.util.ArrayList<>();
-                for (int i = 0; i < chapters.size(); i++) {
-                    HkArticleFragment.HkChapter ch = chapters.get(i);
-                    episodeNames.add(!TextUtils.isEmpty(ch.title) ? ch.title
-                            : (ch.memoryTitle == null ? "" : ch.memoryTitle));
-                }
-                boolean shortDrama = com.fongmi.android.tv.utils.ShortDramaHelper.isEpisodeListShortDrama(episodeNames);
+                // 短剧不再按集名猜：起播后由 VideoActivity.maybePromoteShortDrama
+                // 按视频本体（时长≤8分钟+≥3集）自动升格，这里一律走普通入口。
                 VideoActivity.startHkPlay(activity, ruleTitle, lineNames.get(0), firstLineUrl, selName, name,
-                        sel.pic == null ? "" : sel.pic, payload, selIdx, shortDrama);
+                        sel.pic == null ? "" : sel.pic, payload, selIdx, false);
             }
 
             @Override

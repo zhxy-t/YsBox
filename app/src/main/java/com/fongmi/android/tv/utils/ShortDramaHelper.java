@@ -7,7 +7,8 @@ import com.fongmi.android.tv.bean.Site;
  * 短剧识别：全部自动判断，没有任何手动标识。
  * 1) 插件文件名含「短剧」或「[短]」；
  * 2) 分类名含 短剧/竖屏/微剧/micro；
- * 3) 封面竖图（高宽比 ≥ 1.6，见 CoverRatioCache）。
+ * 视频本体判定在起播后由 VideoActivity.maybePromoteShortDrama 按
+ * 时长≤8分钟+≥3集自动升格，不再按封面/集名猜测。
  */
 public class ShortDramaHelper {
 
@@ -47,33 +48,5 @@ public class ShortDramaHelper {
         return isPluginShortDramaBySite(siteKey) || isShortDramaCategoryName(typeName);
     }
 
-    /**
-     * 选集标题是否呈短剧特征：≥3 集，且前 10 集里至少 min(2, count/2) 条带
-     * 「第X集 / EP.X / E123 / S01E01」形态。
-     * 与海阔详情页 playDetailEpisode / playContentDirect 的判定口径一致。
-     */
-    public static boolean isEpisodeListShortDrama(java.util.List<String> titles) {
-        if (titles == null || titles.size() < 3) return false;
-        int count = titles.size();
-        int dramaLike = 0;
-        for (int i = 0; i < Math.min(count, 10); i++) {
-            String name = titles.get(i);
-            if (name != null && name.matches(".*(第[0-9一二三四五六七八九十百零]+集|EP[.\\s]?[0-9]+|E[0-9]{1,3}|S[0-9]+E[0-9]+).*")) {
-                dramaLike++;
-            }
-        }
-        return dramaLike >= Math.min(2, count / 2);
-    }
 
-    /** 封面图已就绪时用真实尺寸现算高宽比（占位图无内在尺寸，不会误判）。 */
-    public static boolean isLiveShortDramaCover(android.view.View coverView, String pic) {
-        if (!(coverView instanceof android.widget.ImageView imageView)) return false;
-        android.graphics.drawable.Drawable drawable = imageView.getDrawable();
-        if (drawable == null) return false;
-        int width = drawable.getIntrinsicWidth();
-        int height = drawable.getIntrinsicHeight();
-        if (width <= 0 || height <= 0) return false;
-        if (pic != null && !pic.isEmpty()) CoverRatioCache.put(pic, width, height);
-        return (float) height / (float) width >= CoverRatioCache.SHORT_DRAMA_THRESHOLD;
-    }
 }
