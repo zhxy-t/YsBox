@@ -404,6 +404,18 @@ public class VideoActivity extends PlaybackActivity implements Clock.Callback, C
         return mBinding = ActivityVideoBinding.inflate(getLayoutInflater());
     }
 
+    /** 详情卡片与线路胶囊同受「胶囊背景」设置控制：同源底色/描边/圆角，
+        切换设置后 RefreshEvent.theme() 重建 Activity 即自动刷新。 */
+    private void applyCardSurface() {
+        int normal = com.fongmi.android.tv.ui.dialog.ChipThemeHelper.cardColor();
+        int stroke = com.fongmi.android.tv.ui.dialog.ChipThemeHelper.cardStroke();
+        int px = Math.max(1, Math.round(getResources().getDisplayMetrics().density));
+        mBinding.hero.setCardBackgroundColor(normal);
+        mBinding.hero.setStrokeColor(stroke);
+        mBinding.hero.setStrokeWidth(px);
+        mBinding.funcBar.setBackground(com.fongmi.android.tv.ui.dialog.ChipThemeHelper.background(this, 16f));
+    }
+
     @Override
     protected PlaybackService.NavigationCallback getNavigationCallback() {
         return mNavigationCallback;
@@ -480,6 +492,7 @@ public class VideoActivity extends PlaybackActivity implements Clock.Callback, C
         checkDanmakuImg();
         setRecyclerView();
         setVideoView();
+        applyCardSurface();
         setViewModel();
         showProgress();
         setAnimator();

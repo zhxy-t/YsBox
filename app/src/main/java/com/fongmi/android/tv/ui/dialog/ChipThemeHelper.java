@@ -23,6 +23,12 @@ public final class ChipThemeHelper {
     private static final int[] PADDING_8  = {8, 8};    // shape_search_hot_word
     private static final int[] PADDING_FILTER = {12, 8}; // shape_accent 筛选胶囊
     private static final int TEXT_NORMAL = 0xFFFFFFFF;
+    private static final int TEXT_DARK = 0xFF101216;
+    /** 胶囊文字色必须跟随自身底色：白色磨砂玻璃用深色字，半透明深灰黑用白字。 */
+    public static int textNormal() { return getStyle() == STYLE_GLASS ? TEXT_DARK : TEXT_NORMAL; }
+    /** 详情卡片与线路胶囊同源：同一底色 + 同一描边，保证「胶囊背景」设置同时控制两者。 */
+    public static int cardColor()  { return getStyle() == STYLE_GLASS ? GLASS_NORMAL : DARK_NORMAL; }
+    public static int cardStroke() { return getStyle() == STYLE_GLASS ? GLASS_STROKE_NORMAL : DARK_STROKE_NORMAL; }
     private static final int DARK_NORMAL = 0x8014181F;
     private static final int DARK_STROKE_NORMAL = 0x26FFFFFF;
     private static final int GLASS_NORMAL = 0x40FFFFFF;
@@ -86,7 +92,7 @@ public final class ChipThemeHelper {
                         {android.R.attr.state_activated},
                         {android.R.attr.state_focused},
                         {}},
-                new int[]{accent, accent, TEXT_NORMAL}));
+                new int[]{accent, accent, textNormal()}));
         int[] pad = paddingFor(radiusDp);
         int px = Math.round(pad[0] * density), py = Math.round(pad[1] * density);
         view.setPadding(px, py, px, py);

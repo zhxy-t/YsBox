@@ -134,6 +134,17 @@ public abstract class BaseBottomSheetDialog extends BottomSheetDialogFragment {
             } catch (Exception e) {
                 // 兜底：主题缺 attr 时保持 getTheme() 的 bottomSheetStyle 底色，不出透明弹窗
             }
+            // 浅色 sheet（纯白 / iOS / 原始）：无自定义背景的普通文字强制深色，杜绝「白底白字」。
+            // 胶囊等自带背景的 TextView 跳过，其文字色由 ChipThemeHelper 按自身底色决定。
+            if (DialogThemeHelper.isLightStyle()) applyLightText(sheet);
+        }
+    }
+    private void applyLightText(View v) {
+        if (v instanceof android.widget.TextView && v.getBackground() == null) {
+            ((android.widget.TextView) v).setTextColor(DialogThemeHelper.lightTextColor());
+        } else if (v instanceof ViewGroup) {
+            ViewGroup g = (ViewGroup) v;
+            for (int i = 0; i < g.getChildCount(); i++) applyLightText(g.getChildAt(i));
         }
     }
 

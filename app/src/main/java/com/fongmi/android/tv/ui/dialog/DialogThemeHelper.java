@@ -160,8 +160,12 @@ public final class DialogThemeHelper {
         @Override
         public androidx.appcompat.app.AlertDialog create() {
             androidx.appcompat.app.AlertDialog dialog = super.create();
-            // 「原始」风格：保持系统默认 Material 外观，不套自定义背景/按钮/列表着色
-            if (Setting.getDialogStyle() == 5) return dialog;
+            // 「原始」风格：保持系统默认 Material 外观，但仍强制修正标题/列表文字色防白底白字
+            if (Setting.getDialogStyle() == 5) {
+                applyTitleStyle(dialog);
+                applyListItemStyle(dialog);
+                return dialog;
+            }
             applyWindowBackground(dialog);
             applyDialogSize(dialog.getWindow());
             applyButtonStyle(dialog);
@@ -244,7 +248,7 @@ public final class DialogThemeHelper {
             try {
                 android.widget.ListView listView = dialog.getListView();
                 if (listView == null) return;
-                int textColor = primaryText(dialog.getContext());
+                int textColor = isLightStyle() ? lightTextColor() : primaryText(dialog.getContext());
                 for (int i = 0; i < listView.getChildCount(); i++) {
                     View child = listView.getChildAt(i);
                     if (child instanceof android.widget.TextView) {
@@ -277,9 +281,9 @@ public final class DialogThemeHelper {
             try {
                 android.widget.TextView title = dialog.findViewById(androidx.appcompat.R.id.alertTitle);
                 if (title == null) title = dialog.findViewById(com.google.android.material.R.id.alertTitle);
-                if (title != null) title.setTextColor(primaryText(title.getContext()));
+                if (title != null) title.setTextColor(isLightStyle() ? lightTextColor() : primaryText(title.getContext()));
                 android.widget.TextView message = dialog.findViewById(android.R.id.message);
-                if (message != null) message.setTextColor(secondaryText(message.getContext()));
+                if (message != null) message.setTextColor(isLightStyle() ? 0xFF5F6368 : secondaryText(message.getContext()));
             } catch (Exception ignored) {
             }
         });
@@ -455,6 +459,13 @@ public final class DialogThemeHelper {
     public static int surfaceRes(Context c)              { return resolveResId(c, R.attr.dialogSurface); }
     public static int inputSurfaceRes(Context c)         { return resolveResId(c, R.attr.dialogInputSurface); }
     public static int cardSurfaceRes(Context c)          { return resolveResId(c, R.attr.dialogCardSurface); }
+
+    /** 浅色面板风格：纯白(1) / iOS(3) / 原始(5)。这些风格下文字必须是深色。 */
+    public static boolean isLightStyle() {
+        int s = Setting.getDialogStyle();
+        return s == 1 || s == 3 || s == 5;
+    }
+    @ColorInt public static int lightTextColor() { return 0xFF101216; }
 
     private static boolean isLight(@ColorInt int color) {
         double lum = 0.299 * Color.red(color) + 0.587 * Color.green(color) + 0.114 * Color.blue(color);
