@@ -108,13 +108,13 @@ public class EpisodeAdapter extends RecyclerView.Adapter<BaseEpisodeHolder> {
         if (viewType == ViewType.HORI) {
             AdapterEpisodeHoriBinding binding = AdapterEpisodeHoriBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
             if (detailMode) {
-                com.fongmi.android.tv.ui.dialog.ChipThemeHelper.apply(binding.text, 16f);
+                com.fongmi.android.tv.ui.dialog.ChipThemeHelper.apply(binding.text, 8f);
             }
             return new EpisodeHoriHolder(binding, listener);
         } else {
             AdapterEpisodeGridBinding binding = AdapterEpisodeGridBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
             if (detailMode) {
-                com.fongmi.android.tv.ui.dialog.ChipThemeHelper.apply(binding.text, 16f);
+                com.fongmi.android.tv.ui.dialog.ChipThemeHelper.apply(binding.text, 8f);
             }
             return new EpisodeGridHolder(binding, listener);
         }

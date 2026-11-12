@@ -105,6 +105,44 @@ public final class ChipThemeHelper {
             view.setTag(com.fongmi.android.tv.R.id.tag_chip_applied, Boolean.TRUE);
         }
     }
+    /** 弹窗内胶囊：跟随弹窗风格明暗，与弹窗表面拉开对比；选中态=弹窗强调色实底。 */
+    public static void applyDialog(TextView view, float radiusDp) {
+        Context ctx = view.getContext();
+        float density = ctx.getResources().getDisplayMetrics().density;
+        int accent = DialogThemeHelper.accent(ctx);
+        boolean light = DialogThemeHelper.isLightStyle();
+        int normalBg = light ? 0x14000000 : 0x2EFFFFFF;
+        int normalTx = light ? 0xE6101216 : 0xF2F4F8;
+        int selTx = isLight(accent) ? 0xFF101216 : 0xFFFFFFFF;
+        GradientDrawable nb = new GradientDrawable();
+        nb.setShape(GradientDrawable.RECTANGLE);
+        nb.setCornerRadius(radiusDp * density);
+        nb.setColor(normalBg);
+        GradientDrawable sb = new GradientDrawable();
+        sb.setShape(GradientDrawable.RECTANGLE);
+        sb.setCornerRadius(radiusDp * density);
+        sb.setColor(accent);
+        StateListDrawable states = new StateListDrawable();
+        states.addState(new int[]{android.R.attr.state_activated}, sb);
+        states.addState(new int[]{android.R.attr.state_focused}, sb);
+        states.addState(new int[]{}, nb);
+        view.setBackground(new RippleDrawable(ColorStateList.valueOf(0x33808080), states, null));
+        view.setTextColor(new ColorStateList(
+                new int[][]{{android.R.attr.state_activated}, {android.R.attr.state_focused}, {}},
+                new int[]{selTx, selTx, normalTx}));
+        int px = Math.round(12 * density), py = Math.round(8 * density);
+        view.setPadding(px, py, px, py);
+        view.setSingleLine();
+        view.setEllipsize(TextUtils.TruncateAt.MARQUEE);
+        view.setMarqueeRepeatLimit(-1);
+        if (view.getTag(com.fongmi.android.tv.R.id.tag_chip_applied) == null) {
+            view.setSelected(true);
+            view.setTag(com.fongmi.android.tv.R.id.tag_chip_applied, Boolean.TRUE);
+        }
+    }
+    private static boolean isLight(int c) {
+        return 0.299 * android.graphics.Color.red(c) + 0.587 * android.graphics.Color.green(c) + 0.114 * android.graphics.Color.blue(c) > 160;
+    }
     /** 选中态开关：activated 背景联动 + marquee 滚动开关 */
     public static void select(TextView view, boolean on) {
         view.setActivated(on);

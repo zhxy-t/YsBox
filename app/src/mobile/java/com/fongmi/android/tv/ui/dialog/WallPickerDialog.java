@@ -90,13 +90,13 @@ public final class WallPickerDialog {
         GradientDrawable bg = new GradientDrawable();
         bg.setShape(GradientDrawable.RECTANGLE);
         bg.setCornerRadius(dp(activity, 12));
-        bg.setColor(0x33FFFFFF);
+        bg.setColor(DialogThemeHelper.isLightStyle() ? 0x14000000 : 0x33FFFFFF);
         cell.setBackground(bg);
         TextView text = new TextView(activity);
         text.setText(R.string.wall_random);
         text.setGravity(Gravity.CENTER);
         text.setTextSize(15);
-        text.setTextColor(DialogThemeHelper.primaryText(activity));
+        text.setTextColor(DialogThemeHelper.isLightStyle() ? 0xE6101216 : 0xFFFFFFFF);
         cell.addView(text, new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT));
         cell.addView(ring(activity, current == 0, DialogThemeHelper.accent(activity)),
                 new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT));

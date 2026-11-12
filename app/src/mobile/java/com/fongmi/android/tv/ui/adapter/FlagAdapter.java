@@ -92,7 +92,7 @@ public class FlagAdapter extends RecyclerView.Adapter<FlagAdapter.ViewHolder> {
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         ViewHolder holder = new ViewHolder(AdapterFlagBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
         if (detailMode) {
-            com.fongmi.android.tv.ui.dialog.ChipThemeHelper.apply(holder.binding.text, 16f);
+            com.fongmi.android.tv.ui.dialog.ChipThemeHelper.apply(holder.binding.text, 8f);
         }
         return holder;
     }

@@ -87,7 +87,7 @@ public class TypeAllDialog extends BaseBottomSheetDialog {
         @Override
         public VH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             MaterialTextView chip = (MaterialTextView) LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_value, parent, false);
-            ChipThemeHelper.apply(chip, 8f);
+            ChipThemeHelper.applyDialog(chip, 8f);
             return new VH(chip);
         }
 
