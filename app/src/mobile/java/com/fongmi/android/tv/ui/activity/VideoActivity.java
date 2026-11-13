@@ -567,9 +567,15 @@ public class VideoActivity extends PlaybackActivity implements Clock.Callback, C
         mBinding.flag.addItemDecoration(new SpaceItemDecoration(8));
         mBinding.flag.setAdapter(mFlagAdapter = new FlagAdapter(this).detailMode());
         mBinding.quick.setAdapter(mQuickAdapter = new QuickAdapter(this));
-        mBinding.episode.setHasFixedSize(true);
+        // 选集：3 列网格，胶囊宽度按文字自适应并格内居中（长度随文字变化，超长跑马灯）
+        mBinding.episode.setHasFixedSize(false);
         mBinding.episode.setItemAnimator(null);
-        mBinding.episode.addItemDecoration(new SpaceItemDecoration(8));
+        com.google.android.flexbox.FlexboxLayoutManager flm = new com.google.android.flexbox.FlexboxLayoutManager(this);
+        flm.setFlexDirection(com.google.android.flexbox.FlexDirection.ROW);
+        flm.setFlexWrap(com.google.android.flexbox.FlexWrap.WRAP);
+        flm.setJustifyContent(com.google.android.flexbox.JustifyContent.FLEX_START);
+        flm.setAlignItems(com.google.android.flexbox.AlignItems.CENTER);
+        mBinding.episode.setLayoutManager(flm);
         mBinding.episode.setAdapter(mEpisodeAdapter = new EpisodeAdapter(this, ViewType.GRID).detailMode());
         mBinding.quality.setHasFixedSize(true);
         mBinding.quality.setItemAnimator(null);

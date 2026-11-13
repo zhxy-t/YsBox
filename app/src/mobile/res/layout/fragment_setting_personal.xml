@@ -33,6 +33,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:background="@drawable/shape_item"
+                android:tag="chip_row"
                 android:orientation="horizontal">
 
                 <com.google.android.material.textview.MaterialTextView
@@ -60,6 +61,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:background="@drawable/shape_item"
+                android:tag="chip_row"
                 android:orientation="horizontal">
 
                 <com.google.android.material.textview.MaterialTextView
@@ -87,6 +89,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:background="@drawable/shape_item"
+                android:tag="chip_row"
                 android:orientation="horizontal">
 
                 <com.google.android.material.textview.MaterialTextView
@@ -114,6 +117,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:background="@drawable/shape_item"
+                android:tag="chip_row"
                 android:orientation="horizontal">
 
                 <com.google.android.material.textview.MaterialTextView
@@ -141,6 +145,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:background="@drawable/shape_item"
+                android:tag="chip_row"
                 android:orientation="horizontal">
 
                 <com.google.android.material.textview.MaterialTextView

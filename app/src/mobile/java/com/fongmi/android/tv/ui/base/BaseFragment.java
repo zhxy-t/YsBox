@@ -29,6 +29,7 @@ public abstract class BaseFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         isViewCreated = true;
         GroupHeaderUtil.apply(view);
+        com.fongmi.android.tv.ui.dialog.ChipThemeHelper.applyRows(view, 8f);
         if (getUserVisibleHint()) {
             lazyLoad();
             isDataLoaded = true;

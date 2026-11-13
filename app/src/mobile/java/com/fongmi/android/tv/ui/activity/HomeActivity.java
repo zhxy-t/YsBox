@@ -7,7 +7,11 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Gravity;
+import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.pm.ShortcutInfoCompat;
@@ -57,8 +61,9 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 public class HomeActivity extends BaseActivity implements NavigationBarView.OnItemSelectedListener {
-    private com.google.android.material.bottomnavigation.BottomNavigationView navBar;
-    private android.view.View navWrap;
+
+    private boolean navHidden;
+    private float navTouchY;
 
 
     private FragmentStateManager mManager;
@@ -140,6 +145,7 @@ public class HomeActivity extends BaseActivity implements NavigationBarView.OnIt
     protected void initView(Bundle savedInstanceState) {
         orientation = getResources().getConfiguration().orientation;
         mBinding.navigation.setOnItemSelectedListener(this);
+        applyCapsuleTheme();
         PermissionUtil.requestNotify(this);
         initFragment(savedInstanceState);
         Updater.create().start(this);
@@ -149,54 +155,60 @@ public class HomeActivity extends BaseActivity implements NavigationBarView.OnIt
     @Override
     protected void initEvent() {
         mBinding.navigation.findViewById(R.id.live).setOnLongClickListener(this::addShortcut);
-        setupNavAutoHide();
     }
 
-    /**
-     * 悬浮胶囊底栏的上下滑动联动：
-     *  - 内容往下滑（手指上推、看后面的内容）→ 底栏收起（滑出屏幕底部）；
-     *  - 内容往上滑（手指下拉、回看前面）→ 底栏滑出显示。
-     * 用 container 的触摸事件做判定，不侵入各 Fragment 自己的滚动逻辑。
-     */
-    private void setupNavAutoHide() {
-        navBar = mBinding.navigation;
-        navWrap = mBinding.navWrap;
-        final float[] downY = {0f};
-        final boolean[] shown = {true};
-        navWrap.setOnTouchListener((v, e) -> false);
-        mBinding.container.setOnTouchListener((v, e) -> {
-            switch (e.getActionMasked()) {
-                case android.view.MotionEvent.ACTION_DOWN:
-                    downY[0] = e.getY();
-                    break;
-                case android.view.MotionEvent.ACTION_UP:
-                case android.view.MotionEvent.ACTION_CANCEL:
-                    float dy = e.getY() - downY[0];
-                    float threshold = dp(14);
-                    if (dy > threshold && !shown[0]) {
-                        toggleNav(true);
-                        shown[0] = true;
-                    } else if (dy < -threshold && shown[0]) {
-                        toggleNav(false);
-                        shown[0] = false;
+    /** 底栏胶囊受「胶囊背景」设置控制：背景/图标色/选中指示器一并刷新 */
+    private void applyCapsuleTheme() {
+        com.google.android.material.navigation.NavigationBarView nav = mBinding.navigation;
+        nav.setBackground(com.fongmi.android.tv.ui.dialog.ChipThemeHelper.background(this, 28f));
+        nav.setItemIconTintList(com.fongmi.android.tv.ui.dialog.ChipThemeHelper.navIconTint(this));
+        nav.setItemActiveIndicatorEnabled(false);
+        // 兜底：Material 在选中刷新时会重设 item 内容容器 gravity，强制垂直居中
+        forceNavIconsCenter();
+    }
+    private void forceNavIconsCenter() {
+        // M3 在 unlabeled 模式下标签组仍以 INVISIBLE 参与测量，内容容器比图标高，
+        // 因此不能只居中内容容器——要按「图标自身相对 item 的中心」校正。
+        // 每帧先归零再计算，避免位移累积。
+        final ViewGroup nav = mBinding.navigation;
+        nav.getViewTreeObserver().addOnPreDrawListener(new android.view.ViewTreeObserver.OnPreDrawListener() {
+            @Override
+            public boolean onPreDraw() {
+                try {
+                    View first = nav.getChildCount() > 0 ? nav.getChildAt(0) : null;
+                    if (!(first instanceof ViewGroup)) return true;
+                    ViewGroup menu = (ViewGroup) first;
+                    for (int i = 0; i < menu.getChildCount(); i++) {
+                        View item = menu.getChildAt(i);
+                        if (item instanceof com.google.android.material.navigation.NavigationBarItemView) {
+                            com.google.android.material.navigation.NavigationBarItemView nb =
+                                    (com.google.android.material.navigation.NavigationBarItemView) item;
+                            nb.setItemPaddingTop(0);
+                            nb.setItemPaddingBottom(0);
+                        }
+                        View icon = item.findViewById(com.google.android.material.R.id.navigation_bar_item_icon_view);
+                        if (icon == null) continue;
+                        // 找出要平移的容器：item 下、图标之上的最外层祖先
+                        View target = icon;
+                        while (target.getParent() != null && target.getParent() != item)
+                            target = (View) target.getParent();
+                        if (item.getHeight() <= 0) continue;
+                        target.setTranslationY(0f);
+                        int top = 0;
+                        View v = icon;
+                        while (v != item) {
+                            top += v.getTop();
+                            v = (View) v.getParent();
+                        }
+                        float iconCenter = top + icon.getHeight() / 2f;
+                        float want = item.getHeight() / 2f - iconCenter; want += dp(5);
+                        if (Math.abs(want) > 0.5f) target.setTranslationY(want);
                     }
-                    break;
-                default:
-                    break;
+                } catch (Exception ignored) {
+                }
+                return true;
             }
-            return false; // 不吃事件，交给内部列表照常滚动
         });
-    }
-
-    /** 底栏滑入滑出：向下滑出屏幕（隐藏），向上滑回原位（显示） */
-    private void toggleNav(boolean show) {
-        if (navWrap == null) return;
-        float target = show ? 0f : navWrap.getHeight() + dp(24);
-        navWrap.animate()
-                .translationY(target)
-                .setDuration(220)
-                .setInterpolator(new android.view.animation.DecelerateInterpolator())
-                .start();
     }
 
     private float dp(int v) {
@@ -287,7 +299,49 @@ public class HomeActivity extends BaseActivity implements NavigationBarView.OnIt
         return true;
     }
 
+    /** 手势控制胶囊底栏：上滑隐藏、下滑显示（不依赖内部列表的嵌套滚动） */
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        try {
+            switch (ev.getActionMasked()) {
+                case MotionEvent.ACTION_DOWN:
+                    navTouchY = ev.getY();
+                    break;
+                case MotionEvent.ACTION_MOVE:
+                    float dy = ev.getY() - navTouchY;
+                    float limit = dp(24);
+                    if (dy > limit) {
+                        showNav();
+                        navTouchY = ev.getY();
+                    } else if (dy < -limit) {
+                        hideNav();
+                        navTouchY = ev.getY();
+                    }
+                    break;
+            }
+        } catch (Throwable ignored) {
+        }
+        return super.dispatchTouchEvent(ev);
+    }
+
+    private void hideNav() {
+        if (navHidden) return;
+        navHidden = true;
+        View nav = mBinding.navWrap;
+        nav.animate().cancel();
+        nav.animate().translationY(nav.getHeight() > 0 ? nav.getHeight() : dp(80)).alpha(0f).setDuration(200).start();
+    }
+
+    private void showNav() {
+        if (!navHidden) return;
+        navHidden = false;
+        View nav = mBinding.navWrap;
+        nav.animate().cancel();
+        nav.animate().translationY(0f).alpha(1f).setDuration(200).start();
+    }
+
     public void change(int position) {
+        showNav();
         if (position < 2) mBinding.navigation.setSelectedItemId(position == 0 ? R.id.vod : R.id.setting);
         else mManager.change(position);
     }

@@ -107,3 +107,29 @@
 -keep class com.fongmi.android.tv.ui.lab.LabManifest$LabDownload { *; }
 -keep class com.fongmi.android.tv.ui.lab.LabManifest$LabOutput { *; }
 -keep class com.fongmi.android.tv.ui.lab.LabCustomCommands$CustomCommand { *; }
+
+# ==== R8 修复：反射/XML 加载类保留 ====
+-keepattributes Signature,InnerClasses,EnclosingMethod,*Annotation*,Exceptions
+# 自定义 View（XML 按类名实例化，需保留构造函数）
+-keep public class * extends android.view.View { public <init>(android.content.Context); public <init>(android.content.Context, android.util.AttributeSet); public <init>(android.content.Context, android.util.AttributeSet, int); }
+-keep public class * extends android.view.ViewGroup { public <init>(android.content.Context); public <init>(android.content.Context, android.util.AttributeSet); public <init>(android.content.Context, android.util.AttributeSet, int); }
+# DataBinding / ViewBinding
+-keep class androidx.databinding.** { *; }
+-keep class * extends androidx.databinding.DataBinderMapper { *; }
+-keep class * extends androidx.databinding.ViewDataBinding { *; }
+-keep class * extends androidx.viewbinding.ViewBinding { *; }
+-keep class com.fongmi.android.tv.databinding.** { *; }
+-dontwarn androidx.databinding.**
+# 应用自身（避免反射/序列化被裁）
+-keep class com.fongmi.android.tv.** { *; }
+-keep class com.fongmi.android.tv.bean.** { *; }
+# Activity/Service/Receiver 等组件
+-keep public class * extends android.app.Activity
+-keep public class * extends android.app.Service
+-keep public class * extends android.app.Application
+-keep public class * extends android.content.BroadcastReceiver
+-keep public class * extends android.app.Fragment
+-keep public class * extends androidx.fragment.app.Fragment
+# EventBus
+-keep class org.greenrobot.eventbus.** { *; }
+-keepclassmembers class * { @org.greenrobot.eventbus.Subscribe <methods>; }

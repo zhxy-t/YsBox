@@ -115,6 +115,7 @@ public class EpisodeAdapter extends RecyclerView.Adapter<BaseEpisodeHolder> {
             AdapterEpisodeGridBinding binding = AdapterEpisodeGridBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
             if (detailMode) {
                 com.fongmi.android.tv.ui.dialog.ChipThemeHelper.apply(binding.text, 8f);
+                // 胶囊宽度随文字变化；上限在 Holder 里按实际可用宽度设置，超长跑马灯
             }
             return new EpisodeGridHolder(binding, listener);
         }

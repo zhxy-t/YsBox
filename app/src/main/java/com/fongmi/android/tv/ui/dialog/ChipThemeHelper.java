@@ -6,6 +6,8 @@ import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.RippleDrawable;
 import android.graphics.drawable.StateListDrawable;
 import android.text.TextUtils;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 import com.fongmi.android.tv.setting.Setting;
 /**
@@ -43,6 +45,10 @@ public final class ChipThemeHelper {
     private static final int GLASS_NORMAL = 0x40FFFFFF;
     private static final int GLASS_SELECTED = 0xB3FFFFFF;
     private static final int GLASS_STROKE_NORMAL = 0x26FFFFFF;
+    private static final int NAV_DARK = 0xE614181F;
+    private static final int NAV_DARK_STROKE = 0x33FFFFFF;
+    private static final int NAV_LIGHT = 0xE6FFFFFF;
+    private static final int NAV_LIGHT_STROKE = 0x2E000000;
     private ChipThemeHelper() {}
     public static int getStyle() { return Setting.getChipStyle(); }
     public static String nameOf(int style) {
@@ -57,17 +63,81 @@ public final class ChipThemeHelper {
         if (radiusDp >= 9f)  return PADDING_FILTER;
         return PADDING_8;
     }
-    /** 生成胶囊背景（含 activated/聚焦描边），半径 dp */
+    /** 生成胶囊背景（含 activated/聚焦描边），半径 dp。
+     *  底色/描边统一走 chipIsLight()，与详情页卡片(cardColor/cardStroke)完全同源，
+     *  跟随档位时由弹窗明暗自动决定，不再固定回退深色。 */
     public static GradientDrawable background(Context ctx, float radiusDp) {
         GradientDrawable bg = new GradientDrawable();
         bg.setShape(GradientDrawable.RECTANGLE);
         float density = ctx.getResources().getDisplayMetrics().density;
         bg.setCornerRadius(radiusDp * density);
-        int style = getStyle();
-        bg.setColor(style == STYLE_GLASS ? GLASS_NORMAL : DARK_NORMAL);
-        bg.setStroke(Math.round(1 * density),
-                style == STYLE_GLASS ? GLASS_STROKE_NORMAL : DARK_STROKE_NORMAL);
+        bg.setColor(cardColor());
+        bg.setStroke(Math.round(1 * density), cardStroke());
         return bg;
+    }
+
+
+    /** 功能页行项（增强功能/个性功能/实验室等）统一走同一套胶囊背景：
+     *  与详情页卡片同底色同描边，ripple 保留点击反馈。XML 里给行项打 android:tag="chip_row" 即可。 */
+    public static void applyRows(View root, float radiusDp) {
+        if (root == null) return;
+        if ("chip_row".equals(root.getTag())) makeRow(root, radiusDp);
+        if (root instanceof ViewGroup) {
+            ViewGroup g = (ViewGroup) root;
+            for (int i = 0; i < g.getChildCount(); i++) applyRows(g.getChildAt(i), radiusDp);
+        }
+    }
+    private static void makeRow(View view, float radiusDp) {
+        float density = view.getResources().getDisplayMetrics().density;
+        // shape_item 自带 12dp/8dp 内边距；换背景会丢失，先保存再恢复，
+        // 让文字与胶囊边缘保持间距（与「备份」行子 View 自带 padding 的效果一致）。
+        int pl = view.getPaddingLeft(), pt = view.getPaddingTop();
+        int pr = view.getPaddingRight(), pb = view.getPaddingBottom();
+        GradientDrawable bg = new GradientDrawable();
+        bg.setShape(GradientDrawable.RECTANGLE);
+        bg.setCornerRadius(radiusDp * density);
+        bg.setColor(cardColor());
+        bg.setStroke(Math.max(1, Math.round(density)), cardStroke());
+        view.setBackground(new RippleDrawable(ColorStateList.valueOf(0x22FFFFFF), bg, null));
+        view.setPadding(pl, pt, pr, pb);
+        applyRowTextColor(view, 0);
+    }
+    /** 行项内部文字跟随胶囊底色：浅底用深字、深底用白字，最多下钻两层（标题行 + 状态值）。 */
+    private static void applyRowTextColor(View view, int depth) {
+        if (depth > 2) return;
+        if (view instanceof TextView) {
+            ((TextView) view).setTextColor(textNormal());
+            return;
+        }
+        if (view instanceof ViewGroup) {
+            ViewGroup g = (ViewGroup) view;
+            for (int i = 0; i < g.getChildCount(); i++) applyRowTextColor(g.getChildAt(i), depth + 1);
+        }
+    }
+    /** 底栏悬浮胶囊：与详情卡片/功能胶囊同一套「胶囊背景」控制。
+     *  浅色档铺白底深描边，深色档铺半透深灰黑+白描边，比普通胶囊更实一点保证图标可读。 */
+    public static GradientDrawable navBackground(Context ctx, float radiusDp) {
+        GradientDrawable bg = new GradientDrawable();
+        bg.setShape(GradientDrawable.RECTANGLE);
+        float density = ctx.getResources().getDisplayMetrics().density;
+        bg.setCornerRadius(radiusDp * density);
+        bg.setColor(chipIsLight() ? NAV_LIGHT : NAV_DARK);
+        bg.setStroke(Math.round(1 * density), chipIsLight() ? NAV_LIGHT_STROKE : NAV_DARK_STROKE);
+        return bg;
+    }
+
+    /** 底栏图标色：跟随胶囊底色做对比，避免浅色胶囊上出现白图标看不见 */
+    public static ColorStateList navIconTint(Context ctx) {
+        int accent = DialogThemeHelper.accent(ctx);
+        int normal = chipIsLight() ? TEXT_DARK : TEXT_NORMAL;
+        return new ColorStateList(
+                new int[][]{{android.R.attr.state_checked}, {}},
+                new int[]{accent, normal});
+    }
+
+    /** 底栏选中指示器色：跟随胶囊底色，浅底用深色薄雾、深底用白色薄雾 */
+    public static ColorStateList navIndicatorColor() {
+        return ColorStateList.valueOf(chipIsLight() ? 0x2B101216 : 0x2BFFFFFF);
     }
     /**
      * 一次性给胶囊 TextView 应用「背景 + 内边距 + 文字色 + 滚动」：
@@ -162,6 +232,8 @@ public final class ChipThemeHelper {
     /** 选中态开关：activated 背景联动 + marquee 滚动开关 */
     public static void select(TextView view, boolean on) {
         view.setActivated(on);
-        view.setSelected(on);
+        // 已 apply() 过的胶囊需要常驻 selected 才能跑马灯；普通选择器仍由 on 控制选中态
+        boolean marquee = view.getTag(com.fongmi.android.tv.R.id.tag_chip_applied) != null;
+        view.setSelected(on || marquee);
     }
 }

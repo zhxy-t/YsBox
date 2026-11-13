@@ -32,6 +32,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/shape_item"
+                android:tag="chip_row"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
@@ -54,6 +55,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:background="@drawable/shape_item"
+                android:tag="chip_row"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
@@ -76,6 +78,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:background="@drawable/shape_item"
+                android:tag="chip_row"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
@@ -98,6 +101,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:background="@drawable/shape_item"
+                android:tag="chip_row"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
@@ -129,6 +133,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:background="@drawable/shape_item"
+                android:tag="chip_row"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
@@ -166,6 +171,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:background="@drawable/shape_item"
+                android:tag="chip_row"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 

@@ -120,7 +120,6 @@ public class SettingFragment extends BaseFragment implements ConfigListener, Sit
                 android.os.Build.VERSION.RELEASE, android.os.Build.VERSION.SDK_INT).replace("&#10;", "\n"));
         setOtherText();
         setCacheText();
-        refreshPersonalGroup();
     }
 
     private void setOtherText() {
@@ -156,12 +155,7 @@ public class SettingFragment extends BaseFragment implements ConfigListener, Sit
         mBinding.danmaku.setOnClickListener(this::onDanmaku);
         mBinding.subtitle.setOnClickListener(this::onSubtitle);
         mBinding.enhanced.setOnClickListener(this::onEnhanced);
-        // 个性功能组（从增强功能页整组迁入）
-        mBinding.incognito.setOnClickListener(this::setIncognito);
-        mBinding.drpy.setOnClickListener(this::setDrpy);
-        mBinding.adblock.setOnClickListener(this::setAdblock);
-        mBinding.aggregatedSearch.setOnClickListener(this::setAggregatedSearch);
-        mBinding.miniAppText.setOnClickListener(this::toggleMiniApp);
+        mBinding.personalFeatures.setOnClickListener(this::onPersonalFeatures);
         mBinding.appearance.setOnClickListener(this::onAppearance);
         mBinding.restore.setOnClickListener(this::onRestore);
         mBinding.version.setOnClickListener(this::onVersion);
@@ -291,41 +285,9 @@ public class SettingFragment extends BaseFragment implements ConfigListener, Sit
         EnhancedActivity.start(requireActivity());
     }
 
-    private void setIncognito(View view) {
-        Setting.putIncognito(!Setting.isIncognito());
-        mBinding.incognitoText.setText(Setting.getSwitch(Setting.isIncognito()));
-    }
-
-    private void setDrpy(View view) {
-        Setting.putDrpyBuiltin(!Setting.isDrpyBuiltin());
-        mBinding.drpyText.setText(Setting.getSwitch(Setting.isDrpyBuiltin()));
-        com.fongmi.android.tv.api.loader.BaseLoader.get().clear();
-    }
-
-    private void setAdblock(View view) {
-        Setting.putAdblock(!Setting.isAdblock());
-        mBinding.adblockText.setText(Setting.getSwitch(Setting.isAdblock()));
-    }
-
-    private void setAggregatedSearch(View view) {
-        Setting.putAggregatedSearch(!Setting.isAggregatedSearch());
-        mBinding.aggregatedSearchText.setText(Setting.getSwitch(Setting.isAggregatedSearch()));
-        com.fongmi.android.tv.event.RefreshEvent.home();
-    }
-
-    private void toggleMiniApp(View view) {
-        boolean enabled = !com.fongmi.android.tv.ui.activity.MiniAppActivity.isEnabled(requireContext());
-        com.fongmi.android.tv.ui.activity.MiniAppActivity.setEnabled(requireContext(), enabled);
-        mBinding.miniAppText.setText(enabled ? R.string.state_on : R.string.state_off);
-    }
-
-    /** 个性功能组状态刷新 */
-    private void refreshPersonalGroup() {
-        mBinding.incognitoText.setText(Setting.getSwitch(Setting.isIncognito()));
-        mBinding.drpyText.setText(Setting.getSwitch(Setting.isDrpyBuiltin()));
-        mBinding.adblockText.setText(Setting.getSwitch(Setting.isAdblock()));
-        mBinding.aggregatedSearchText.setText(Setting.getSwitch(Setting.isAggregatedSearch()));
-        mBinding.miniAppText.setText(com.fongmi.android.tv.ui.activity.MiniAppActivity.isEnabled(requireContext()) ? R.string.state_on : R.string.state_off);
+    /** 个性功能：与增强功能同构的独立页面 */
+    private void onPersonalFeatures(View view) {
+        com.fongmi.android.tv.ui.activity.PersonalFeaturesActivity.start(requireActivity());
     }
 
     private void onAppearance(View view) {

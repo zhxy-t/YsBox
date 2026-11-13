@@ -51,10 +51,26 @@ public class Util {
     }
 
     public static void hideSystemUI(Window window) {
-        WindowInsetsControllerCompat insets = WindowCompat.getInsetsController(window, window.getDecorView());
+        View decor = window.getDecorView();
+        // 全屏沉浸：新旧两套 API 一起上，压住厂商 ROM 强制绘制的手势提示条
+        decor.setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+        WindowCompat.setDecorFitsSystemWindows(window, false);
+        window.setStatusBarColor(android.graphics.Color.TRANSPARENT);
+        window.setNavigationBarColor(android.graphics.Color.TRANSPARENT);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            window.setStatusBarContrastEnforced(false);
+            window.setNavigationBarContrastEnforced(false);
+        }
+        WindowInsetsControllerCompat insets = WindowCompat.getInsetsController(window, decor);
         insets.setSystemBarsBehavior(WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE);
-        window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
         insets.hide(WindowInsetsCompat.Type.systemBars());
+        window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
     }
 
     public static void showSystemUI(Activity activity) {
@@ -62,7 +78,14 @@ public class Util {
     }
 
     public static void showSystemUI(Window window) {
-        WindowCompat.getInsetsController(window, window.getDecorView()).show(WindowInsetsCompat.Type.systemBars());
+        View decor = window.getDecorView();
+        decor.setSystemUiVisibility(decor.getSystemUiVisibility()
+                & ~View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                & ~View.SYSTEM_UI_FLAG_FULLSCREEN
+                & ~View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+                & ~View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                & ~View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+        WindowCompat.getInsetsController(window, decor).show(WindowInsetsCompat.Type.systemBars());
         window.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
     }
 

@@ -343,6 +343,10 @@
             android:name=".ui.activity.EnhancedActivity"
             android:configChanges="screenSize|smallestScreenSize|screenLayout"
             android:screenOrientation="behind" />
+        <activity
+            android:name=".ui.activity.PersonalFeaturesActivity"
+            android:configChanges="screenSize|smallestScreenSize|screenLayout"
+            android:screenOrientation="behind" />
 
         <activity
             android:name=".ui.activity.PanDriveLoginActivity"

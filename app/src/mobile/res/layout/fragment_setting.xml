@@ -50,6 +50,7 @@
                     android:layout_marginEnd="12dp"
                     android:layout_weight="1"
                     android:background="@drawable/shape_item"
+                android:tag="chip_row"
                     android:orientation="horizontal">
 
                     <com.google.android.material.textview.MaterialTextView
@@ -79,6 +80,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="12dp"
                     android:background="@drawable/shape_item"
+                android:tag="chip_row"
                     android:padding="7dp"
                     android:src="@drawable/ic_setting_home" />
 
@@ -87,6 +89,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/shape_item"
+                android:tag="chip_row"
                     android:padding="7dp"
                     android:src="@drawable/ic_setting_history" />
 
@@ -106,6 +109,7 @@
                     android:layout_marginEnd="12dp"
                     android:layout_weight="1"
                     android:background="@drawable/shape_item"
+                android:tag="chip_row"
                     android:orientation="horizontal">
 
                     <com.google.android.material.textview.MaterialTextView
@@ -135,6 +139,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="12dp"
                     android:background="@drawable/shape_item"
+                android:tag="chip_row"
                     android:padding="7dp"
                     android:src="@drawable/ic_setting_home" />
 
@@ -143,6 +148,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/shape_item"
+                android:tag="chip_row"
                     android:padding="7dp"
                     android:src="@drawable/ic_setting_history" />
 
@@ -162,6 +168,7 @@
                     android:layout_marginEnd="12dp"
                     android:layout_weight="1"
                     android:background="@drawable/shape_item"
+                android:tag="chip_row"
                     android:orientation="horizontal">
 
                     <com.google.android.material.textview.MaterialTextView
@@ -191,6 +198,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="12dp"
                     android:background="@drawable/shape_item"
+                android:tag="chip_row"
                     android:padding="7dp"
                     android:src="@drawable/ic_setting_home" />
 
@@ -199,6 +207,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/shape_item"
+                android:tag="chip_row"
                     android:padding="7dp"
                     android:src="@drawable/ic_setting_refresh" />
 
@@ -219,6 +228,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:background="@drawable/shape_item"
+                android:tag="chip_row"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
@@ -230,148 +240,22 @@
                     android:textSize="16sp" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
-            <com.google.android.material.textview.MaterialTextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:tag="group_header"
-                android:text="@string/setting_personal_features"
-                android:textColor="@color/white_60"
-                android:textSize="14sp" />
-
             <androidx.appcompat.widget.LinearLayoutCompat
-                android:id="@+id/incognito"
+                android:id="@+id/personalFeatures"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="16dp"
                 android:background="@drawable/shape_item"
-                android:orientation="horizontal">
-
-                <com.google.android.material.textview.MaterialTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
-                    android:text="@string/setting_incognito"
-                    android:textColor="@color/white"
-                    android:textSize="16sp" />
-
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/incognitoText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="end"
-                    android:textColor="@color/white"
-                    android:textSize="16sp"
-                    tools:text="Off" />
-
-            </androidx.appcompat.widget.LinearLayoutCompat>
-
-            <androidx.appcompat.widget.LinearLayoutCompat
-                android:id="@+id/drpy"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:background="@drawable/shape_item"
-                android:orientation="horizontal">
-
-                <com.google.android.material.textview.MaterialTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
-                    android:text="@string/setting_drpy_builtin"
-                    android:textColor="@color/white"
-                    android:textSize="16sp" />
-
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/drpyText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="end"
-                    android:textColor="@color/white"
-                    android:textSize="16sp"
-                    tools:text="On" />
-
-            </androidx.appcompat.widget.LinearLayoutCompat>
-
-            <androidx.appcompat.widget.LinearLayoutCompat
-                android:id="@+id/adblock"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:background="@drawable/shape_item"
-                android:orientation="horizontal">
-
-                <com.google.android.material.textview.MaterialTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
-                    android:text="@string/player_adblock"
-                    android:textColor="@color/white"
-                    android:textSize="16sp" />
-
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/adblockText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="end"
-                    android:textColor="@color/white"
-                    android:textSize="16sp"
-                    tools:text="Off" />
-
-            </androidx.appcompat.widget.LinearLayoutCompat>
-
-            <androidx.appcompat.widget.LinearLayoutCompat
-                android:id="@+id/aggregatedSearch"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:background="@drawable/shape_item"
-                android:orientation="horizontal">
-
-                <com.google.android.material.textview.MaterialTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
-                    android:text="@string/setting_aggregated_search"
-                    android:textColor="@color/white"
-                    android:textSize="16sp" />
-
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/aggregatedSearchText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="end"
-                    android:textColor="@color/white"
-                    android:textSize="16sp"
-                    tools:text="Off" />
-
-            </androidx.appcompat.widget.LinearLayoutCompat>
-
-            <androidx.appcompat.widget.LinearLayoutCompat
-                android:id="@+id/miniApp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:background="@drawable/shape_item"
+                android:tag="chip_row"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
                 <com.google.android.material.textview.MaterialTextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/setting_mini_app"
-                    android:textColor="@color/white"
-                    android:textSize="16sp" />
-
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/miniAppText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="end"
+                    android:text="@string/setting_personal_features"
                     android:textColor="@color/white"
-                    android:textSize="16sp"
-                    tools:text="关" />
+                    android:textSize="16sp" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -390,6 +274,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:background="@drawable/shape_item"
+                android:tag="chip_row"
                 android:orientation="horizontal">
 
                 <com.google.android.material.textview.MaterialTextView
@@ -407,6 +292,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:background="@drawable/shape_item"
+                android:tag="chip_row"
                 android:orientation="horizontal">
 
                 <com.google.android.material.textview.MaterialTextView
@@ -424,6 +310,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:background="@drawable/shape_item"
+                android:tag="chip_row"
                 android:orientation="horizontal">
 
                 <com.google.android.material.textview.MaterialTextView
@@ -441,6 +328,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:background="@drawable/shape_item"
+                android:tag="chip_row"
                 android:orientation="horizontal">
 
                 <com.google.android.material.textview.MaterialTextView
@@ -458,6 +346,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:background="@drawable/shape_item"
+                android:tag="chip_row"
                 android:orientation="horizontal">
 
                 <com.google.android.material.textview.MaterialTextView
@@ -485,6 +374,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:background="@drawable/shape_item"
+                android:tag="chip_row"
                 android:orientation="horizontal">
 
                 <com.google.android.material.textview.MaterialTextView
@@ -512,6 +402,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:background="@drawable/shape_item"
+                android:tag="chip_row"
                 android:orientation="horizontal">
 
                 <com.google.android.material.textview.MaterialTextView
@@ -547,6 +438,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:background="@drawable/shape_item"
+                android:tag="chip_row"
                 android:orientation="horizontal"
                 android:padding="0dp">
 
@@ -587,6 +479,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:background="@drawable/shape_item"
+                android:tag="chip_row"
                 android:orientation="horizontal">
 
                 <com.google.android.material.textview.MaterialTextView
@@ -614,6 +507,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:background="@drawable/shape_item"
+                android:tag="chip_row"
                 android:orientation="horizontal">
                 <com.google.android.material.textview.MaterialTextView
                     android:layout_width="match_parent"
@@ -628,6 +522,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:background="@drawable/shape_item"
+                android:tag="chip_row"
                 android:orientation="horizontal">
 
                 <com.google.android.material.textview.MaterialTextView

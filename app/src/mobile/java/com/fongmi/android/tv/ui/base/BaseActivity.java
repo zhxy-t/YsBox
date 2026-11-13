@@ -46,8 +46,8 @@ public abstract class BaseActivity extends AppCompatActivity {
         applyDialogTheme();
         // TV 模式下打开 mobile 页面（增强功能/实验室等）：与 TV 端一致走全屏沉浸，
         // 不做 edge-to-edge —— 避免页面 fitsSystemWindows 与 edge-to-edge 冲突导致系统栏区域露白底。
+        enableEdgeToEdge();
         if (!com.fongmi.android.tv.ui.UiMode.isLeanback()) {
-            enableEdgeToEdge();
             // 手机模式：工具页（插件管理/下载列表等）显式锁竖屏。
             // manifest 里这些页是 screenOrientation="behind"，会跟随栈下方残留的
             // 旧 TV Home（横屏）或系统文件选择器返回时的横屏，导致「导入插件就进横屏」。
@@ -57,11 +57,12 @@ public abstract class BaseActivity extends AppCompatActivity {
         enableDynamicColor();
         super.onCreate(savedInstanceState);
         setContentView(getBinding().getRoot());
+        com.fongmi.android.tv.ui.dialog.ChipThemeHelper.applyRows(getWindow().getDecorView(), 8f);
         EventBus.getDefault().register(this);
         initView(savedInstanceState);
         setBackCallback();
         initEvent();
-        if (com.fongmi.android.tv.ui.UiMode.isLeanback()) com.fongmi.android.tv.utils.Util.hideSystemUI(this);
+        com.fongmi.android.tv.utils.Util.hideSystemUI(this);
     }
 
     @Override
@@ -147,8 +148,14 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if (hasFocus) com.fongmi.android.tv.utils.Util.hideSystemUI(this);
+    }
+    @Override
     protected void onResume() {
         super.onResume();
+        com.fongmi.android.tv.utils.Util.hideSystemUI(this);
         try {
             com.fongmi.android.tv.ai.AiFloatManager.get().onResume(this);
         } catch (Exception ignored) {
