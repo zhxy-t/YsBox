@@ -170,6 +170,8 @@ public class VideoActivity extends PlaybackActivity implements Clock.Callback, C
      */
     public static volatile boolean hasPlayer = false;
     private static volatile VideoActivity sPlayerOwner;
+    /** 详情页选集网格列数：固定 4 列，保证每排 4 个且等宽对齐 */
+    private static final int EPISODE_SPAN_COUNT = 4;
 
     /** 超大选集串的进程内停放仓（Intent 只带 ref，避免 Binder 事务超限）。 */
     private static final int HK_EPISODES_INLINE_MAX = 100_000;
@@ -567,16 +569,11 @@ public class VideoActivity extends PlaybackActivity implements Clock.Callback, C
         mBinding.flag.addItemDecoration(new SpaceItemDecoration(8));
         mBinding.flag.setAdapter(mFlagAdapter = new FlagAdapter(this).detailMode());
         mBinding.quick.setAdapter(mQuickAdapter = new QuickAdapter(this));
-        // 选集：3 列网格，胶囊宽度按文字自适应并格内居中（长度随文字变化，超长跑马灯）
+        // 选集：固定 4 列网格，每排 4 个等宽对齐（不再按文字宽度流式排布）
         mBinding.episode.setHasFixedSize(false);
         mBinding.episode.setItemAnimator(null);
-        com.google.android.flexbox.FlexboxLayoutManager flm = new com.google.android.flexbox.FlexboxLayoutManager(this);
-        flm.setFlexDirection(com.google.android.flexbox.FlexDirection.ROW);
-        flm.setFlexWrap(com.google.android.flexbox.FlexWrap.WRAP);
-        flm.setJustifyContent(com.google.android.flexbox.JustifyContent.FLEX_START);
-        flm.setAlignItems(com.google.android.flexbox.AlignItems.CENTER);
-        mBinding.episode.setLayoutManager(flm);
-        mBinding.episode.setAdapter(mEpisodeAdapter = new EpisodeAdapter(this, ViewType.GRID).detailMode());
+        mBinding.episode.setLayoutManager(new androidx.recyclerview.widget.GridLayoutManager(this, EPISODE_SPAN_COUNT));
+        mBinding.episode.setAdapter(mEpisodeAdapter = new EpisodeAdapter(this, ViewType.GRID).detailMode().fixedWidth());
         mBinding.quality.setHasFixedSize(true);
         mBinding.quality.setItemAnimator(null);
         mBinding.quality.addItemDecoration(new SpaceItemDecoration(8));
@@ -1588,15 +1585,24 @@ public class VideoActivity extends PlaybackActivity implements Clock.Callback, C
         else finish();
     }
 
+    /** 功能条图标常显后，数据未就绪时点击给提示而不是崩溃。 */
+    private void onNoData() {
+        Notify.show(R.string.error_detail);
+    }
+
     private void onCast() {
+        if (player() == null) { onNoData(); return; }
         CastDialog.create(player()).history(mHistory).show(this);
     }
 
     private void onInfo() {
+        if (player() == null) { onNoData(); return; }
         InfoDialog.create(player()).show(this);
     }
 
     private void onKeep() {
+        // 功能条常显后需防空：详情未加载完成时没有 mHistory，收藏会 NPE
+        if (mHistory == null) { onNoData(); return; }
         Keep keep = Keep.find(getHistoryKey());
         Notify.show(keep != null ? R.string.keep_del : R.string.keep_add);
         if (keep != null) keep.delete();
@@ -1626,6 +1632,7 @@ public class VideoActivity extends PlaybackActivity implements Clock.Callback, C
     }
 
     private void onSetting() {
+        if (player() == null) { onNoData(); return; }
         ControlDialog.create().parent(mBinding).parse(isUseParse()).player(player()).show(this);
     }
 
@@ -1660,6 +1667,7 @@ public class VideoActivity extends PlaybackActivity implements Clock.Callback, C
     }
 
     private void onTrack(View view) {
+        if (player() == null) { onNoData(); return; }
         TrackDialog.create().type(Integer.parseInt(view.getTag().toString())).player(player()).view(mBinding.player.getSubtitleView()).show(this);
         hideControl();
     }
@@ -1682,7 +1690,8 @@ public class VideoActivity extends PlaybackActivity implements Clock.Callback, C
     private void onDanmakuShow() {
         DanmakuSetting.putShow(!DanmakuSetting.isShow());
         checkDanmakuImg();
-        syncDanmakuEnabled();
+        // 弹幕按钮常显，无播放器时只改设置不碰 player
+        if (player() != null) syncDanmakuEnabled();
     }
 
     private void onRepeat() {
@@ -1878,15 +1887,16 @@ public class VideoActivity extends PlaybackActivity implements Clock.Callback, C
         // 短剧模式用专用 UI，横屏控制层永不出现
         if (mShortUi != null) return;
         if (service() == null || isInPictureInPictureMode()) return;
-        mBinding.danmakuToggle.setVisibility(isLock() || !player().haveDanmaku() ? View.GONE : View.VISIBLE);
-        mBinding.setting.setVisibility(mHistory == null || isFullscreen() ? View.GONE : View.VISIBLE);
+        // 功能条图标常显：无弹幕源时也保留按钮，点击切换弹幕总开关（锁屏时仍隐藏）
+        mBinding.danmakuToggle.setVisibility(isLock() ? View.GONE : View.VISIBLE);
+        mBinding.setting.setVisibility(View.VISIBLE);
         mBinding.control.right.rotate.setVisibility(isFullscreen() && !isLock() ? View.VISIBLE : View.GONE);
-        mBinding.keep.setVisibility(mHistory == null || isFullscreen() ? View.GONE : View.VISIBLE);
+        mBinding.keep.setVisibility(View.VISIBLE);
         mBinding.control.action.getRoot().setVisibility(isFullscreen() ? View.VISIBLE : View.GONE);
         mBinding.control.right.lock.setVisibility(isFullscreen() ? View.VISIBLE : View.GONE);
         mBinding.control.action.parse.setVisibility(isUseParse() ? View.VISIBLE : View.GONE);
-        mBinding.info.setVisibility(player().isEmpty() ? View.GONE : View.VISIBLE);
-        mBinding.cast.setVisibility(player().isEmpty() ? View.GONE : View.VISIBLE);
+        mBinding.info.setVisibility(View.VISIBLE);
+        mBinding.cast.setVisibility(View.VISIBLE);
         mBinding.control.center.setVisibility(isLock() ? View.GONE : View.VISIBLE);
         mBinding.control.bottom.setVisibility(isLock() ? View.GONE : View.VISIBLE);
         // 返回箭头取消：详情页用左滑/系统返回，控制层不再显示

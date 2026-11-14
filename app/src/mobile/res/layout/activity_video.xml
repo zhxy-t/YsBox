@@ -751,7 +751,7 @@
                         android:paddingStart="12dp"
                         android:paddingEnd="12dp"
                         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                        app:spanCount="3" />
+                        app:spanCount="4" />
 
 
                     <androidx.recyclerview.widget.RecyclerView

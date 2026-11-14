@@ -29,10 +29,22 @@ public class EpisodeAdapter extends RecyclerView.Adapter<BaseEpisodeHolder> {
         this(listener, viewType, new ArrayList<>());
     }
     private boolean detailMode;
+    /** 详情页固定列网格：chip 等宽等分，不再按文字长度自适应宽度 */
+    private boolean fixedWidth;
     /** 详情页宿主打开：chip 用深色 scrim 底 + 白字，保证浅色壁纸下可读 */
     public EpisodeAdapter detailMode() {
         this.detailMode = true;
         return this;
+    }
+
+    /** 详情页选集网格：chip 铺满格宽（配合 GridLayoutManager 固定列数，每排对齐） */
+    public EpisodeAdapter fixedWidth() {
+        this.fixedWidth = true;
+        return this;
+    }
+
+    public boolean isFixedWidth() {
+        return fixedWidth;
     }
 
     public EpisodeAdapter(OnClickListener listener, int viewType, ArrayList<Episode> items) {
@@ -117,7 +129,20 @@ public class EpisodeAdapter extends RecyclerView.Adapter<BaseEpisodeHolder> {
                 com.fongmi.android.tv.ui.dialog.ChipThemeHelper.apply(binding.text, 8f);
                 // 胶囊宽度随文字变化；上限在 Holder 里按实际可用宽度设置，超长跑马灯
             }
-            return new EpisodeGridHolder(binding, listener);
+            if (fixedWidth) {
+                // 固定列网格：item 根布局改为 match_parent，由 GridLayoutManager 等分列宽，chip 铺满
+                RecyclerView.LayoutParams lp = new RecyclerView.LayoutParams(
+                        ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                binding.getRoot().setLayoutParams(lp);
+                // 用带 margin 的 LayoutParams：直接 new FrameLayout.LayoutParams 会清掉 XML 的 layout_margin，
+                // 导致 4 个 chip 相互紧贴。这里显式留出间距，左右 margin 相同 -> 每排左右缘严格对齐。
+                android.widget.FrameLayout.LayoutParams tlp = new android.widget.FrameLayout.LayoutParams(
+                        ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                int gap = com.fongmi.android.tv.utils.ResUtil.dp2px(3);
+                tlp.setMargins(gap, gap, gap, gap);
+                binding.text.setLayoutParams(tlp);
+            }
+            return new EpisodeGridHolder(binding, listener, fixedWidth);
         }
     }
 }
